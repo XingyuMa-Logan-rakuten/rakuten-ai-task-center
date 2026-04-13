@@ -331,6 +331,20 @@
   }
 
   /* ══════════════════════════════════════════════════════
+     My Page Tabs (My Task / My Calendar)
+     ══════════════════════════════════════════════════════ */
+  document.querySelectorAll(".my-page-tab").forEach(function(tab){
+    tab.addEventListener("click", function(){
+      document.querySelectorAll(".my-page-tab").forEach(function(t){ t.classList.remove("active"); });
+      tab.classList.add("active");
+      var target = tab.dataset.mytab;
+      document.getElementById("myTabTasks").classList.toggle("hidden", target !== "tasks");
+      document.getElementById("myTabCalendar").classList.toggle("hidden", target !== "calendar");
+      if(target === "calendar") renderCalendar();
+    });
+  });
+
+  /* ══════════════════════════════════════════════════════
      My Calendar
      ══════════════════════════════════════════════════════ */
   (function initCalendar(){
@@ -340,22 +354,19 @@
     var calMonth = now.getMonth();
 
     var CALENDAR_EVENTS = [
-      {id:"e1",title:"Weekly Report Check",summary:"Automated compliance check of weekly reports via Line and Teams.",time:"08:00",recurrence:"weekly",dayOfWeek:1,type:"scheduled"},
-      {id:"e2",title:"Daily News Digest",summary:"Auto-curated news briefing delivered every morning.",time:"07:30",recurrence:"daily",type:"scheduled"},
-      {id:"e3",title:"Daily Workout Plan",summary:"Personalized exercise routine generated and reminder sent.",time:"06:00",recurrence:"daily",type:"scheduled"},
-      {id:"e4",title:"Habit Tracker Check-in",summary:"Evening check-in for daily habit tracking and streaks.",time:"21:00",recurrence:"daily",type:"scheduled"},
-      {id:"e5",title:"Weekly Sprint Review",summary:"Prepare sprint review summary and send to stakeholders.",time:"10:00",recurrence:"weekly",dayOfWeek:5,type:"scheduled"},
-      {id:"e6",title:"Dinner reservation at Osteria",summary:"Table for 4 at Osteria Francescana, 7:30 PM.",date:"2026-04-18",time:"19:30",type:"todo"},
-      {id:"e7",title:"Project proposal deadline",summary:"Submit final proposal document to VP Engineering.",date:"2026-04-22",time:"17:00",type:"todo"},
-      {id:"e8",title:"Dentist appointment",summary:"Annual check-up at Smile Dental Clinic.",date:"2026-04-25",time:"14:00",type:"todo"},
+      {id:"e1",title:"Weekly Report Check",summary:"Automated compliance check of weekly reports via Line and Teams.",time:"08:00",recurrence:"weekly",dayOfWeek:1,type:"scheduled",taskId:"case-weekly-report"},
+      {id:"e2",title:"Daily News Digest",summary:"Auto-curated morning news briefing.",time:"07:30",recurrence:"weekly",dayOfWeek:3,type:"scheduled",taskId:"daily-news-digest"},
+      {id:"e5",title:"Weekly Sprint Review",summary:"Sprint review summary sent to stakeholders.",time:"10:00",recurrence:"weekly",dayOfWeek:5,type:"scheduled",taskId:"kpi-dashboard"},
+      {id:"e6",title:"Dinner reservation",summary:"Table for 4 at Osteria Francescana, 7:30 PM.",date:"2026-04-18",time:"19:30",type:"todo"},
+      {id:"e7",title:"Proposal deadline",summary:"Submit final proposal to VP Engineering.",date:"2026-04-22",time:"17:00",type:"todo"},
       {id:"e9",title:"Mom's birthday gift",summary:"Pick up gift from store before 6 PM.",date:"2026-04-15",time:"18:00",type:"todo"},
-      {id:"e10",title:"Tax filing deadline",summary:"Complete and submit annual tax return.",date:"2026-04-30",time:"23:59",type:"todo"},
-      {id:"e11",title:"Team lunch",summary:"Monthly team lunch at the Italian place.",date:"2026-04-11",time:"12:00",type:"todo"},
-      {id:"e12",title:"Book club meeting",summary:"Discuss 'Thinking, Fast and Slow' chapters 5-8.",date:"2026-04-20",time:"19:00",type:"todo"}
+      {id:"e10",title:"Tax filing deadline",summary:"Complete and submit annual tax return.",date:"2026-04-30",time:"23:59",type:"todo"}
     ];
 
     var cancelledIds = new Set();
     var rescheduledMap = {};
+    var card = document.getElementById("calCard");
+    var currentEvent = null;
 
     function getEventsForDate(y, m, d){
       var dateStr = y+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");
@@ -363,26 +374,26 @@
       var dow = dt.getDay();
       var results = [];
       CALENDAR_EVENTS.forEach(function(ev){
-        if(cancelledIds.has(ev.id) && !rescheduledMap[ev.id]) return;
-        var rescheduled = rescheduledMap[ev.id];
-        if(ev.recurrence === "daily"){
-          results.push(ev);
-        } else if(ev.recurrence === "weekly" && dow === ev.dayOfWeek){
+        if(cancelledIds.has(ev.id)) return;
+        if(ev.recurrence === "weekly" && dow === ev.dayOfWeek){
           results.push(ev);
         } else if(ev.date){
-          var targetDate = rescheduled ? rescheduled.split("T")[0] : ev.date;
+          var targetDate = rescheduledMap[ev.id] ? rescheduledMap[ev.id].split("T")[0] : ev.date;
           if(targetDate === dateStr) results.push(ev);
         }
       });
       return results;
     }
 
-    function renderCalendar(){
+    window.renderCalendar = function renderCalendar(){
       var monthLabel = document.getElementById("calMonth");
       monthLabel.textContent = MONTHS[calMonth] + " " + calYear;
 
+      closeCard();
       var container = document.getElementById("calCellsContainer");
-      container.innerHTML = "";
+      var oldGrid = container.querySelector(".my-cal-cells");
+      if(oldGrid) oldGrid.remove();
+
       var grid = document.createElement("div");
       grid.className = "my-cal-cells";
       grid.style.display = "grid";
@@ -412,14 +423,14 @@
         var events = getEventsForDate(calYear, calMonth, d);
         events.forEach(function(ev){
           var tag = document.createElement("span");
-          var isCancelled = cancelledIds.has(ev.id) && ev.type==="todo";
+          var isCancelled = cancelledIds.has(ev.id);
           tag.className = "my-cal-event" + (isCancelled ? " my-cal-event--cancelled" : (ev.type==="scheduled" ? " my-cal-event--scheduled" : " my-cal-event--todo"));
           tag.textContent = ev.title;
           tag.dataset.eventId = ev.id;
           if(!isCancelled){
             tag.addEventListener("click", function(e){
               e.stopPropagation();
-              openCalPopup(ev);
+              openCard(ev, e.target);
             });
           }
           cell.appendChild(tag);
@@ -436,54 +447,70 @@
         }
       }
 
-      container.appendChild(grid);
-    }
+      container.insertBefore(grid, card);
+    };
 
-    var currentPopupEvent = null;
-
-    function openCalPopup(ev){
-      currentPopupEvent = ev;
-      document.getElementById("calPopupTitle").textContent = ev.title;
-      document.getElementById("calPopupSummary").textContent = ev.summary;
-      var timeText = ev.time || "";
-      if(ev.recurrence === "daily") timeText = "Daily at " + ev.time;
-      else if(ev.recurrence === "weekly") timeText = "Every " + ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][ev.dayOfWeek] + " at " + ev.time;
+    function openCard(ev, anchorEl){
+      currentEvent = ev;
+      document.getElementById("calCardTitle").textContent = ev.title;
+      document.getElementById("calCardSummary").textContent = ev.summary;
+      var timeText = "";
+      if(ev.recurrence === "weekly") timeText = "Every " + ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][ev.dayOfWeek] + " at " + ev.time;
       else if(ev.date) timeText = ev.date + " at " + ev.time;
-      document.getElementById("calPopupTime").textContent = timeText;
-      document.getElementById("calPopupRescheduleForm").classList.add("hidden");
-      document.getElementById("calPopupOverlay").classList.remove("hidden");
+      document.getElementById("calCardTime").textContent = timeText;
+      document.getElementById("calCardRescheduleForm").classList.add("hidden");
+
+      var viewBtn = document.getElementById("calCardViewTask");
+      if(ev.taskId){
+        viewBtn.classList.remove("hidden");
+        viewBtn.onclick = function(){ window.location.href = "task-execution.html?task=" + ev.taskId; };
+      } else {
+        viewBtn.classList.add("hidden");
+      }
+
+      var container = document.getElementById("calCellsContainer");
+      var containerRect = container.getBoundingClientRect();
+      var anchorRect = anchorEl.getBoundingClientRect();
+      var top = anchorRect.bottom - containerRect.top + 4;
+      var left = anchorRect.left - containerRect.left;
+      if(left + 280 > container.offsetWidth) left = container.offsetWidth - 290;
+      if(left < 0) left = 4;
+      card.style.top = top + "px";
+      card.style.left = left + "px";
+      card.classList.remove("hidden");
     }
 
-    function closeCalPopup(){
-      document.getElementById("calPopupOverlay").classList.add("hidden");
-      currentPopupEvent = null;
+    function closeCard(){
+      card.classList.add("hidden");
+      currentEvent = null;
     }
 
-    document.getElementById("calPopupClose").addEventListener("click", closeCalPopup);
-    document.getElementById("calPopupOverlay").addEventListener("click", function(e){
-      if(e.target === this) closeCalPopup();
+    document.getElementById("calCardClose").addEventListener("click", closeCard);
+
+    document.getElementById("calCardReschedule").addEventListener("click", function(){
+      document.getElementById("calCardRescheduleForm").classList.remove("hidden");
     });
 
-    document.getElementById("calPopupReschedule").addEventListener("click", function(){
-      document.getElementById("calPopupRescheduleForm").classList.remove("hidden");
-    });
-
-    document.getElementById("calPopupConfirm").addEventListener("click", function(){
-      if(!currentPopupEvent) return;
-      var newVal = document.getElementById("calPopupNewTime").value;
+    document.getElementById("calCardConfirm").addEventListener("click", function(){
+      if(!currentEvent) return;
+      var newVal = document.getElementById("calCardNewTime").value;
       if(!newVal) return;
-      rescheduledMap[currentPopupEvent.id] = newVal;
-      if(currentPopupEvent.date) currentPopupEvent.date = newVal.split("T")[0];
-      if(newVal.includes("T")) currentPopupEvent.time = newVal.split("T")[1].slice(0,5);
-      closeCalPopup();
+      rescheduledMap[currentEvent.id] = newVal;
+      if(currentEvent.date) currentEvent.date = newVal.split("T")[0];
+      if(newVal.includes("T")) currentEvent.time = newVal.split("T")[1].slice(0,5);
       renderCalendar();
     });
 
-    document.getElementById("calPopupCancel").addEventListener("click", function(){
-      if(!currentPopupEvent) return;
-      cancelledIds.add(currentPopupEvent.id);
-      closeCalPopup();
+    document.getElementById("calCardCancel").addEventListener("click", function(){
+      if(!currentEvent) return;
+      cancelledIds.add(currentEvent.id);
       renderCalendar();
+    });
+
+    document.addEventListener("click", function(e){
+      if(!card.classList.contains("hidden") && !card.contains(e.target) && !e.target.closest(".my-cal-event")){
+        closeCard();
+      }
     });
 
     document.getElementById("calPrev").addEventListener("click", function(){
