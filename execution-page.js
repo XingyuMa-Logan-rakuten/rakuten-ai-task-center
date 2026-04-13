@@ -152,34 +152,40 @@
   }
 
   function getAuthServices(task) {
+    if (task.category === "rakuten") {
+      return ["Rakuten Account"];
+    }
     var services = [];
     if (task.connectors && task.connectors.length > 0) {
       task.connectors.forEach(function (c) { services.push(c); });
-    }
-    if (task.category === "rakuten") {
-      if (services.indexOf("Rakuten Account") === -1) {
-        services.unshift("Rakuten Account");
-      }
     }
     return services;
   }
 
   /* ── Mock auth page ── */
   function openAuthPage(serviceName) {
+    var isRakuten = serviceName === "Rakuten Account";
+    var logoHtml = isRakuten
+      ? '<div class="exec-auth-logo" style="color:#bf0000;font-weight:700;font-size:28px;letter-spacing:-0.5px;">Rakuten</div>'
+      : '<div class="exec-auth-logo"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0066ff" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/></svg></div>';
+    var titleText = isRakuten ? "Sign in to your Rakuten Account" : "Sign in to " + serviceName;
+    var descText = isRakuten
+      ? "Log in with your Rakuten ID to allow Rakuten AI to access the required Rakuten services for this task."
+      : "Authorize Rakuten AI to access your " + serviceName + " account to complete this task.";
+    var btnText = isRakuten ? "Sign In & Continue" : "Authorize & Continue";
+    var submitColor = isRakuten ? "background:#bf0000;" : "";
     return new Promise(function (resolve) {
       var overlay = document.createElement("div");
       overlay.className = "exec-auth-overlay";
       overlay.innerHTML =
         '<div class="exec-auth-page">' +
-          '<div class="exec-auth-logo">' +
-            '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0066ff" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/></svg>' +
-          '</div>' +
-          '<h2 class="exec-auth-title">Sign in to ' + serviceName + '</h2>' +
-          '<p class="exec-auth-desc">Authorize Rakuten AI to access your ' + serviceName + ' account to complete this task.</p>' +
+          logoHtml +
+          '<h2 class="exec-auth-title">' + titleText + '</h2>' +
+          '<p class="exec-auth-desc">' + descText + '</p>' +
           '<div class="exec-auth-form">' +
-            '<input type="text" class="exec-auth-input" placeholder="Email or username" value="user@example.com" />' +
+            '<input type="text" class="exec-auth-input" placeholder="Rakuten ID or Email" value="user@rakuten.com" />' +
             '<input type="password" class="exec-auth-input" placeholder="Password" value="••••••••" />' +
-            '<button type="button" class="exec-auth-submit">Authorize & Continue</button>' +
+            '<button type="button" class="exec-auth-submit" style="' + submitColor + '">' + btnText + '</button>' +
           '</div>' +
           '<p class="exec-auth-footer">By continuing, you agree to share account data with Rakuten AI.</p>' +
         '</div>';
@@ -301,13 +307,14 @@
       '</div>' +
       '<div class="exec-step-detail hidden">' +
         '<div class="exec-step-detail-inner">' +
-          '<p class="exec-step-narrative">Checking authorization status for required services...</p>' +
+          '<p class="exec-step-narrative">Checking authorization status...</p>' +
           '<div class="exec-auth-check-list"></div>' +
         '</div>' +
       '</div>';
 
     var checkList = row.querySelector(".exec-auth-check-list");
     services.forEach(function (svc) {
+      var isRakutenAcct = svc === "Rakuten Account";
       var item = document.createElement("div");
       item.className = "exec-auth-check-item";
       item.dataset.service = svc;
@@ -315,7 +322,7 @@
         '<span class="exec-auth-check-icon">\uD83D\uDD12</span>' +
         '<span class="exec-auth-check-name"></span>' +
         '<span class="exec-auth-check-status">Checking...</span>' +
-        '<button type="button" class="exec-auth-btn hidden">Authorize</button>';
+        '<button type="button" class="exec-auth-btn hidden">' + (isRakutenAcct ? 'Sign In' : 'Authorize') + '</button>';
       item.querySelector(".exec-auth-check-name").textContent = svc;
       checkList.appendChild(item);
     });
@@ -405,7 +412,10 @@
       if (needsAuth.length > 0) {
         var prompt = document.createElement("p");
         prompt.className = "exec-auth-prompt";
-        prompt.textContent = "Some services require authorization before the agent can proceed. Please authorize each service to continue.";
+        var isRakutenTask = task.category === "rakuten";
+        prompt.textContent = isRakutenTask
+          ? "Please sign in to your Rakuten Account to continue."
+          : "Some services require authorization before the agent can proceed. Please authorize each service to continue.";
         authRow.querySelector(".exec-step-detail-inner").appendChild(prompt);
         scrollFeed();
 

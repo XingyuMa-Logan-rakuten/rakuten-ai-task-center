@@ -269,19 +269,37 @@
 
     const connEl = document.getElementById("modalConnectors");
     connEl.innerHTML = "";
+    const isRakuten = task.category === "rakuten";
     const hasConn = !!(task.connectors && task.connectors.length);
-    document.getElementById("headingConnectors").style.display = hasConn ? "" : "none";
+    const headingConn = document.getElementById("headingConnectors");
+    headingConn.style.display = hasConn ? "" : "none";
     connEl.style.display = hasConn ? "" : "none";
+    if (isRakuten) {
+      headingConn.textContent = "RAKUTEN SERVICES";
+    } else {
+      headingConn.textContent = "CONNECTORS";
+    }
     if (hasConn) {
-      task.connectors.forEach((name) => {
-        const chip = document.createElement("span");
-        chip.className = "modal-conn-chip";
-        const cc = CONNECTOR_COLORS[name] || { bg: "#f1f5f9", color: "#475569" };
-        chip.style.background = cc.bg;
-        chip.style.color = cc.color;
-        chip.textContent = name;
-        connEl.appendChild(chip);
-      });
+      if (isRakuten) {
+        task.connectors.forEach((name) => {
+          const chip = document.createElement("span");
+          chip.className = "modal-conn-chip";
+          chip.style.background = "#bf0000";
+          chip.style.color = "#fff";
+          chip.textContent = name;
+          connEl.appendChild(chip);
+        });
+      } else {
+        task.connectors.forEach((name) => {
+          const chip = document.createElement("span");
+          chip.className = "modal-conn-chip";
+          const cc = CONNECTOR_COLORS[name] || { bg: "#f1f5f9", color: "#475569" };
+          chip.style.background = cc.bg;
+          chip.style.color = cc.color;
+          chip.textContent = name;
+          connEl.appendChild(chip);
+        });
+      }
     }
 
     document.getElementById("modalCover").style.backgroundImage = `url('${safeCover(task.cover)}')`;
