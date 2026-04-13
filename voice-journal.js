@@ -1,5 +1,5 @@
 (function () {
-  /* ── Mock transcript data (simulates real-time speech recognition) ── */
+  /* ── Mock transcript data ── */
   var MOCK_SEGMENTS = [
     { speaker: "Speaker 1", text: "Hi.", delay: 800 },
     { speaker: "Speaker 1", text: "Today's.", delay: 2200 },
@@ -35,7 +35,7 @@
   };
 
   /* ── State ── */
-  var state = "idle"; // idle | recording | paused | done
+  var state = "idle";
   var timerInterval = null;
   var elapsedSec = 0;
   var segmentTimeouts = [];
@@ -43,20 +43,20 @@
   var renderedSegments = 0;
 
   /* ── DOM refs ── */
-  var startView    = document.getElementById("vjStartView");
+  var idleView       = document.getElementById("vjIdleView");
+  var recordingView  = document.getElementById("vjRecordingView");
   var transcriptView = document.getElementById("vjTranscriptView");
-  var summaryView  = document.getElementById("vjSummaryView");
-  var topicsView   = document.getElementById("vjTopicsView");
+  var summaryView    = document.getElementById("vjSummaryView");
+  var topicsView     = document.getElementById("vjTopicsView");
   var transcriptList = document.getElementById("vjTranscriptList");
   var summaryContent = document.getElementById("vjSummaryContent");
   var topicsContent  = document.getElementById("vjTopicsContent");
-  var recorder     = document.getElementById("vjRecorder");
-  var timerEl      = document.getElementById("vjTimer");
-  var waveformEl   = document.getElementById("vjWaveform");
-  var titleEl      = document.getElementById("vjTitle");
-  var tabs         = document.querySelectorAll(".vj-tab");
+  var recorder       = document.getElementById("vjRecorder");
+  var timerEl        = document.getElementById("vjTimer");
+  var waveformEl     = document.getElementById("vjWaveform");
+  var titleEl        = document.getElementById("vjTitle");
+  var tabs           = document.querySelectorAll(".vj-tab");
 
-  /* ── Helpers ── */
   function formatTime(sec) {
     var m = String(Math.floor(sec / 60)).padStart(2, "0");
     var s = String(sec % 60).padStart(2, "0");
@@ -68,8 +68,20 @@
     segmentTimeouts = [];
   }
 
-  function showView(name) {
-    startView.classList.toggle("hidden", true);
+  /* ── Switch between idle and recording views ── */
+  function enterRecordingView() {
+    idleView.classList.add("hidden");
+    recordingView.classList.remove("hidden");
+  }
+
+  function enterIdleView() {
+    recordingView.classList.add("hidden");
+    recorder.classList.add("hidden");
+    idleView.classList.remove("hidden");
+  }
+
+  /* ── Tab switching within recording view ── */
+  function showTab(name) {
     transcriptView.classList.toggle("hidden", name !== "transcript");
     summaryView.classList.toggle("hidden", name !== "summary");
     topicsView.classList.toggle("hidden", name !== "topics");
@@ -78,7 +90,7 @@
     });
   }
 
-  /* ── Waveform bars ── */
+  /* ── Waveform ── */
   function initWaveform() {
     waveformEl.innerHTML = "";
     for (var i = 0; i < 120; i++) {
@@ -118,7 +130,7 @@
     if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
   }
 
-  /* ── Add transcript segment ── */
+  /* ── Add transcript segment with typewriter ── */
   function addSegment(seg, timestampSec) {
     var div = document.createElement("div");
     div.className = "vj-segment";
@@ -144,7 +156,6 @@
 
     transcriptList.appendChild(div);
 
-    // Typewriter effect
     var chars = seg.text.split("");
     var idx = 0;
     var typeInterval = setInterval(function () {
@@ -155,13 +166,12 @@
         clearInterval(typeInterval);
         textEl.classList.remove("vj-typing");
       }
-      // Scroll to bottom
       var content = document.getElementById("vjContent");
       content.scrollTop = content.scrollHeight;
     }, 30);
   }
 
-  /* ── Schedule mock segments ── */
+  /* ── Schedule segments ── */
   function scheduleSegments() {
     clearSegmentTimeouts();
     renderedSegments = 0;
@@ -182,11 +192,10 @@
     transcriptList.innerHTML = "";
     timerEl.textContent = "00:00";
 
-    startView.classList.add("hidden");
-    transcriptView.classList.remove("hidden");
+    enterRecordingView();
     recorder.classList.remove("hidden");
+    showTab("transcript");
 
-    showView("transcript");
     tabs.forEach(function (t) {
       if (t.dataset.tab !== "transcript") t.disabled = true;
     });
@@ -197,7 +206,7 @@
     scheduleSegments();
   }
 
-  /* ── Stop recording & generate summary ── */
+  /* ── Stop recording ── */
   function stopRecording() {
     state = "done";
     stopTimer();
@@ -205,20 +214,16 @@
     clearSegmentTimeouts();
     recorder.classList.add("hidden");
 
-    // Enable tabs, set icons
     document.getElementById("vjDownload").disabled = false;
     document.getElementById("vjCopy").disabled = false;
     tabs.forEach(function (t) { t.disabled = false; });
 
-    // Update title
     titleEl.textContent = MOCK_SUMMARY.title;
 
-    // Remove any typing indicators
     document.querySelectorAll(".vj-typing").forEach(function (el) {
       el.classList.remove("vj-typing");
     });
 
-    // Show generating state then populate summary
     generateSummary();
   }
 
@@ -227,7 +232,6 @@
     topicsContent.innerHTML = '<div class="vj-generating"><div class="vj-spinner"></div><span>Extracting topics...</span></div>';
 
     setTimeout(function () {
-      // Summary
       summaryContent.innerHTML = "";
       var bodyP = document.createElement("div");
       bodyP.className = "vj-summary-body";
@@ -248,10 +252,8 @@
       });
       summaryContent.appendChild(ul);
 
-      // Topics
       topicsContent.innerHTML = "";
       var catMap = {};
-      MOCK_SEGMENTS.forEach(function () {}); // ignored
       MOCK_SUMMARY.topics.forEach(function (t) {
         if (!catMap[t.category]) catMap[t.category] = [];
         catMap[t.category].push(t.label);
@@ -284,7 +286,6 @@
       state = "recording";
       animateWaveform();
       startTimer();
-      // Re-schedule remaining segments offset by current elapsed time
       MOCK_SEGMENTS.forEach(function (seg, i) {
         if (i < renderedSegments) return;
         var remaining = seg.delay - elapsedSec * 1000;
@@ -301,15 +302,14 @@
     }
   }
 
-  /* ── Tab switching ── */
+  /* ── Events ── */
   tabs.forEach(function (tab) {
     tab.addEventListener("click", function () {
       if (tab.disabled) return;
-      showView(tab.dataset.tab);
+      showTab(tab.dataset.tab);
     });
   });
 
-  /* ── Button events ── */
   document.getElementById("vjStartBtn").addEventListener("click", startRecording);
   document.getElementById("vjStartClose").addEventListener("click", function () {
     window.location.href = "index.html";
@@ -317,8 +317,15 @@
   document.getElementById("vjStopBtn").addEventListener("click", stopRecording);
   document.getElementById("vjPauseBtn").addEventListener("click", togglePause);
   document.getElementById("vjBackBtn").addEventListener("click", function () {
-    if (window.history.length > 1) window.history.back();
-    else window.location.href = "index.html";
+    if (state === "idle") {
+      window.location.href = "index.html";
+    } else {
+      enterIdleView();
+      state = "idle";
+      stopTimer();
+      freezeWaveform();
+      clearSegmentTimeouts();
+    }
   });
 
   document.getElementById("vjCopy").addEventListener("click", function () {

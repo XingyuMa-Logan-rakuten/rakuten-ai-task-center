@@ -473,6 +473,12 @@ a:hover {
   font-size: 0.85rem;
 }
 
+.quick-pill--active {
+  background: rgba(0, 87, 255, 0.08);
+  border-color: var(--interactive-primary, #0057FF);
+  color: var(--interactive-primary, #0057FF);
+}
+
 .content {
   flex: 1;
   display: flex;

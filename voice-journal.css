@@ -139,22 +139,16 @@
   display: none !important;
 }
 
-/* ── Start card ── */
-.vj-start-view {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 50vh;
-}
-
+/* ── Start card (shown in idle view below composer) ── */
 .vj-start-card {
-  max-width: 600px;
+  max-width: 680px;
   width: 100%;
   border: 2px solid var(--interactive-primary, #0057FF);
   border-radius: var(--radius-md, 16px);
   background: var(--surface-elevated, #fff);
   padding: 1.25rem 1.5rem;
   box-shadow: 0 0 0 4px rgba(0, 87, 255, 0.08);
+  margin: 0.5rem auto 0;
 }
 
 .vj-start-card-header {
