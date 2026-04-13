@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Tasks — Rakuten AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .vj-tasks-shell{display:flex;min-height:100vh;background:var(--surface)}
+      .vj-tasks-main{flex:1;display:flex;flex-direction:column}
+      .vj-tasks-header{display:flex;align-items:center;gap:10px;padding:12px 24px;border-bottom:1px solid var(--border)}
+      .vj-tasks-back{background:none;border:none;cursor:pointer;display:flex;align-items:center;color:var(--text-secondary);padding:4px;border-radius:6px}
+      .vj-tasks-back:hover{background:var(--bg-hover)}
+      .vj-tasks-title{font-size:1.1rem;font-weight:700;color:var(--text-primary);margin:0}
+      .vj-tasks-count{font-size:.8rem;color:var(--text-secondary);margin-left:auto}
+      .vj-tasks-body{flex:1;padding:24px;max-width:680px;width:100%}
+      .vj-tasks-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px}
+      .vj-task-row{
+        display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:10px;
+        transition:background .12s
+      }
+      .vj-task-row:hover{background:var(--bg-hover)}
+      .vj-task-row input[type="checkbox"]{margin-top:4px;accent-color:var(--accent);width:18px;height:18px;cursor:pointer;flex-shrink:0}
+      .vj-task-row.done .vj-task-text{text-decoration:line-through;opacity:.5}
+      .vj-task-info{flex:1;display:flex;flex-direction:column;gap:4px}
+      .vj-task-text{font-size:.9rem;color:var(--text-primary);line-height:1.5}
+      .vj-task-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+      .vj-task-due{
+        display:inline-flex;align-items:center;gap:4px;font-size:.75rem;padding:2px 8px;
+        border-radius:12px;background:var(--bg-surface);color:var(--text-secondary);border:1px solid var(--border)
+      }
+      .vj-task-source{
+        display:inline-flex;align-items:center;gap:4px;font-size:.72rem;padding:2px 8px;
+        border-radius:12px;background:color-mix(in srgb,var(--accent) 10%,white);color:var(--accent);font-weight:500
+      }
+      .vj-task-empty{padding:40px 16px;text-align:center;color:var(--text-secondary);font-size:.9rem}
+    </style>
+  </head>
+  <body>
+    <div class="vj-tasks-shell">
+      <aside class="exec-sidebar">
+        <div class="sidebar-top-row">
+          <img src="rakuten-ai-logo.svg" alt="Rakuten AI" class="sidebar-logo" />
+          <button type="button" class="sidebar-grid-btn" aria-label="Grid view">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </button>
+        </div>
+        <a href="index.html" class="btn-new-chat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          New Chat
+        </a>
+        <nav class="sidebar-nav">
+          <div class="sidebar-section">
+            <div class="sidebar-section-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Rakuten Agents
+            </div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">&#x1F6D2;</span> Shopping</div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">&#x1F4E6;</span> Rakuma</div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">&#x1F457;</span> Fashion</div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">&#x1F3B5;</span> Music</div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">&#x1F4F1;</span> Mobile</div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-section-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Daily Essentials
+            </div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">&#x1F50D;</span> AI Search</div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">&#x1F5BC;</span> Image Creator</div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">&#x1F3AC;</span> Video Creator</div>
+            <a href="voice-journal.html" class="sidebar-item sidebar-item-link"><span class="sidebar-item-icon">&#x1F399;</span> Voice Journal</a>
+            <div class="sidebar-item"><span class="sidebar-item-icon">&#x1F310;</span> AI Translator</div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">&#x1F9E9;</span> Problem Solver</div>
+          </div>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="sidebar-link-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>AI Community</span>
+            <span class="sidebar-link-action">Enter &#x203A;</span>
+          </div>
+          <div class="sidebar-link-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Recent chat</span>
+            <span class="sidebar-link-action">See all &#x203A;</span>
+          </div>
+          <div class="sidebar-lang">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            English
+          </div>
+        </div>
+      </aside>
+
+      <div class="vj-tasks-main">
+        <header class="vj-tasks-header">
+          <button type="button" class="vj-tasks-back" id="tasksBack" aria-label="Go back">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+          </button>
+          <h1 class="vj-tasks-title">My Tasks</h1>
+          <span class="vj-tasks-count" id="tasksCount"></span>
+        </header>
+        <div class="vj-tasks-body">
+          <ul class="vj-tasks-list" id="tasksList"></ul>
+        </div>
+      </div>
+    </div>
+    <script>
+      const TASKS = [
+        { text: "Push product launch date back by two weeks", due: "Apr 14", source: "Voice Journal" },
+        { text: "Coordinate with marketing team for revised material timeline", due: "Apr 11", source: "Voice Journal" },
+        { text: "Set up daily 15-min launch prep standup", due: "Apr 10", source: "Voice Journal" },
+        { text: "Include design team in standup invites", due: "Apr 10", source: "Voice Journal" },
+        { text: "Address QA-flagged issues from last sprint review", due: "Apr 18", source: "Voice Journal" },
+        { text: "Prepare proper documentation before launch", due: "Apr 21", source: "Voice Journal" },
+        { text: "Finalize pricing page copy (v2)", due: "Apr 12", source: "Voice Journal" },
+        { text: "Loop in finance for pricing verification", due: "Apr 13", source: "Voice Journal" }
+      ];
+
+      const list = document.getElementById("tasksList");
+      const countEl = document.getElementById("tasksCount");
+
+      function render(){
+        list.innerHTML = "";
+        TASKS.forEach((t, i) => {
+          const li = document.createElement("li");
+          li.className = "vj-task-row" + (t.done ? " done" : "");
+          li.innerHTML = `
+            <input type="checkbox" ${t.done ? "checked" : ""} data-idx="${i}" />
+            <div class="vj-task-info">
+              <span class="vj-task-text">${t.text}</span>
+              <div class="vj-task-meta">
+                <span class="vj-task-due">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  ${t.due}
+                </span>
+                <span class="vj-task-source">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg>
+                  ${t.source}
+                </span>
+              </div>
+            </div>`;
+          list.appendChild(li);
+        });
+        const done = TASKS.filter(t => t.done).length;
+        countEl.textContent = `${done}/${TASKS.length} completed`;
+      }
+
+      list.addEventListener("change", e => {
+        const cb = e.target.closest("input[type='checkbox']");
+        if(!cb) return;
+        TASKS[Number(cb.dataset.idx)].done = cb.checked;
+        render();
+      });
+
+      document.getElementById("tasksBack").addEventListener("click", () => {
+        if(document.referrer && document.referrer.includes(location.host)){
+          history.back();
+        } else {
+          location.href = "voice-journal.html";
+        }
+      });
+
+      render();
+    </script>
+  </body>
+</html>
