@@ -726,12 +726,6 @@ document.querySelector(".vj-main").addEventListener("click", e => {
     return;
   }
 
-  // Start close
-  if(e.target.closest("#vjStartClose")){
-    const card = $("#vjStartCard");
-    if(card) card.classList.add("hidden");
-    return;
-  }
 
   // Back buttons
   if(e.target.closest("#vjBackBtn")){
@@ -826,6 +820,36 @@ document.querySelector(".vj-main").addEventListener("click", e => {
 
 // Version banner back button
 $("#vjVersionBack").addEventListener("click", backToLatest);
+
+// ─── Task Center Cards ───────────────────────────────────
+(function renderVjTaskCenter(){
+  const grid = document.getElementById("vjFeaturedGrid");
+  if(!grid || !window.TASK_CATALOG) return;
+  const catalog = window.TASK_CATALOG;
+  const TYPE_LABELS = {"simple":"Simple","multi-step":"Multi-step","scheduled":"Scheduled"};
+  const featured = catalog.filter(t => t.featured).slice(0,3);
+  const tasks = featured.length ? featured : catalog.slice(0,3);
+
+  tasks.forEach(task => {
+    const el = document.createElement("article");
+    el.className = "task-card";
+    el.setAttribute("role","button");
+    el.tabIndex = 0;
+    el.innerHTML = `<div class="task-card-cover" style="background-image:url('${task.cover}')"></div><div class="task-card-body"><div class="task-card-title"></div><span class="type-pill ${task.type==='multi-step'?'multi-step':task.type}"></span></div>`;
+    el.querySelector(".task-card-title").textContent = task.title;
+    el.querySelector(".type-pill").textContent = TYPE_LABELS[task.type] || task.type;
+    el.addEventListener("click", ()=>{ window.location.href = "task-execution.html?task=" + task.id; });
+    grid.appendChild(el);
+  });
+
+  const viewMore = document.createElement("article");
+  viewMore.className = "task-card task-card--view-more";
+  viewMore.setAttribute("role","button");
+  viewMore.tabIndex = 0;
+  viewMore.innerHTML = '<div class="view-more-inner"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg><span>View More</span></div>';
+  viewMore.addEventListener("click", ()=>{ window.location.href = "index.html#gallery"; });
+  grid.appendChild(viewMore);
+})();
 
 // ─── Init ────────────────────────────────────────────────
 enterIdleView();

@@ -56,6 +56,9 @@
   /* Semantic aliases */
   --bg-page: var(--surface-page);
   --bg-card: var(--surface-elevated);
+  --surface: var(--surface-elevated);
+  --bg-surface: var(--surface-muted);
+  --bg-hover: var(--surface-hover);
   --border: var(--border-default);
   --text: var(--text-primary);
   --text-muted: var(--text-secondary);

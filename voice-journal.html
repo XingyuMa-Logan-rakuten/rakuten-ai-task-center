@@ -84,24 +84,21 @@
           <div class="content center-stack">
             <h1 class="greeting">Hi, how can I help you?</h1>
             <div class="input-wrap-outer vj-composer-outer">
-              <div class="input-wrap-inner">
-                <div class="vj-inline-card" id="vjStartCard">
-                  <div class="vj-start-card-header">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-                    <span>Voice Journal</span>
-                    <button type="button" class="vj-start-close" id="vjStartClose" aria-label="Close">&times;</button>
-                  </div>
-                  <p class="vj-start-desc">Please click button to start voice journal</p>
-                  <div class="vj-start-actions">
-                    <button type="button" class="vj-start-btn" id="vjStartBtn">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                      Start
-                    </button>
-                    <button type="button" class="vj-upload-btn" id="vjUploadBtn">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                      Upload audio
-                    </button>
-                  </div>
+              <div class="input-wrap-inner" id="vjStartCard">
+                <div class="vj-start-card-header">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                  <span>Voice Journal</span>
+                </div>
+                <p class="vj-start-desc">Please click button to start voice journal</p>
+                <div class="vj-start-actions">
+                  <button type="button" class="vj-start-btn" id="vjStartBtn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Start
+                  </button>
+                  <button type="button" class="vj-upload-btn" id="vjUploadBtn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Upload audio
+                  </button>
                 </div>
               </div>
             </div>
@@ -116,6 +113,13 @@
               <button type="button" class="quick-pill"><span>&#x270D;&#xFE0F;</span> Writing Assistant</button>
               <button type="button" class="quick-pill"><span>&#x1F4BB;</span> Coding Assistant</button>
             </div>
+            <section class="task-center-section" aria-labelledby="vjTaskCenterHeading">
+              <div class="task-center-head">
+                <h2 id="vjTaskCenterHeading" class="task-center-title">Task Center</h2>
+              </div>
+              <div class="task-card-grid" id="vjFeaturedGrid"></div>
+            </section>
+
             <p class="footer-note">
               <span class="beta-badge">BETA</span>
               Generative AI responses and explanations may be inaccurate. Please be sure to check the answer by yourself. You can find the terms of service for this tool <a href="#">here</a>.
@@ -244,6 +248,7 @@
         </div>
       </div>
     </div>
+    <script src="data/tasks.js"></script>
     <script src="voice-journal.js"></script>
   </body>
 </html>
