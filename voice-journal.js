@@ -826,6 +826,8 @@ $("#vjVersionBack").addEventListener("click", backToLatest);
   const grid = document.getElementById("vjFeaturedGrid");
   if(!grid || !window.TASK_CATALOG) return;
   const catalog = window.TASK_CATALOG;
+  const DEFAULT_COVER = "https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&h=360&fit=crop";
+  function safeCover(u){ return u && u.startsWith("https://") ? u : DEFAULT_COVER; }
   const TYPE_LABELS = {"simple":"Simple","multi-step":"Multi-step","scheduled":"Scheduled"};
   const featured = catalog.filter(t => t.featured).slice(0,3);
   const tasks = featured.length ? featured : catalog.slice(0,3);
@@ -835,7 +837,7 @@ $("#vjVersionBack").addEventListener("click", backToLatest);
     el.className = "task-card";
     el.setAttribute("role","button");
     el.tabIndex = 0;
-    el.innerHTML = `<div class="task-card-cover" style="background-image:url('${task.cover}')"></div><div class="task-card-body"><div class="task-card-title"></div><span class="type-pill ${task.type==='multi-step'?'multi-step':task.type}"></span></div>`;
+    el.innerHTML = `<div class="task-card-cover" style="background-image:url('${safeCover(task.cover)}')"></div><div class="task-card-body"><div class="task-card-title"></div><span class="type-pill ${task.type==='multi-step'?'multi-step':task.type}"></span></div>`;
     el.querySelector(".task-card-title").textContent = task.title;
     el.querySelector(".type-pill").textContent = TYPE_LABELS[task.type] || task.type;
     el.addEventListener("click", ()=>{ window.location.href = "task-execution.html?task=" + task.id; });

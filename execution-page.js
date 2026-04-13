@@ -1,5 +1,7 @@
 (function () {
   const PARAM = "task";
+  const DEFAULT_COVER = "https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&h=360&fit=crop";
+  function safeCover(url) { return url && url.startsWith("https://") ? url : DEFAULT_COVER; }
 
   let timeoutIds = [];
   let interactiveMode = false;
@@ -29,13 +31,6 @@
     return window.EXECUTION_SCRIPTS && window.EXECUTION_SCRIPTS[id];
   }
 
-  function iconForKind(kind) {
-    if (kind === "knowledge") return "\uD83D\uDCA1";
-    if (kind === "tool") return "\uD83D\uDD27";
-    if (kind === "connector") return "\uD83D\uDD0C";
-    return "\uD83D\uDCCB";
-  }
-
   function setInputLocked(locked) {
     var ta = document.getElementById("execTextarea");
     var send = document.getElementById("execSend");
@@ -47,7 +42,7 @@
 
   function scrollFeed() {
     var feed = document.getElementById("execFeed");
-    feed.scrollTop = feed.scrollHeight;
+    feed.scrollTo({ top: feed.scrollHeight, behavior: "smooth" });
   }
 
   function addUserBubble(text) {
@@ -80,12 +75,140 @@
     return wrap;
   }
 
+  function addAgentBubbleStreaming(text, gen) {
+    var alive = function () { return gen === replayGen; };
+    var wrap = document.createElement("div");
+    wrap.className = "exec-msg-agent";
+    var body = document.createElement("div");
+    body.className = "exec-bubble exec-bubble--agent";
+    var lbl = document.createElement("div");
+    lbl.className = "exec-bubble-label";
+    lbl.textContent = "Rakuten AI";
+    var inner = document.createElement("div");
+    inner.className = "exec-bubble-body";
+    var cursor = document.createElement("span");
+    cursor.className = "exec-stream-cursor";
+    inner.appendChild(cursor);
+    body.appendChild(lbl);
+    body.appendChild(inner);
+    wrap.appendChild(body);
+    document.getElementById("execFeedInner").appendChild(wrap);
+    scrollFeed();
+
+    return new Promise(function (resolve) {
+      var chars = Array.from(text);
+      var total = chars.length;
+      var idx = 0;
+      var textNode = document.createTextNode("");
+      inner.insertBefore(textNode, cursor);
+
+      var baseSpeed = 12;
+      var batchMin = 1;
+      var batchMax = 3;
+      var scrollCounter = 0;
+
+      function tick() {
+        if (!alive()) { cursor.remove(); resolve(wrap); return; }
+        if (idx >= total) {
+          cursor.remove();
+          scrollFeed();
+          resolve(wrap);
+          return;
+        }
+
+        var batch = batchMin + Math.floor(Math.random() * (batchMax - batchMin + 1));
+        var chunk = "";
+        for (var b = 0; b < batch && idx < total; b++, idx++) {
+          chunk += chars[idx];
+        }
+        textNode.textContent += chunk;
+
+        var delay = baseSpeed;
+        var lastChar = chunk[chunk.length - 1];
+        if (lastChar === "\n") delay = 60;
+        else if (lastChar === "." || lastChar === "!" || lastChar === "?") delay = 80;
+        else if (lastChar === "," || lastChar === ";" || lastChar === ":") delay = 40;
+        else if (lastChar === "\u2022" || lastChar === "|") delay = 20;
+
+        scrollCounter++;
+        if (scrollCounter % 5 === 0 || lastChar === "\n") {
+          scrollFeed();
+        }
+
+        var tid = setTimeout(tick, delay);
+        timeoutIds.push(tid);
+      }
+
+      tick();
+    });
+  }
+
+  /* ── Determine if task needs auth check ── */
+  function needsAuthCheck(task, script) {
+    if (task.connectors && task.connectors.length > 0) return true;
+    var cat = task.category;
+    if (cat === "rakuten") return true;
+    return false;
+  }
+
+  function getAuthServices(task) {
+    var services = [];
+    if (task.connectors && task.connectors.length > 0) {
+      task.connectors.forEach(function (c) { services.push(c); });
+    }
+    if (task.category === "rakuten") {
+      if (services.indexOf("Rakuten Account") === -1) {
+        services.unshift("Rakuten Account");
+      }
+    }
+    return services;
+  }
+
+  /* ── Mock auth page ── */
+  function openAuthPage(serviceName) {
+    return new Promise(function (resolve) {
+      var overlay = document.createElement("div");
+      overlay.className = "exec-auth-overlay";
+      overlay.innerHTML =
+        '<div class="exec-auth-page">' +
+          '<div class="exec-auth-logo">' +
+            '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0066ff" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/></svg>' +
+          '</div>' +
+          '<h2 class="exec-auth-title">Sign in to ' + serviceName + '</h2>' +
+          '<p class="exec-auth-desc">Authorize Rakuten AI to access your ' + serviceName + ' account to complete this task.</p>' +
+          '<div class="exec-auth-form">' +
+            '<input type="text" class="exec-auth-input" placeholder="Email or username" value="user@example.com" />' +
+            '<input type="password" class="exec-auth-input" placeholder="Password" value="••••••••" />' +
+            '<button type="button" class="exec-auth-submit">Authorize & Continue</button>' +
+          '</div>' +
+          '<p class="exec-auth-footer">By continuing, you agree to share account data with Rakuten AI.</p>' +
+        '</div>';
+      document.body.appendChild(overlay);
+
+      requestAnimationFrame(function () { overlay.classList.add("open"); });
+
+      overlay.querySelector(".exec-auth-submit").addEventListener("click", function () {
+        var btn = overlay.querySelector(".exec-auth-submit");
+        btn.textContent = "Authorizing...";
+        btn.disabled = true;
+        setTimeout(function () {
+          overlay.classList.remove("open");
+          setTimeout(function () {
+            overlay.remove();
+            resolve();
+          }, 300);
+        }, 1200);
+      });
+    });
+  }
+
+  /* ── Build the new step-by-step execution card ── */
   function buildExecutionCard(task, script) {
     var card = document.createElement("div");
     card.className = "exec-card";
     card.innerHTML =
       '<div class="exec-card-head" role="button" tabindex="0" aria-expanded="true">' +
-        '<div class="exec-card-thumb" style="background-image:url(\'' + task.cover + '\')"></div>' +
+        '<div class="exec-card-thumb" style="background-image:url(\'' + safeCover(task.cover) + '\')"></div>' +
         '<div class="exec-card-head-text">' +
           '<p class="exec-card-title"></p>' +
           '<p class="exec-card-sub"></p>' +
@@ -94,19 +217,7 @@
         '<span class="exec-card-chevron" aria-hidden="true">\u25BC</span>' +
       '</div>' +
       '<div class="exec-card-body">' +
-        '<div class="exec-thinking-panel">' +
-          '<p class="exec-thinking-title">Thinking process \u00B7 chain</p>' +
-          '<p class="exec-step-narrative" id="execNarrative"></p>' +
-          '<div class="exec-chain-list" id="execChainList"></div>' +
-          '<div class="exec-intermediate" id="execIntermediate" hidden></div>' +
-        '</div>' +
-        '<div class="exec-progress-block">' +
-          '<div class="exec-progress-header">' +
-            '<span class="exec-progress-title">Task progress</span>' +
-            '<span class="exec-progress-count" id="execProgCount">0 / 0</span>' +
-          '</div>' +
-          '<ul class="exec-progress-list" id="execProgList"></ul>' +
-        '</div>' +
+        '<div class="exec-steps-container" id="execStepsContainer"></div>' +
         '<div class="exec-card-footer">' +
           '<span>Agent status:</span>' +
           '<strong id="execCardStatus">Initializing\u2026</strong>' +
@@ -124,37 +235,98 @@
     };
     head.addEventListener("click", toggle);
     head.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggle();
-      }
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
     });
-
-    var progList = card.querySelector("#execProgList");
-    script.steps.forEach(function (step, i) {
-      var li = document.createElement("li");
-      li.className = "exec-progress-row";
-      li.dataset.stepIndex = String(i);
-      li.innerHTML =
-        '<span class="exec-check" aria-hidden="true"></span><span class="exec-progress-text"></span>';
-      li.querySelector(".exec-progress-text").textContent = step.progressLabel;
-      progList.appendChild(li);
-    });
-
-    card.querySelector("#execProgCount").textContent = "0 / " + script.steps.length;
 
     document.getElementById("execFeedInner").appendChild(card);
     scrollFeed();
 
     return {
       card: card,
-      narrative: card.querySelector("#execNarrative"),
-      chainList: card.querySelector("#execChainList"),
-      intermediate: card.querySelector("#execIntermediate"),
-      progCount: card.querySelector("#execProgCount"),
-      progRows: progList.querySelectorAll(".exec-progress-row"),
+      stepsContainer: card.querySelector("#execStepsContainer"),
       status: card.querySelector("#execCardStatus"),
     };
+  }
+
+  /* ── Create a single step row (collapsed by default until activated) ── */
+  function createStepRow(index, totalSteps, step) {
+    var row = document.createElement("div");
+    row.className = "exec-step-row";
+    row.dataset.stepIndex = String(index);
+
+    row.innerHTML =
+      '<div class="exec-step-header" role="button" tabindex="0">' +
+        '<span class="exec-step-indicator">' +
+          '<span class="exec-step-num">' + (index + 1) + '</span>' +
+        '</span>' +
+        '<span class="exec-step-label"></span>' +
+        '<span class="exec-step-status-badge"></span>' +
+        '<span class="exec-step-toggle" aria-hidden="true">' +
+          '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+        '</span>' +
+      '</div>' +
+      '<div class="exec-step-detail hidden">' +
+        '<div class="exec-step-detail-inner">' +
+          '<p class="exec-step-narrative"></p>' +
+          '<div class="exec-step-sub-list"></div>' +
+          '<div class="exec-step-intermediate hidden"></div>' +
+        '</div>' +
+      '</div>';
+
+    row.querySelector(".exec-step-label").textContent = step.progressLabel;
+
+    var header = row.querySelector(".exec-step-header");
+    header.addEventListener("click", function () {
+      if (!row.classList.contains("done") && !row.classList.contains("active")) return;
+      row.classList.toggle("expanded");
+    });
+
+    return row;
+  }
+
+  /* ── Create the auth-check step row ── */
+  function createAuthCheckRow(services) {
+    var row = document.createElement("div");
+    row.className = "exec-step-row";
+    row.innerHTML =
+      '<div class="exec-step-header" role="button" tabindex="0">' +
+        '<span class="exec-step-indicator">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>' +
+        '</span>' +
+        '<span class="exec-step-label">Verify account authorization</span>' +
+        '<span class="exec-step-status-badge"></span>' +
+        '<span class="exec-step-toggle" aria-hidden="true">' +
+          '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+        '</span>' +
+      '</div>' +
+      '<div class="exec-step-detail hidden">' +
+        '<div class="exec-step-detail-inner">' +
+          '<p class="exec-step-narrative">Checking authorization status for required services...</p>' +
+          '<div class="exec-auth-check-list"></div>' +
+        '</div>' +
+      '</div>';
+
+    var checkList = row.querySelector(".exec-auth-check-list");
+    services.forEach(function (svc) {
+      var item = document.createElement("div");
+      item.className = "exec-auth-check-item";
+      item.dataset.service = svc;
+      item.innerHTML =
+        '<span class="exec-auth-check-icon">\uD83D\uDD12</span>' +
+        '<span class="exec-auth-check-name"></span>' +
+        '<span class="exec-auth-check-status">Checking...</span>' +
+        '<button type="button" class="exec-auth-btn hidden">Authorize</button>';
+      item.querySelector(".exec-auth-check-name").textContent = svc;
+      checkList.appendChild(item);
+    });
+
+    var header = row.querySelector(".exec-step-header");
+    header.addEventListener("click", function () {
+      if (!row.classList.contains("done") && !row.classList.contains("active")) return;
+      row.classList.toggle("expanded");
+    });
+
+    return row;
   }
 
   function resetFeed() {
@@ -180,56 +352,159 @@
     addUserBubble(script.demoUserInput);
     await wait(450);
     if (!alive()) return;
-    addAgentBubble(script.agentOpening);
+    await addAgentBubbleStreaming(script.agentOpening, myGen);
 
-    await wait(400);
+    await wait(300);
     if (!alive()) return;
     var ui = buildExecutionCard(task, script);
     ui.status.textContent = "Running multi-step workflow\u2026";
 
+    var hasAuth = needsAuthCheck(task, script);
+    var authServices = hasAuth ? getAuthServices(task) : [];
+
+    /* ── Auth check step ── */
+    if (hasAuth) {
+      var authRow = createAuthCheckRow(authServices);
+      ui.stepsContainer.appendChild(authRow);
+      scrollFeed();
+
+      await wait(300);
+      if (!alive()) return;
+
+      authRow.classList.add("active", "expanded");
+      authRow.querySelector(".exec-step-detail").classList.remove("hidden");
+      authRow.querySelector(".exec-step-status-badge").textContent = "Checking...";
+      authRow.querySelector(".exec-step-status-badge").className = "exec-step-status-badge badge-running";
+      scrollFeed();
+
+      var checkItems = authRow.querySelectorAll(".exec-auth-check-item");
+      var needsAuth = [];
+
+      for (var a = 0; a < checkItems.length; a++) {
+        if (!alive()) return;
+        await wait(500);
+        var item = checkItems[a];
+        var svcName = item.dataset.service;
+        var statusEl = item.querySelector(".exec-auth-check-status");
+        var authBtn = item.querySelector(".exec-auth-btn");
+
+        var isAuthorized = Math.random() > 0.6;
+        if (isAuthorized) {
+          statusEl.textContent = "Authorized \u2713";
+          statusEl.className = "exec-auth-check-status authed";
+          item.querySelector(".exec-auth-check-icon").textContent = "\uD83D\uDD13";
+        } else {
+          statusEl.textContent = "Not authorized";
+          statusEl.className = "exec-auth-check-status not-authed";
+          authBtn.classList.remove("hidden");
+          needsAuth.push({ item: item, service: svcName });
+        }
+        scrollFeed();
+      }
+
+      if (needsAuth.length > 0) {
+        var prompt = document.createElement("p");
+        prompt.className = "exec-auth-prompt";
+        prompt.textContent = "Some services require authorization before the agent can proceed. Please authorize each service to continue.";
+        authRow.querySelector(".exec-step-detail-inner").appendChild(prompt);
+        scrollFeed();
+
+        for (var b = 0; b < needsAuth.length; b++) {
+          if (!alive()) return;
+          var entry = needsAuth[b];
+          await new Promise(function (resolve) {
+            entry.item.querySelector(".exec-auth-btn").addEventListener("click", function () {
+              var svc = entry.service;
+              var itm = entry.item;
+              openAuthPage(svc).then(function () {
+                itm.querySelector(".exec-auth-check-status").textContent = "Authorized \u2713";
+                itm.querySelector(".exec-auth-check-status").className = "exec-auth-check-status authed";
+                itm.querySelector(".exec-auth-check-icon").textContent = "\uD83D\uDD13";
+                itm.querySelector(".exec-auth-btn").classList.add("hidden");
+                resolve();
+              });
+            });
+          });
+          if (!alive()) return;
+        }
+      }
+
+      authRow.classList.remove("active");
+      authRow.classList.add("done");
+      authRow.querySelector(".exec-step-status-badge").textContent = "All authorized \u2713";
+      authRow.querySelector(".exec-step-status-badge").className = "exec-step-status-badge badge-done";
+      await wait(400);
+      if (!alive()) return;
+      authRow.classList.remove("expanded");
+      scrollFeed();
+    }
+
+    /* ── Main workflow steps ── */
     var total = script.steps.length;
 
     for (var i = 0; i < total; i++) {
       if (!alive()) return;
       var step = script.steps[i];
-      ui.narrative.textContent = step.narrative || step.progressLabel;
-      ui.chainList.innerHTML = "";
-      ui.intermediate.hidden = true;
-      ui.intermediate.textContent = "";
+      var stepRow = createStepRow(i, total, step);
+      ui.stepsContainer.appendChild(stepRow);
+      scrollFeed();
 
+      await wait(200);
+      if (!alive()) return;
+
+      stepRow.classList.add("active", "expanded");
+      stepRow.querySelector(".exec-step-detail").classList.remove("hidden");
+      stepRow.querySelector(".exec-step-status-badge").textContent = "Running...";
+      stepRow.querySelector(".exec-step-status-badge").className = "exec-step-status-badge badge-running";
+      stepRow.querySelector(".exec-step-narrative").textContent = step.narrative || step.progressLabel;
+      scrollFeed();
+
+      var subList = stepRow.querySelector(".exec-step-sub-list");
       for (var k = 0; k < step.thinkingChain.length; k++) {
         if (!alive()) return;
-        var item = step.thinkingChain[k];
-        var row = document.createElement("div");
-        row.className = "exec-chain-item exec-chain-item--" + item.kind;
-        row.innerHTML = '<span class="exec-chain-icon">' + iconForKind(item.kind) + '</span><span class="exec-chain-label"></span>';
-        row.querySelector(".exec-chain-label").textContent = item.label;
-        ui.chainList.appendChild(row);
-        await wait(90);
+        var chainItem = step.thinkingChain[k];
+        var subEl = document.createElement("div");
+        subEl.className = "exec-step-sub-item";
+        subEl.innerHTML = '<span class="exec-step-sub-dot"></span><span class="exec-step-sub-text"></span>';
+        subEl.querySelector(".exec-step-sub-text").textContent = chainItem.label;
+        subList.appendChild(subEl);
+        scrollFeed();
+        await wait(250);
         if (!alive()) return;
-        row.classList.add("visible");
-        await wait(220);
+        subEl.classList.add("visible");
+        await wait(180);
       }
 
       if (step.intermediate) {
-        ui.intermediate.textContent = step.intermediate;
-        ui.intermediate.hidden = false;
+        var intEl = stepRow.querySelector(".exec-step-intermediate");
+        intEl.textContent = step.intermediate;
+        intEl.classList.remove("hidden");
+        scrollFeed();
       }
 
-      var rowEl = ui.progRows[i];
-      rowEl.classList.add("done");
-      rowEl.querySelector(".exec-check").textContent = "\u2713";
-      ui.progCount.textContent = (i + 1) + " / " + total;
+      await wait(350);
+      if (!alive()) return;
+
+      stepRow.classList.remove("active");
+      stepRow.classList.add("done");
+      stepRow.querySelector(".exec-step-status-badge").textContent = "Done \u2713";
+      stepRow.querySelector(".exec-step-status-badge").className = "exec-step-status-badge badge-done";
+      stepRow.querySelector(".exec-step-indicator").innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
       ui.status.textContent = "Step " + (i + 1) + " of " + total + " complete";
 
-      await wait(step.intermediate ? 500 : 380);
+      await wait(300);
+      if (!alive()) return;
+      stepRow.classList.remove("expanded");
+      scrollFeed();
     }
 
     if (!alive()) return;
     ui.status.textContent = "All steps complete \u2014 generating reply";
     await wait(350);
     if (!alive()) return;
-    addAgentBubble(script.finalMessage);
+    await addAgentBubbleStreaming(script.finalMessage, myGen);
+    if (!alive()) return;
     ui.status.textContent = "Idle \u00B7 ready for follow-up";
 
     if (!alive()) return;
@@ -304,7 +579,6 @@
       window.alert("Added to My Task (demo only).");
     });
 
-    /* Connector integration */
     if (window.ConnectorManager) {
       document.getElementById("execConnBtn").addEventListener("click", ConnectorManager.openModal);
       ConnectorManager.registerChipContainer(document.getElementById("execConnChips"));

@@ -1,17 +1,18 @@
 /* ===== Voice Journal — Layout ===== */
-.vj-shell{display:flex;min-height:100vh;background:var(--surface)}
+.vj-shell{display:flex;height:100vh;overflow:hidden;background:var(--surface)}
 .vj-shell .exec-sidebar{
   width:var(--sidebar-w,260px);flex-shrink:0;background:var(--bg-card,#fff);
   border-right:1px solid var(--border);padding:.85rem .7rem;
-  display:flex;flex-direction:column;gap:.5rem
+  display:flex;flex-direction:column;gap:.5rem;
+  height:100vh;overflow-y:auto
 }
 .vj-shell .exec-sidebar .btn-new-chat{margin:0}
-.vj-main{flex:1;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.vj-main{flex:1;display:flex;flex-direction:column;position:relative;height:100vh;overflow:hidden}
 
 /* ===== Idle View ===== */
-#vjIdleView .top-bar{display:flex;align-items:center;justify-content:flex-end;padding:12px 24px;border-bottom:1px solid var(--border)}
+#vjIdleView .top-bar{display:flex;align-items:center;justify-content:flex-end;padding:12px 24px;border-bottom:1px solid var(--border);flex-shrink:0;z-index:10;position:sticky;top:0;background:var(--bg-card,#fff)}
 #vjIdleView{display:flex;flex-direction:column;flex:1;overflow-y:auto}
-#vjIdleView .content.center-stack{display:flex;flex-direction:column;align-items:center;flex:1;padding:3rem 1.5rem 3rem;gap:16px;max-width:960px;width:100%;margin:0 auto}
+#vjIdleView .content.center-stack{display:flex;flex-direction:column;align-items:center;padding:3rem 1.5rem 3rem;gap:16px;max-width:960px;width:100%;margin:0 auto}
 #vjIdleView .greeting{font-size:1.5rem;font-weight:600;color:var(--text-primary);margin:0}
 
 .vj-composer-outer{
@@ -42,7 +43,7 @@
 .vj-upload-btn:hover{background:var(--bg-hover)}
 
 /* ===== Recording View Header ===== */
-.vj-header{display:flex;align-items:center;gap:10px;padding:12px 24px;border-bottom:1px solid var(--border);flex-shrink:0}
+.vj-header{display:flex;align-items:center;gap:10px;padding:12px 24px;border-bottom:1px solid var(--border);flex-shrink:0;z-index:10}
 .vj-back-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;color:var(--text-secondary);padding:4px;border-radius:6px}
 .vj-back-btn:hover{background:var(--bg-hover)}
 .vj-title{font-size:1rem;font-weight:600;color:var(--text-primary);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -345,6 +346,20 @@
 
 /* ===== Utility ===== */
 .hidden{display:none!important}
+
+/* Scrollbar */
+.vj-shell .exec-sidebar::-webkit-scrollbar,
+.vj-content::-webkit-scrollbar,
+#vjIdleView::-webkit-scrollbar{width:6px}
+.vj-shell .exec-sidebar::-webkit-scrollbar-track,
+.vj-content::-webkit-scrollbar-track,
+#vjIdleView::-webkit-scrollbar-track{background:transparent}
+.vj-shell .exec-sidebar::-webkit-scrollbar-thumb,
+.vj-content::-webkit-scrollbar-thumb,
+#vjIdleView::-webkit-scrollbar-thumb{background:var(--border-strong,#d4d4d8);border-radius:3px}
+.vj-shell .exec-sidebar::-webkit-scrollbar-thumb:hover,
+.vj-content::-webkit-scrollbar-thumb:hover,
+#vjIdleView::-webkit-scrollbar-thumb:hover{background:var(--text-tertiary,#71717a)}
 
 /* ===== Responsive ===== */
 @media(max-width:768px){

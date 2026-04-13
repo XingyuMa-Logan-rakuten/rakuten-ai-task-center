@@ -26,7 +26,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "log", label: "Connector status: Microsoft 365 — active session resumed." },
         ],
         intermediate:
-          "Intermediate result: 52 messages in scope; 23 threads look task-like after filtering newsletters.",
+          "52 messages scanned (Mon–Fri). Breakdown: 14 newsletters, 6 FYI-only, 9 internal threads, 23 actionable threads with task-like content from senders including VP Sales, Legal, CTO, HR, and 3 external clients.",
       },
       {
         progressLabel:
@@ -38,7 +38,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "log", label: "Flagged 31 candidate todos across 18 threads." },
         ],
         intermediate:
-          "Intermediate result: 14 items have explicit dates; 7 are implicit (\"by Friday\" → resolved to calendar week).",
+          "31 candidate action items found across 18 threads. 14 have explicit deadlines (e.g., \"sign-off by Wed EOD\", \"due Thu noon\"). 7 use relative dates (\"by Friday\" → resolved to Apr 11). Owners identified for all items.",
       },
       {
         progressLabel: "Classify emails by priority.",
@@ -48,7 +48,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "tool", label: "Score threads; break ties with last-activity age" },
         ],
         intermediate:
-          "Intermediate result: 6 Urgent · 11 Normal · 6 Low (remaining FYI archived from checklist).",
+          "Priority classification complete:\n• 6 Urgent: VP sign-off, Legal NDA, CTO post-mortem, HR headcount, client contract, finance reallocation\n• 11 Normal: sprint deck, campaign brief, API timeline, brand review, vendor renewals, +6 more\n• 6 Low: polls, supply requests, meeting summaries",
       },
       {
         progressLabel: "Generate a checklist.",
@@ -57,7 +57,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "tool", label: "Render checklist rows with links back to Outlook threads" },
           { kind: "log", label: "Form-based confirmation sheet generated (user can edit titles)." },
         ],
-        intermediate: "Checklist v1 ready — 23 actionable rows with deep links.",
+        intermediate: "Checklist generated with 23 actionable rows. Each row includes: priority tag, subject line, sender, deadline, and a deep link back to the Outlook thread for one-click access.",
       },
       {
         progressLabel: "Check the user’s calendar availability.",
@@ -67,7 +67,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "tool", label: "Propose 45-minute block closest to urgency cluster" },
         ],
         intermediate:
-          "Intermediate result: best slot Thu 15:30–16:15 (local); alt. Fri 09:00–09:45.",
+          "Calendar scanned for next 5 business days. Best available slot: Thu 15:30–16:15 (no conflicts, adjacent to lunch break). Alternate: Fri 09:00–09:45 (clear morning block).",
       },
       {
         progressLabel: "Create a calendar event for focused handling time.",
@@ -89,7 +89,7 @@ window.EXECUTION_SCRIPTS = {
       },
     ],
     finalMessage:
-      "Here’s the outcome:\n\nPriority split: 6 urgent · 11 normal · 6 low.\nChecklist: 23 items with thread links are reflected in the execution panel above.\nCalendar: I reserved Thu 15:30–16:15 for focused replies.\n\nIf you want a different slot, say “move the focus block to Friday morning,” or use Try it yourself to adjust inputs. Interrupt / Retry for granular control is planned for v2.",
+      "Here’s your weekly email triage report:\n\n📬 Inbox Summary (Apr 7 – Apr 11)\nScanned 52 messages across 23 threads. Filtered out 14 newsletters and 6 FYI-only notifications, leaving 23 actionable items.\n\n🔴 Urgent (6 items)\n• [VP Sales — Yamamoto] Q3 revenue forecast review — needs your sign-off by Wed EOD. He attached the updated model with \u00A54.2B projection.\n• [Legal — Suzuki] NDA for Tanaka Corp partnership — requires your counter-signature. PDF attached, 3 clauses flagged for your review.\n• [CTO — Park] Production incident post-mortem — your infrastructure section due Thu noon. Template shared in thread.\n• [HR — Watanabe] Headcount approval for Design team (2 senior roles) — pending since Monday, blocking recruitment pipeline.\n• [Client: Nakamura Trading] Contract renewal terms — they proposed a 12% rate increase, response expected by Fri.\n• [Finance — Chen] Budget reallocation request for Q3 marketing — CFO Tanaka waiting on your input before board prep.\n\n🟡 Normal (11 items)\n• [Product] Sprint 24 review deck — add your OKR slides by Thu\n• [Marketing] Summer campaign brief — creative feedback requested\n• [Engineering] API v3 migration timeline — confirm milestone dates\n• [Design] Brand guidelines v2.1 — review new color palette\n• [Ops] Q2 vendor renewals — 3 contracts (AWS, Datadog, Figma) need approval\n• …and 6 more (team standup notes, onboarding checklist, etc.)\n\n🟢 Low (6 items)\n• Team lunch poll for next Friday, office supply restock request, 2 meeting summary FYIs, parking pass renewal, employee wellness survey\n\n📋 Actions Taken\n1. Built a prioritized checklist with all 23 items — each row links directly to its Outlook thread so you can open and reply in one click.\n2. Booked a 45-min focus block on your calendar: Thu 15:30–16:15 “Email triage — urgent batch” (private, 10-min reminder set).\n3. Alternate slot identified: Fri 09:00–09:45 if you prefer tackling these fresh in the morning.\n\nWould you like me to draft replies for any of the urgent items, reschedule the focus block, or save this as a recurring Friday task?",
   },
 
   "case-receipt-bill": {
@@ -113,7 +113,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "tool", label: "Expand with known merchant domains (SaaS, travel, utilities)" },
           { kind: "log", label: "Raw hit set: 126 messages." },
         ],
-        intermediate: "Intermediate result: 74 high-confidence billing threads after de-duplication.",
+        intermediate: "126 billing-related messages found using keyword + sender heuristics (receipt, invoice, subscription, payment, renewal). Sources include: Adobe, Notion, Spotify, GitHub, Dropbox, AWS, Grammarly, LinkedIn, Hulu, and 65+ one-time purchase receipts.",
       },
       {
         progressLabel: "Extract structured fields.",
@@ -122,7 +122,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "tool", label: "Parse PDF/HTML parts where needed" },
           { kind: "knowledge", label: "Normalize currencies to JPY display for summary" },
         ],
-        intermediate: "Intermediate result: 61 rows with amount confidence ≥ medium.",
+        intermediate: "61 line items extracted with high confidence. Fields: merchant name, amount (normalized to JPY), billing date, plan tier, and cadence (monthly/annual/one-time). Amounts range from ¥870 (AWS) to ¥6,480 (Adobe CC).",
       },
       {
         progressLabel: "Group and identify recurring / active services.",
@@ -131,7 +131,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "tool", label: "Detect renewal keywords: annual, auto-renew, next charge" },
           { kind: "log", label: "Merged 12 duplicates into 9 logical subscriptions." },
         ],
-        intermediate: "Intermediate result: **9 active** recurring services flagged.",
+        intermediate: "9 active recurring subscriptions identified after clustering by merchant + billing descriptor. 3 flagged as low-usage: Dropbox Plus (3.2 GB / 2 TB), Grammarly Premium (last used 47 days ago), LinkedIn Premium (2 profile views last month). Combined low-usage spend: ¥8,950/month.",
       },
       {
         progressLabel: "Summarize spending and currently active services.",
@@ -140,7 +140,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "knowledge", label: "Knowledge recalled (1): exclude one-off static e-receipts" },
           { kind: "tool", label: "Build spend table + export snippet" },
         ],
-        intermediate: "Intermediate result: top spend drivers highlighted in the execution card.",
+        intermediate: "Monthly subscription total: ~¥23,456. Compared to prior 90-day period: +¥980 (Spotify price increase in Feb). Top 3 by cost: Adobe CC ¥6,480, LinkedIn ¥5,800, Notion ¥3,200. Savings opportunity: ¥8,950/month if low-usage services cancelled.",
       },
       {
         progressLabel: "Extract subscription management or cancellation entry points.",
@@ -149,7 +149,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "tool", label: "Resolve redirects; prefer HTTPS vendor pages" },
           { kind: "log", label: "7 direct manage URLs found; 2 require login-first." },
         ],
-        intermediate: "Intermediate result: deep links attached per service row.",
+        intermediate: "7 services have direct self-serve cancel/manage URLs extracted from email footers and account pages. Dropbox, Grammarly, LinkedIn, Adobe, Notion, Spotify, GitHub all have portal links. Hulu and AWS require email-based cancellation.",
       },
       {
         progressLabel:
@@ -171,7 +171,7 @@ window.EXECUTION_SCRIPTS = {
       },
     ],
     finalMessage:
-      "Audit summary (90 days): 9 active recurring services; 7 have manage/cancel URLs; 2 need email-based cancellation.\nDrafts are ready for the two portal-less vendors.\n\nUse Watch again to replay the chain, or Try it yourself to narrow to “SaaS only” or extend to 180 days. Interrupt / Retry is planned for v2.",
+      "Here’s your 90-day subscription & billing audit:\n\n📨 Scan Summary\nSearched 126 billing-related emails, de-duplicated to 74 unique threads, and extracted 61 line items with merchant, amount, and billing cycle data.\n\n🔄 Active Recurring Services (9 found)\n\n| # | Service | Monthly Cost | Billing Cycle | Status |\n|---|---------|-------------|---------------|--------|\n| 1 | Adobe Creative Cloud | \u00A56,480 | Monthly (auto) | Active — used regularly |\n| 2 | Notion Team Plan | \u00A53,200 | Monthly (auto) | Active — used regularly |\n| 3 | Spotify Premium | \u00A5980 | Monthly (auto) | Active — used regularly |\n| 4 | GitHub Copilot | \u00A51,950 | Monthly (auto) | Active — used regularly |\n| 5 | Dropbox Plus | \u00A51,500 | Annual (renews Jun 12) | ⚠️ Low usage — only 3.2 GB of 2 TB used |\n| 6 | Grammarly Premium | \u00A51,650 | Monthly (auto) | ⚠️ Low usage — last opened 47 days ago |\n| 7 | LinkedIn Premium | \u00A55,800 | Monthly (auto) | ⚠️ Low usage — 2 profile views last month |\n| 8 | AWS Personal Account | \u00A5870 | Monthly (usage-based) | Active — side project hosting |\n| 9 | Hulu (Japan) | \u00A51,026 | Monthly (auto) | Active — last watched 5 days ago |\n\nTotal monthly spend: ~\u00A523,456\n\n⚠️ Savings Opportunity\nDropbox, Grammarly, and LinkedIn Premium show low or no recent usage. Cancelling all three would save \u00A58,950/month (\u00A5107,400/year).\n\n🔗 Cancellation Options\n• 7 services have direct manage/cancel portal links — attached to each row above\n• Dropbox: https://www.dropbox.com/account/plan (one-click downgrade to free)\n• Grammarly: Settings > Subscription > Cancel (self-serve)\n• LinkedIn Premium: linkedin.com/premium/cancel\n\n✉️ Draft Cancellation Emails (2 prepared)\nFor AWS and Hulu (no self-serve cancel page found), I’ve drafted polite cancellation request emails with your account details pre-filled (account IDs redacted for safety). Review and send when ready.\n\nWould you like me to proceed with cancelling the low-usage services, or would you prefer to review each one first?",
   },
 
   "daily-news-digest": {
@@ -480,7 +480,7 @@ window.EXECUTION_SCRIPTS = {
       "Tomorrow's Workout is Ready! 💪\n\nType: Upper Body Push (Dumbbells Only)\nDuration: 40 minutes\nReminder: 6:00 AM via Line\n\nPlan:\n1. Dynamic warm-up (5 min)\n2. DB Bench Press — 3×12\n3. DB Overhead Press — 3×10\n4. Lateral Raises — 3×15\n5. Incline DB Fly — 3×12\n6. Tricep Kickbacks — 3×12\n7. Skull Crushers — 3×10\n8. Stretch & cool-down (5 min)\n\nI'll check in tomorrow evening to log how it went and plan the next session!",
   },
 
-  "quant-backtest": {
+  "personal-finance": {
     supportedTaskTypes: ["Long", "On-demand"],
     primaryTaskType: "Long",
     modelLabel: "Rakuten AI (MultiModel)",
@@ -566,7 +566,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "tool", label: "Load schedule: `0 16 * * FRI` (tz: Asia/Tokyo)" },
           { kind: "log", label: "Form-based task saved as **Scheduled** with HITL gate on Line." },
         ],
-        intermediate: "Intermediate result: 12 members on list; 1 alternate approver noted.",
+        intermediate: "Roster loaded: 12 team members across 8 departments (Product, Engineering, Sales, Marketing, Design, Data Science, DevOps, QA, Finance, Partnerships, Growth, Customer Success). Subject pattern: /weekly report|WR:/i. Schedule: Friday 16:00 JST.",
       },
       {
         progressLabel: "Trigger the task on schedule or manually.",
@@ -583,7 +583,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "connector", label: "Outlook: query Mon 00:00–Fri 16:00 window" },
           { kind: "tool", label: "Thread dedupe; count one submission per person" },
         ],
-        intermediate: "Intermediate result: **9 / 12** submissions detected so far.",
+        intermediate: "9 of 12 submissions detected. Earliest: Sato (Mon 09:15, Product). Latest: Ito (Fri 10:00, QA). Average submission day: Wednesday. Most submitted by Thursday this week.",
       },
       {
         progressLabel: "Match the results against the member list and determine submission status.",
@@ -591,7 +591,7 @@ window.EXECUTION_SCRIPTS = {
         thinkingChain: [
           { kind: "log", label: "Missing: Hina, Marco, Leo (3)." },
         ],
-        intermediate: "Roster reconciliation complete; escalation candidates locked.",
+        intermediate: "Missing members identified:\n• Hina Kobayashi (Finance) — no email matching pattern found\n• Marco Rossi (Partnerships) — out-of-office auto-reply detected (vacation Apr 8–12), but no report submitted\n• Leo Chen (Growth) — no email found; was active in Teams chat today",
       },
       {
         progressLabel: "Generate the summary result.",
@@ -608,7 +608,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "connector", label: "Line: push flex message to Manager channel" },
           { kind: "log", label: "Message id LINE_MSG_4481 — delivered." },
         ],
-        intermediate: "Intermediate result: you received: “9 submitted · 3 pending — reply YES to nudge.”",
+        intermediate: "Line message delivered to Manager channel at 16:02. Content: \"Weekly Report Status: 9/12 submitted · 3 pending (Hina, Marco, Leo) — Reply YES to send Teams reminders.\" Message ID: LINE_MSG_4481.",
       },
       {
         progressLabel: "Receive further instructions from the user on Line.",
@@ -626,7 +626,7 @@ window.EXECUTION_SCRIPTS = {
           { kind: "connector", label: "Teams: open 1:1 chats for Hina, Marco, Leo" },
           { kind: "tool", label: "Send polite reminder + deadline + upload link" },
         ],
-        intermediate: "Intermediate result: 3 Teams messages sent; read receipts pending.",
+        intermediate: "3 personalized Teams DMs sent at 16:06:\n• Hina: Standard reminder with template link\n• Marco: Acknowledged OOO, offered extension option\n• Leo: Standard reminder with template link\nAll messages delivered. Read receipts pending.",
       },
       {
         progressLabel: "Return the execution result.",
@@ -638,6 +638,320 @@ window.EXECUTION_SCRIPTS = {
       },
     ],
     finalMessage:
-      "Friday compliance run (demo): 9 submitted · 3 reminded on Teams after your Line YES.\nFull connector trace is in the execution panel. This preset is ideal for scheduled runs and human-in-the-loop confirmation; Interrupt / Retry will add per-step backoff in v2.\n\nUse Try it yourself to change roster IDs or wait-for-confirm behavior.",
+      "Here’s the Friday compliance report for this week:\n\n📊 Weekly Report Submission Status (Week of Apr 7)\n\n✅ Submitted (9 of 12 members)\n\n| # | Name | Submitted | Time | Subject |\n|---|------|-----------|------|---------|\n| 1 | Sato, Yuki | ✓ | Mon 09:15 | Weekly Report — Product Team (Apr 7) |\n| 2 | Kim, Jiwon | ✓ | Mon 14:30 | WR: Engineering Backend — Sprint 24 |\n| 3 | Tanaka, Kenji | ✓ | Tue 10:02 | Weekly Report — Sales Q3 Pipeline |\n| 4 | Williams, Sarah | ✓ | Tue 11:45 | WR: Marketing — Campaign Status |\n| 5 | Nakamura, Rin | ✓ | Wed 08:50 | Weekly Report — Design Sprint Review |\n| 6 | Zhang, Wei | ✓ | Wed 16:20 | WR: Data Science — Model Training |\n| 7 | Patel, Arjun | ✓ | Thu 09:30 | Weekly Report — DevOps & Infra |\n| 8 | Suzuki, Mika | ✓ | Thu 14:15 | WR: Customer Success Metrics |\n| 9 | Ito, Daiki | ✓ | Fri 10:00 | Weekly Report — QA & Release Notes |\n\n❌ Not Submitted (3 members)\n• Hina Kobayashi (Finance) — no matching email found this week\n• Marco Rossi (Partnerships) — out-of-office reply detected, but no report\n• Leo Chen (Growth) — no matching email found this week\n\n📱 Line Notification Sent\nSummary message delivered to your Line at 16:02: “9 submitted · 3 pending — reply YES to send reminders.”\nYou replied YES at 16:05.\n\n💬 Teams Reminders Sent\n• Hina Kobayashi — DM sent at 16:06: “Hi Hina, friendly reminder that your weekly report for this week hasn’t been received yet. Please submit by EOD. Here’s the template link: [Weekly Report Template]”\n• Marco Rossi — DM sent at 16:06: “Hi Marco, I noticed your OOO but your weekly report is still pending. If you’re available, please submit by EOD or let me know if you need an extension.”\n• Leo Chen — DM sent at 16:06: “Hi Leo, your weekly report for this week hasn’t been submitted yet. Please send it by EOD. Template: [Weekly Report Template]”\n\nAll 3 messages delivered successfully (read receipts pending).\n\nWould you like me to follow up again on Monday if they still haven’t submitted, or adjust the reminder template?",
+  },
+
+  /* ═══════════════ Rakuten Ecosystem ═══════════════ */
+
+  "smart-spending": {
+    supportedTaskTypes: ["Long", "On-demand"],
+    primaryTaskType: "Long",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "Analyze my Rakuten Card spending for March 2026, find savings, and apply any available coupons to my regular purchases.",
+    agentOpening: "I'll connect to Rakuten Pay / Card, pull your March transactions, categorize them, analyze patterns, find cheaper alternatives, check active coupons & campaigns, and deliver a weekly summary.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten Pay · Rakuten Card",
+    toolContextLabel: "Spending analysis",
+    steps: [
+      { progressLabel: "Connect to Rakuten Pay / Card.", narrative: "Authenticating and pulling transaction feed.", thinkingChain: [{ kind: "connector", label: "Rakuten Pay: authorize OAuth token" }, { kind: "log", label: "Card ending ****-4821 linked. 142 transactions in March." }], intermediate: "142 transactions loaded for March 2026." },
+      { progressLabel: "Categorize all transactions.", narrative: "Classifying each spend by merchant category.", thinkingChain: [{ kind: "tool", label: "NLP merchant name → category: Groceries 38%, Dining 22%, Transport 15%, Subscriptions 12%, Other 13%" }, { kind: "log", label: "142 items categorized into 8 groups." }], intermediate: "Top categories: Groceries ¥45,200 · Dining ¥26,400 · Transport ¥17,800." },
+      { progressLabel: "Analyze spending patterns.", narrative: "Comparing to previous months and detecting anomalies.", thinkingChain: [{ kind: "tool", label: "Month-over-month: Dining +18% vs Feb, Subscriptions unchanged" }, { kind: "knowledge", label: "Pattern: weekend dining spikes, 3 unused subscriptions detected" }], intermediate: "Dining up 18% from February. 3 dormant subscriptions totaling ¥2,980/mo." },
+      { progressLabel: "Recommend cheaper alternatives.", narrative: "Finding Rakuten merchants with better prices or point bonuses.", thinkingChain: [{ kind: "tool", label: "Match grocery items to Rakuten Ichiba bulk deals — potential ¥3,200/mo savings" }, { kind: "tool", label: "Suggest Rakuten Mobile plan vs current carrier — ¥1,500/mo savings" }], intermediate: "Identified ¥4,700/month in potential savings across 3 categories." },
+      { progressLabel: "Apply coupons & active campaigns.", narrative: "Scanning for applicable Rakuten coupons and SPU bonuses.", thinkingChain: [{ kind: "connector", label: "Rakuten Coupon API: 8 coupons applicable to your regular merchants" }, { kind: "tool", label: "Auto-clip 5 coupons; 3 require minimum spend — flagged for next order" }], intermediate: "8 coupons found, 5 auto-applied. Estimated extra savings: ¥1,240." },
+      { progressLabel: "Generate weekly spending summary.", narrative: "Building a visual summary report.", thinkingChain: [{ kind: "tool", label: "Render spending pie chart, trend line, and savings recommendations" }], intermediate: null },
+    ],
+    finalMessage: "March 2026 Spending Report:\n\nTotal Spend: ¥119,600 (across 142 transactions)\nTop 3: Groceries ¥45,200 · Dining ¥26,400 · Transport ¥17,800\n\nSavings Found:\n• Cancel 3 unused subscriptions: ¥2,980/mo\n• Switch to Rakuten bulk groceries: ¥3,200/mo\n• 8 coupons applied/queued: ¥1,240 this cycle\n\nTotal potential monthly savings: ¥7,420\n\nWant me to set this up as a weekly scheduled task?",
+  },
+
+  "point-maximizing": {
+    supportedTaskTypes: ["Long", "On-demand"],
+    primaryTaskType: "Long",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "How can I maximize my Rakuten points before they expire next month? Show me active campaigns.",
+    agentOpening: "I'll check your points balance and expiry dates, scan active SPU campaigns and promos, find the optimal purchase timing, suggest bundling opportunities, and recommend the best redemption options.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten Points · SPU Engine",
+    toolContextLabel: "Points optimization",
+    steps: [
+      { progressLabel: "Track points balance & expiry.", narrative: "Pulling your Rakuten Points ledger.", thinkingChain: [{ kind: "connector", label: "Rakuten Points API: fetch balance and expiry schedule" }, { kind: "log", label: "Balance: 12,480 pts. 3,200 pts expire May 15." }], intermediate: "12,480 points total. 3,200 expiring May 15, 2026." },
+      { progressLabel: "Detect active campaigns (SPU, promos).", narrative: "Scanning current Super Point Up and seasonal promotions.", thinkingChain: [{ kind: "tool", label: "Active SPU: Rakuten Mobile +1x, Rakuten Card +2x, Rakuten Books +0.5x" }, { kind: "tool", label: "Promo: Shop Marathon Apr 12-17 — up to +9x" }], intermediate: "Your SPU multiplier: 5.5x base. Shop Marathon can push to 14.5x." },
+      { progressLabel: "Suggest optimal purchase timing.", narrative: "Calculating the best day to buy based on campaign overlap.", thinkingChain: [{ kind: "knowledge", label: "Marathon resets per-shop; maximize shops on day 1-2 for early bonus" }, { kind: "tool", label: "Best window: Apr 12 (Marathon start) + 0/5 Day bonus = peak multiplier" }], intermediate: "Optimal purchase date: April 12. Stack Marathon + 0/5 Day for max 16x." },
+      { progressLabel: "Bundle purchases for multipliers.", narrative: "Grouping your wishlist items across different shops.", thinkingChain: [{ kind: "tool", label: "Spread ¥48,000 wishlist across 6 shops for Marathon bonus tiers" }, { kind: "tool", label: "Split: Shop A ¥12k, B ¥9k, C ¥8k, D ¥7k, E ¥6.5k, F ¥5.5k" }], intermediate: "6-shop spread unlocks +5x Marathon bonus on all purchases." },
+      { progressLabel: "Recommend redemption options.", narrative: "Finding the best use for expiring points.", thinkingChain: [{ kind: "tool", label: "Options: Rakuten Pay (1:1), Rakuten Travel (1.2x value), Rakuten Kobo (bonus)" }, { kind: "knowledge", label: "Travel vouchers give best per-point value historically" }], intermediate: null },
+    ],
+    finalMessage: "Points Optimization Plan:\n\nCurrent Balance: 12,480 pts (3,200 expiring May 15)\nYour SPU Base: 5.5x\n\nAction Plan:\n1. Shop Marathon Apr 12-17: Spread ¥48,000 across 6 shops → earn ~6,960 bonus pts\n2. Use 3,200 expiring pts on Rakuten Travel voucher (1.2x value = ¥3,840 worth)\n3. Stack 0/5 Day on Apr 15 for additional multiplier\n\nProjected Points After: ~16,240 pts (+30% growth)\n\nShall I set up alerts for the Marathon start?",
+  },
+
+  "weekly-grocery": {
+    supportedTaskTypes: ["Scheduled", "On-demand"],
+    primaryTaskType: "Scheduled",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "Generate my weekly grocery list based on past orders and find the best prices on Rakuten.",
+    agentOpening: "I'll analyze your order history, predict what you need to refill, build a cart, compare prices across Rakuten merchants, apply available coupons, and schedule delivery.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten Ichiba · Grocery",
+    toolContextLabel: "Grocery automation",
+    steps: [
+      { progressLabel: "Track consumption history.", narrative: "Analyzing your past 8 weeks of grocery orders.", thinkingChain: [{ kind: "connector", label: "Rakuten Ichiba: pull order history — grocery category" }, { kind: "tool", label: "Identified 34 recurring items across 8 orders" }], intermediate: "34 recurring grocery items identified. Weekly average: ¥8,400." },
+      { progressLabel: "Predict refill needs.", narrative: "Estimating depletion based on purchase frequency and quantity.", thinkingChain: [{ kind: "tool", label: "Due this week: milk (3d cycle), eggs (5d), rice (14d), coffee (10d)" }, { kind: "tool", label: "18 items predicted as needing refill" }], intermediate: "18 items need refill this week. Estimated total: ¥7,200." },
+      { progressLabel: "Generate cart.", narrative: "Creating optimized shopping cart.", thinkingChain: [{ kind: "tool", label: "Cart built with preferred brands and sizes" }, { kind: "log", label: "18 items added, total ¥7,200." }], intermediate: "Cart ready: 18 items, ¥7,200 before coupons." },
+      { progressLabel: "Compare merchant prices.", narrative: "Finding the best deals across Rakuten grocery merchants.", thinkingChain: [{ kind: "tool", label: "Price comparison: 4 items cheaper at alt merchants — save ¥680" }, { kind: "tool", label: "Switched to bulk rice (5kg) — save ¥320 vs 2kg×3" }], intermediate: "Optimized cart total: ¥6,200 (saved ¥1,000)." },
+      { progressLabel: "Apply coupons.", narrative: "Scanning for applicable grocery coupons.", thinkingChain: [{ kind: "connector", label: "Coupon API: 3 applicable — ¥200 off dairy, ¥150 off ¥5000+, free shipping" }, { kind: "log", label: "All 3 coupons applied." }], intermediate: "Final total: ¥5,850 with coupons. Free shipping applied." },
+      { progressLabel: "Schedule delivery.", narrative: "Picking your preferred delivery slot.", thinkingChain: [{ kind: "tool", label: "Available: Sat 10-12, Sat 14-16, Sun 10-12" }, { kind: "log", label: "Scheduled: Saturday 10:00-12:00." }], intermediate: "Delivery scheduled for Saturday 10:00-12:00." },
+      { progressLabel: "Confirm one-click reorder setup.", narrative: "Saving this cart as a recurring template.", thinkingChain: [{ kind: "tool", label: "Template saved. Next auto-cart generation: next Thursday." }], intermediate: null },
+    ],
+    finalMessage: "Weekly Grocery Order Ready!\n\n18 items · ¥5,850 (saved ¥2,350 vs individual buys)\nDelivery: Saturday 10:00-12:00\n\nSavings Breakdown:\n• Price optimization: ¥1,000\n• Coupons: ¥350\n• Free shipping: ¥1,000\n\nOne-click reorder template saved. I'll auto-generate next week's cart on Thursday.\n\nWant me to adjust any items or change the delivery slot?",
+  },
+
+  "price-watch": {
+    supportedTaskTypes: ["Scheduled", "On-demand"],
+    primaryTaskType: "Scheduled",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "Track the price of the Sony WH-1000XM5 headphones on Rakuten and alert me when it drops below ¥35,000.",
+    agentOpening: "I'll save this product to your watchlist, set up price tracking, monitor campaign events, and notify you the moment the price hits your target.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten Ichiba · Price Tracker",
+    toolContextLabel: "Price monitoring",
+    steps: [
+      { progressLabel: "Save product to watchlist.", narrative: "Locating the product on Rakuten Ichiba.", thinkingChain: [{ kind: "connector", label: "Rakuten Ichiba: search Sony WH-1000XM5" }, { kind: "tool", label: "Found 23 listings. Selected top-rated seller: ¥38,800." }], intermediate: "Product saved. Current best price: ¥38,800 from AudioPro Store." },
+      { progressLabel: "Track price changes.", narrative: "Building price history from cached data.", thinkingChain: [{ kind: "tool", label: "90-day history: high ¥42,000, low ¥34,500, avg ¥37,200" }, { kind: "knowledge", label: "Last sub-35k price: during Super Sale 6 weeks ago" }], intermediate: "90-day range: ¥34,500–¥42,000. Average: ¥37,200." },
+      { progressLabel: "Monitor upcoming campaigns.", narrative: "Checking when the next big sale events are.", thinkingChain: [{ kind: "tool", label: "Next events: Shop Marathon Apr 12, Super Sale Jun 4" }, { kind: "knowledge", label: "This product historically drops 10-15% during Super Sale" }], intermediate: "High probability of target price during Super Sale (Jun 4)." },
+      { progressLabel: "Detect best price window.", narrative: "Calculating the optimal purchase timing.", thinkingChain: [{ kind: "tool", label: "Prediction: 72% chance of ¥34,500 during Jun Super Sale" }, { kind: "tool", label: "With your SPU 5.5x: effective price ¥32,600 after points" }], intermediate: "Best window: Jun Super Sale. Effective price with points: ~¥32,600." },
+      { progressLabel: "Set up notifications.", narrative: "Configuring price drop alerts.", thinkingChain: [{ kind: "tool", label: "Alert set: notify via Line when price ≤ ¥35,000" }, { kind: "log", label: "Monitoring 23 listings every 6 hours." }], intermediate: null },
+    ],
+    finalMessage: "Price Watch Active: Sony WH-1000XM5\n\nCurrent Price: ¥38,800\nYour Target: ¥35,000\n90-Day Low: ¥34,500\n\nForecast: 72% chance of hitting target during Super Sale (Jun 4)\nWith your SPU 5.5x, effective price could be as low as ¥32,600.\n\nI'll notify you instantly when the price drops. Want to add more products to your watchlist?",
+  },
+
+  "merchant-onboarding": {
+    supportedTaskTypes: ["Long"],
+    primaryTaskType: "Long",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "Help me set up my handmade ceramics shop on Rakuten Ichiba. I have my business registration ready.",
+    agentOpening: "I'll guide you through the full onboarding — form submission, document verification, category assignment, pricing strategy, storefront generation, and launch.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten Ichiba · Merchant Portal",
+    toolContextLabel: "Merchant onboarding",
+    steps: [
+      { progressLabel: "Submit onboarding form.", narrative: "Pre-filling the application with your business details.", thinkingChain: [{ kind: "tool", label: "Form fields: business name, registration #, bank details, contact" }, { kind: "log", label: "Application form completed and submitted." }], intermediate: "Application submitted. Review typically takes 2-3 business days." },
+      { progressLabel: "Verify documents.", narrative: "Checking uploaded documents against requirements.", thinkingChain: [{ kind: "tool", label: "Business registration: ✓ valid. Bank certificate: ✓ matches. ID: ✓ verified." }, { kind: "log", label: "All 3 required documents verified." }], intermediate: "Document verification complete. All 3 documents approved." },
+      { progressLabel: "Assign category.", narrative: "Finding the best product category for your shop.", thinkingChain: [{ kind: "knowledge", label: "Handmade ceramics → Kitchen & Dining > Tableware > Handcrafted" }, { kind: "tool", label: "Also eligible for: Home Decor, Gifts" }], intermediate: "Primary category: Kitchen & Dining > Handcrafted Tableware." },
+      { progressLabel: "Suggest pricing strategy.", narrative: "Analyzing competitor pricing in your category.", thinkingChain: [{ kind: "tool", label: "Market range: ¥1,500–¥8,000 for handmade cups/plates" }, { kind: "knowledge", label: "Recommend mid-premium positioning: 10% below artisan average" }], intermediate: "Recommended pricing: ¥2,800–¥6,500 range (mid-premium tier)." },
+      { progressLabel: "Generate storefront.", narrative: "Creating your shop page with templates.", thinkingChain: [{ kind: "tool", label: "Selected template: Artisan Clean. Generated banner, about section, policies." }, { kind: "tool", label: "SEO-optimized shop description and meta tags created." }], intermediate: "Storefront generated with Artisan Clean template." },
+      { progressLabel: "Launch store.", narrative: "Final checks before going live.", thinkingChain: [{ kind: "tool", label: "Checklist: payment setup ✓, shipping config ✓, return policy ✓, test order ✓" }, { kind: "log", label: "Store status: LIVE on Rakuten Ichiba." }], intermediate: null },
+    ],
+    finalMessage: "Your Rakuten Ichiba Store is Live!\n\nShop: Ceramic Studio Artisan\nCategory: Kitchen & Dining > Handcrafted Tableware\nPricing Tier: Mid-Premium (¥2,800–¥6,500)\n\nNext Steps:\n1. Upload your first 5 products\n2. Join the new merchant welcome campaign (bonus visibility for 30 days)\n3. Set up Shop Marathon participation for extra traffic\n\nWant me to help you create your first product listing?",
+  },
+
+  "product-image-editor": {
+    supportedTaskTypes: ["On-demand"],
+    primaryTaskType: "On-demand",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "Enhance my product photos for a ceramic mug and create lifestyle variations for the listing.",
+    agentOpening: "I'll process your uploaded images, enhance quality, generate lifestyle scene variations, prepare A/B test thumbnails, and publish the best versions to your listing.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Image Enhancement Engine",
+    toolContextLabel: "Product image editing",
+    steps: [
+      { progressLabel: "Upload product images.", narrative: "Receiving and analyzing 4 product photos.", thinkingChain: [{ kind: "tool", label: "4 images received: front, side, top, detail views" }, { kind: "log", label: "Resolution: 3024×4032. Format: JPEG." }], intermediate: "4 product images uploaded and analyzed." },
+      { progressLabel: "Enhance image quality.", narrative: "Applying AI enhancement — white balance, sharpness, background.", thinkingChain: [{ kind: "tool", label: "Auto white-balance corrected (was slightly warm)" }, { kind: "tool", label: "Background cleaned to pure white. Shadows softened." }], intermediate: "All 4 images enhanced: sharper, cleaner backgrounds, true colors." },
+      { progressLabel: "Generate lifestyle variations.", narrative: "Creating scene compositions for the product.", thinkingChain: [{ kind: "tool", label: "Scene 1: Morning coffee table with natural light" }, { kind: "tool", label: "Scene 2: Kitchen shelf arrangement. Scene 3: Gift wrapping context." }], intermediate: "3 lifestyle variations generated per original image." },
+      { progressLabel: "Create A/B test thumbnails.", narrative: "Designing thumbnail variants for click-through testing.", thinkingChain: [{ kind: "tool", label: "Variant A: clean product on white. Variant B: lifestyle morning scene." }, { kind: "tool", label: "Added subtle badge: 'Handmade' stamp on variant B." }], intermediate: "2 thumbnail variants ready for A/B testing." },
+      { progressLabel: "Publish to listing.", narrative: "Uploading final images to your Rakuten product page.", thinkingChain: [{ kind: "connector", label: "Rakuten Ichiba: update product images for SKU CM-001" }, { kind: "log", label: "12 images published. Thumbnail A/B test activated." }], intermediate: null },
+    ],
+    finalMessage: "Product Images Updated!\n\n• 4 original photos enhanced (white balance, background, sharpness)\n• 12 lifestyle variations created (3 per original)\n• A/B thumbnail test live (clean vs lifestyle)\n\nThe test will run for 7 days. I'll report which thumbnail gets more clicks.\n\nWant me to process images for more products?",
+  },
+
+  "affiliate-signup": {
+    supportedTaskTypes: ["Long"],
+    primaryTaskType: "Long",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "Help me sign up as a Rakuten affiliate. I run a tech review blog with 15,000 monthly readers.",
+    agentOpening: "I'll guide you through the affiliate application, analyze your blog for the best product categories, generate starter content, activate your account, and set up performance tracking.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten Affiliate Network",
+    toolContextLabel: "Affiliate onboarding",
+    steps: [
+      { progressLabel: "Submit application.", narrative: "Pre-filling your affiliate application.", thinkingChain: [{ kind: "tool", label: "Fields: site URL, niche, traffic stats, content type" }, { kind: "log", label: "Application submitted for review." }], intermediate: "Application submitted. Estimated approval: 1-2 business days." },
+      { progressLabel: "Analyze profile.", narrative: "Assessing your blog's affiliate potential.", thinkingChain: [{ kind: "tool", label: "Blog analysis: tech reviews, 15k MAU, avg engagement 3.2min" }, { kind: "knowledge", label: "Tech review blogs convert 2-4% on electronics affiliate links" }], intermediate: "Strong fit: tech niche with engaged audience. Estimated 2.5% conversion rate." },
+      { progressLabel: "Recommend categories.", narrative: "Matching high-commission Rakuten categories to your content.", thinkingChain: [{ kind: "tool", label: "Top matches: Electronics (4-8%), PC Peripherals (5-10%), Smart Home (6-12%)" }, { kind: "tool", label: "Seasonal opportunity: Back-to-school laptops in 2 months" }], intermediate: "Recommended: Electronics, PC Peripherals, Smart Home (avg 6.7% commission)." },
+      { progressLabel: "Generate starter content.", narrative: "Creating affiliate-ready review templates.", thinkingChain: [{ kind: "tool", label: "Generated: 3 comparison article templates, 5 product card widgets" }, { kind: "tool", label: "SEO-optimized affiliate disclosure statement created" }], intermediate: "3 article templates and 5 product widgets ready to embed." },
+      { progressLabel: "Activate affiliate account.", narrative: "Completing final setup steps.", thinkingChain: [{ kind: "connector", label: "Rakuten Affiliate: account activated, tracking pixel installed" }, { kind: "log", label: "Affiliate ID: RA-2026-78432 active." }], intermediate: "Account active! Affiliate ID: RA-2026-78432." },
+      { progressLabel: "Set up performance tracking.", narrative: "Creating your earnings dashboard.", thinkingChain: [{ kind: "tool", label: "Dashboard configured: clicks, conversions, earnings, top products" }, { kind: "log", label: "Weekly performance email enabled." }], intermediate: null },
+    ],
+    finalMessage: "Rakuten Affiliate Account Active!\n\nAffiliate ID: RA-2026-78432\nRecommended Categories: Electronics, PC Peripherals, Smart Home\nAvg Commission: 6.7%\n\nStarter Kit Ready:\n• 3 comparison article templates\n• 5 embeddable product widgets\n• SEO disclosure statement\n• Weekly performance reports enabled\n\nEstimated monthly earnings at 15k MAU: ¥45,000–¥120,000\n\nWant me to generate your first affiliate review article?",
+  },
+
+  "refund-tracking": {
+    supportedTaskTypes: ["Long", "On-demand"],
+    primaryTaskType: "Long",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "I want to request a refund for a defective Bluetooth speaker I ordered last week. Order #RK-2026-445821.",
+    agentOpening: "I'll look up your order, submit a refund request, coordinate with the merchant, and keep you updated on every milestone until the refund is complete.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten Support · Refund",
+    toolContextLabel: "Refund processing",
+    steps: [
+      { progressLabel: "Submit refund request.", narrative: "Filing the refund claim with order details.", thinkingChain: [{ kind: "connector", label: "Rakuten Order API: fetch order #RK-2026-445821" }, { kind: "tool", label: "Item: JBL Flip 6, ¥12,800. Delivered Apr 3. Defect: no audio from left speaker." }], intermediate: "Refund request submitted for JBL Flip 6, ¥12,800." },
+      { progressLabel: "Validate request.", narrative: "Checking refund eligibility against policies.", thinkingChain: [{ kind: "knowledge", label: "Within 14-day return window. Defective item = full refund eligible." }, { kind: "log", label: "Eligibility: APPROVED. Category: defective product." }], intermediate: "Request validated. Full refund eligible (defective product, within window)." },
+      { progressLabel: "Process with merchant.", narrative: "Coordinating return logistics with the seller.", thinkingChain: [{ kind: "connector", label: "Merchant notification sent. Return label generated." }, { kind: "tool", label: "Pickup scheduled: Apr 12, 10:00-18:00 at your address." }], intermediate: "Return pickup scheduled for Apr 12. Prepaid label provided." },
+      { progressLabel: "Track status updates.", narrative: "Monitoring the return shipment.", thinkingChain: [{ kind: "tool", label: "Status: package picked up → in transit → received by merchant" }, { kind: "log", label: "Merchant confirmed receipt. Inspection in progress." }], intermediate: "Item received by merchant. Inspection underway." },
+      { progressLabel: "Notify milestones.", narrative: "Sending you status updates.", thinkingChain: [{ kind: "tool", label: "Merchant approved refund. Processing payment reversal." }, { kind: "connector", label: "Line notification: refund approved, expect 3-5 business days." }], intermediate: "Refund approved! Payment reversal initiated." },
+      { progressLabel: "Complete refund.", narrative: "Confirming the refund has been processed.", thinkingChain: [{ kind: "log", label: "¥12,800 refunded to Rakuten Card ending ****-4821." }], intermediate: null },
+    ],
+    finalMessage: "Refund Complete!\n\nOrder: #RK-2026-445821\nItem: JBL Flip 6 Bluetooth Speaker\nRefund Amount: ¥12,800\nRefunded To: Rakuten Card ****-4821\n\nTimeline:\n• Request submitted → Validated → Pickup → Received → Approved → Refunded\n• Total processing time: 5 business days\n\nThe refund will appear on your next card statement. Need anything else?",
+  },
+
+  "golf-booking": {
+    supportedTaskTypes: ["Long", "On-demand"],
+    primaryTaskType: "Long",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "I'm a beginner golfer. Find a good course near Tokyo for this weekend and book a tee time.",
+    agentOpening: "I'll assess your level, recommend beginner-friendly courses, check availability, book a tee time on Rakuten GORA, and set up progress tracking for your game.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten GORA · Golf",
+    toolContextLabel: "Golf planning",
+    steps: [
+      { progressLabel: "Assess skill level.", narrative: "Understanding your golf experience.", thinkingChain: [{ kind: "knowledge", label: "Beginner profile: <10 rounds, no handicap registered" }, { kind: "tool", label: "Recommended course difficulty: easy-moderate, wide fairways, practice facilities" }], intermediate: "Skill level: Beginner. Looking for forgiving courses with practice areas." },
+      { progressLabel: "Recommend lessons.", narrative: "Finding nearby golf lessons.", thinkingChain: [{ kind: "tool", label: "3 beginner lesson packages found near your area" }, { kind: "tool", label: "Top pick: Rakuten GORA Academy — 3-session intro course ¥15,000" }], intermediate: "Recommended: Rakuten GORA Academy beginner pack (3 lessons, ¥15,000)." },
+      { progressLabel: "Suggest courses.", narrative: "Finding beginner-friendly courses near Tokyo.", thinkingChain: [{ kind: "connector", label: "Rakuten GORA: search courses within 60km of Tokyo, beginner-friendly" }, { kind: "tool", label: "Top 3: Akigase GC (35min), Musashino CC (45min), Tama Hills (50min)" }], intermediate: "Top pick: Akigase Golf Club — 35min drive, beginner-friendly, ¥8,500." },
+      { progressLabel: "Book tee time.", narrative: "Reserving your slot.", thinkingChain: [{ kind: "connector", label: "Rakuten GORA: book Akigase GC, Sat Apr 12, 08:30 tee time" }, { kind: "log", label: "Booking confirmed. Reservation #GORA-88421." }], intermediate: "Tee time booked: Akigase GC, Saturday 08:30. Confirmation sent." },
+      { progressLabel: "Set up progress tracking.", narrative: "Creating your golf tracking profile.", thinkingChain: [{ kind: "tool", label: "Profile created: track scores, stats, handicap progression" }, { kind: "log", label: "Post-round score logging enabled." }], intermediate: null },
+    ],
+    finalMessage: "Golf Day Booked!\n\nCourse: Akigase Golf Club\nDate: Saturday, April 12\nTee Time: 08:30\nGreen Fee: ¥8,500 (Rakuten GORA price)\nDrive: ~35 min from central Tokyo\n\nAlso Recommended:\n• Beginner lesson pack: 3 sessions for ¥15,000\n• Progress tracking profile created — log your scores after each round\n\nHave a great round! Want me to set up a recurring weekend booking?",
+  },
+
+  "wine-restaurant": {
+    supportedTaskTypes: ["Long", "On-demand"],
+    primaryTaskType: "Long",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "Find a wine tasting event in Tokyo this weekend and book a nice French restaurant for dinner afterwards.",
+    agentOpening: "I'll analyze your preferences, find wine events, recommend restaurants, book both, and log your reviews for future personalized suggestions.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten Travel · Dining",
+    toolContextLabel: "Wine & dining",
+    steps: [
+      { progressLabel: "Capture preferences.", narrative: "Understanding your wine and dining preferences.", thinkingChain: [{ kind: "knowledge", label: "Preferences: red wine, French cuisine, central Tokyo, budget ¥15,000/person" }, { kind: "log", label: "Preference profile saved." }], intermediate: "Profile: Red wine lover, French cuisine, central Tokyo, ¥15K budget." },
+      { progressLabel: "Recommend venues & events.", narrative: "Searching for wine tastings and restaurants.", thinkingChain: [{ kind: "tool", label: "Wine events: 3 tastings this weekend in Roppongi, Ginza, Ebisu" }, { kind: "tool", label: "Top restaurants: 5 French bistros with excellent wine lists" }], intermediate: "Found 3 wine tastings and 5 matching French restaurants." },
+      { progressLabel: "Select experience.", narrative: "Curating the best pairing for your evening.", thinkingChain: [{ kind: "tool", label: "Best combo: Ginza Wine Fair (15:00-17:00) → Bistro Paul (19:00)" }, { kind: "knowledge", label: "Both in Ginza, 5-min walk. Wine fair features Burgundy focus." }], intermediate: "Recommended: Ginza Wine Fair → Bistro Paul (both in Ginza, walkable)." },
+      { progressLabel: "Book reservation.", narrative: "Securing your spots.", thinkingChain: [{ kind: "connector", label: "Wine fair: 2 tickets booked ¥4,500/person" }, { kind: "connector", label: "Bistro Paul: table for 2 at 19:00 confirmed via Rakuten" }], intermediate: "Both booked! Wine fair 15:00 + Bistro Paul dinner 19:00." },
+      { progressLabel: "Confirm itinerary.", narrative: "Generating your evening plan.", thinkingChain: [{ kind: "tool", label: "Calendar event created with address, directions, and booking refs" }], intermediate: null },
+    ],
+    finalMessage: "Your Wine & Dining Evening is Set!\n\n15:00 — Ginza Wine Fair (Burgundy Special)\n  Tickets: 2× ¥4,500 | Venue: Ginza Six B2F\n\n19:00 — Bistro Paul (French)\n  Table for 2 | Budget: ~¥12,000/person\n  Top picks: Côtes du Rhône, Duck Confit\n\nTotal estimate: ¥33,000 for two\nCalendar event created with directions.\n\nAfter your evening, I'll ask for your rating to improve future recommendations!",
+  },
+
+  "horse-betting": {
+    supportedTaskTypes: ["On-demand"],
+    primaryTaskType: "On-demand",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "Show me the upcoming races at Tokyo Racecourse this Sunday and give me your top picks.",
+    agentOpening: "I'll pull this Sunday's race card, analyze horse and jockey stats, provide data-driven picks, and help you place bets through Rakuten Keiba.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten Keiba · Racing",
+    toolContextLabel: "Horse racing insights",
+    steps: [
+      { progressLabel: "Show upcoming races.", narrative: "Loading Sunday's race card.", thinkingChain: [{ kind: "connector", label: "Rakuten Keiba: fetch Tokyo Racecourse races for Apr 13" }, { kind: "tool", label: "12 races scheduled. Feature: Oka Sho (G1) in Race 11." }], intermediate: "12 races this Sunday. Feature race: Oka Sho (Japanese 1000 Guineas) — G1." },
+      { progressLabel: "Provide data-driven insights.", narrative: "Analyzing form, track conditions, and jockey stats.", thinkingChain: [{ kind: "tool", label: "G1 Oka Sho: 18 runners. Track: good-to-firm. Distance: 1600m." }, { kind: "tool", label: "Form analysis: #3 Star Maiden (3 wins, jockey Lemaire), #7 Swift Rose (unbeaten)" }], intermediate: "Top contenders: #3 Star Maiden (consistent form) and #7 Swift Rose (unbeaten filly)." },
+      { progressLabel: "Select bets.", narrative: "Building recommended bet slips.", thinkingChain: [{ kind: "knowledge", label: "Conservative: Win #7 at 3.2x. Value: Place #3 at 1.8x" }, { kind: "tool", label: "Combo: Exacta #7-#3 at 8.5x for higher return" }], intermediate: "Recommended: Win #7 (3.2x), Place #3 (1.8x), Exacta 7-3 (8.5x)." },
+      { progressLabel: "Place bet.", narrative: "Submitting your selections.", thinkingChain: [{ kind: "connector", label: "Rakuten Keiba: place bets — total ¥3,000 across 3 tickets" }, { kind: "log", label: "Bet slip confirmed. Tickets: WIN-7, PLC-3, EXA-7-3." }], intermediate: "3 bets placed totaling ¥3,000. Tickets confirmed." },
+      { progressLabel: "Track results.", narrative: "Setting up live result tracking.", thinkingChain: [{ kind: "tool", label: "Live tracking enabled. Push notification on race finish." }, { kind: "log", label: "Results will update your balance automatically." }], intermediate: null },
+    ],
+    finalMessage: "Bets Placed for Tokyo Racecourse — Sunday, Apr 13!\n\nFeature: Oka Sho (G1) — Race 11, 15:40\n\nYour Tickets:\n1. WIN #7 Swift Rose — ¥1,000 @ 3.2x (potential ¥3,200)\n2. PLACE #3 Star Maiden — ¥1,000 @ 1.8x (potential ¥1,800)\n3. EXACTA 7→3 — ¥1,000 @ 8.5x (potential ¥8,500)\n\nTotal wagered: ¥3,000 | Max potential: ¥13,500\n\nI'll send you a notification when the race finishes. Good luck!",
+  },
+
+  "sport-fan-news": {
+    supportedTaskTypes: ["Scheduled", "On-demand"],
+    primaryTaskType: "Scheduled",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "Set up daily updates about Vissel Kobe and the NBA. Alert me when match tickets go on sale.",
+    agentOpening: "I'll configure your team preferences, aggregate news from sports sources, push updates for scores and transfers, and set up ticket sale alerts.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Sports News Aggregator",
+    toolContextLabel: "Sports news feed",
+    steps: [
+      { progressLabel: "Select teams & players.", narrative: "Setting up your sports profile.", thinkingChain: [{ kind: "tool", label: "Teams: Vissel Kobe (J-League), NBA (general + Lakers)" }, { kind: "log", label: "Sports profile created with 2 teams." }], intermediate: "Tracking: Vissel Kobe (J-League) and LA Lakers (NBA)." },
+      { progressLabel: "Aggregate news.", narrative: "Pulling latest stories from sports sources.", thinkingChain: [{ kind: "tool", label: "Sources: J-League official, ESPN, NBA.com, Rakuten Sports" }, { kind: "tool", label: "Today: 8 Vissel Kobe articles, 12 NBA/Lakers articles" }], intermediate: "20 articles aggregated. Key: Vissel Kobe match preview + Lakers playoff update." },
+      { progressLabel: "Push real-time updates.", narrative: "Configuring live score and news alerts.", thinkingChain: [{ kind: "connector", label: "Line: push notification channel configured" }, { kind: "tool", label: "Match-day alerts: 30min before kickoff, halftime, final score" }], intermediate: "Live alerts configured via Line. Match-day updates enabled." },
+      { progressLabel: "Recommend related content.", narrative: "Finding related articles and highlights.", thinkingChain: [{ kind: "tool", label: "Video highlights, player interviews, tactical analysis linked" }], intermediate: "Daily digest with highlights, interviews, and analysis ready." },
+      { progressLabel: "Link to merch & tickets.", narrative: "Setting up ticket sale monitoring.", thinkingChain: [{ kind: "connector", label: "Rakuten Tickets: monitoring Vissel Kobe home games" }, { kind: "tool", label: "Next home game: Apr 19 vs Urawa Reds. Tickets from ¥3,500." }], intermediate: null },
+    ],
+    finalMessage: "Sports Feed Active!\n\nTracking: Vissel Kobe · LA Lakers\n\nDaily Digest: Sent every morning at 8:00 AM\nLive Alerts: Match scores via Line\nTicket Monitoring: Active for Vissel Kobe home games\n\nUpcoming:\n• Vissel Kobe vs Urawa Reds — Apr 19 (tickets from ¥3,500)\n• Lakers Game 2 — Apr 14 (watch party info included)\n\nWant me to add more teams or adjust notification times?",
+  },
+
+  "oshikatsu-news": {
+    supportedTaskTypes: ["Scheduled", "On-demand"],
+    primaryTaskType: "Scheduled",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "Track all updates about Hololive VTubers and notify me about new merch drops and events.",
+    agentOpening: "I'll set up tracking for your favorite creators, aggregate updates from all channels, notify you of events and releases, and link you to purchase opportunities.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Oshikatsu Tracker",
+    toolContextLabel: "Fan content aggregation",
+    steps: [
+      { progressLabel: "Select favorite idols/creators.", narrative: "Setting up your oshi profile.", thinkingChain: [{ kind: "tool", label: "Selected: Hololive (Pekora, Suisei, Marine)" }, { kind: "log", label: "Tracking 3 creators across 5 platforms." }], intermediate: "Tracking: Pekora, Suisei, Marine across YouTube, Twitter, and official sites." },
+      { progressLabel: "Aggregate updates.", narrative: "Pulling latest content and announcements.", thinkingChain: [{ kind: "tool", label: "Sources: YouTube channels, Twitter/X, Hololive official, fan wikis" }, { kind: "tool", label: "Today: 3 new streams, 1 original song release, 2 merch announcements" }], intermediate: "6 updates found today. Highlight: Suisei new original song release!" },
+      { progressLabel: "Notify events & releases.", narrative: "Setting up event and release alerts.", thinkingChain: [{ kind: "connector", label: "Line alerts configured for: concert tickets, birthday merch, collab events" }, { kind: "tool", label: "Upcoming: Hololive 6th Fes — ticket lottery opens Apr 20" }], intermediate: "Alert set: Hololive 6th Fes ticket lottery opens Apr 20." },
+      { progressLabel: "Recommend merch & content.", narrative: "Finding relevant merchandise on Rakuten.", thinkingChain: [{ kind: "connector", label: "Rakuten Ichiba: 28 items matching your oshi list" }, { kind: "tool", label: "New: Pekora birthday merch set (limited, ¥6,800)" }], intermediate: "28 merch items found. Featured: Pekora birthday set (limited edition)." },
+      { progressLabel: "Enable quick purchase.", narrative: "Setting up one-click buy for priority items.", thinkingChain: [{ kind: "tool", label: "Priority alerts: notify within 1 min of limited merch drops" }, { kind: "log", label: "Quick-buy enabled for Rakuten Ichiba items." }], intermediate: null },
+    ],
+    finalMessage: "Oshikatsu Tracker Active!\n\nTracking: Pekora · Suisei · Marine (Hololive)\n\nDaily Digest: Streams, songs, announcements\nInstant Alerts: Limited merch drops, concert tickets\n\nUpcoming:\n• Hololive 6th Fes ticket lottery — Apr 20\n• Pekora birthday merch (limited) — available now ¥6,800\n• Suisei new original song — premiered today\n\nWant me to add more creators or set up auto-purchase for limited drops?",
+  },
+
+  "fashion-trend": {
+    supportedTaskTypes: ["Long", "On-demand"],
+    primaryTaskType: "Long",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "What are the trending styles for spring 2026 that match my taste? I prefer minimalist casual.",
+    agentOpening: "I'll analyze your style profile, generate a spring 2026 trend report, recommend outfits with shoppable links on Rakuten Fashion, and save your favorites.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten Fashion · Trends",
+    toolContextLabel: "Fashion styling",
+    steps: [
+      { progressLabel: "Analyze preferences.", narrative: "Building your style profile.", thinkingChain: [{ kind: "tool", label: "Style: minimalist casual, neutral palette, quality basics" }, { kind: "knowledge", label: "Past purchases suggest: Japanese brands, relaxed fit, earth tones" }], intermediate: "Style profile: Minimalist casual, neutral/earth tones, relaxed fit." },
+      { progressLabel: "Generate trend report.", narrative: "Compiling Spring 2026 trend data for your style.", thinkingChain: [{ kind: "tool", label: "Spring 2026 trends: linen blends, oversized blazers, wide-leg trousers" }, { kind: "tool", label: "Color forecast: sage green, warm sand, soft clay, off-white" }], intermediate: "Spring 2026 for you: linen blends, oversized blazers, earth-tone palette." },
+      { progressLabel: "Recommend outfits.", narrative: "Creating complete outfit suggestions with Rakuten links.", thinkingChain: [{ kind: "connector", label: "Rakuten Fashion: 24 items matching your profile and spring trends" }, { kind: "tool", label: "3 complete outfits assembled: casual brunch, smart casual office, weekend" }], intermediate: "3 outfit recommendations built with 24 shoppable items." },
+      { progressLabel: "Enable try-on preview.", narrative: "Generating virtual styling previews.", thinkingChain: [{ kind: "tool", label: "AI try-on renders for top 3 outfit combinations" }, { kind: "log", label: "Preview images generated for review." }], intermediate: "Virtual try-on previews ready for 3 outfits." },
+      { progressLabel: "Save looks to closet.", narrative: "Organizing your selections.", thinkingChain: [{ kind: "tool", label: "3 looks saved to digital closet. Purchase links bookmarked." }, { kind: "log", label: "Total outfit cost: ¥28,500–¥45,000 across 3 looks." }], intermediate: null },
+    ],
+    finalMessage: "Spring 2026 Style Report Ready!\n\nYour Trends: Linen blends · Oversized blazers · Wide-leg trousers\nPalette: Sage green, warm sand, soft clay, off-white\n\n3 Outfits Curated:\n1. Casual Brunch — ¥12,500 (linen shirt + wide pants + canvas sneakers)\n2. Smart Casual Office — ¥18,000 (blazer + knit tee + tailored trousers)\n3. Weekend Stroll — ¥14,500 (cardigan + relaxed jeans + loafers)\n\nAll items available on Rakuten Fashion with virtual try-on previews.\n\nWant to purchase any look or see more options?",
+  },
+
+  "salon-planning": {
+    supportedTaskTypes: ["Long", "On-demand"],
+    primaryTaskType: "Long",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "Plan a spa day for next Saturday with hair and nail appointments near Omotesando.",
+    agentOpening: "I'll check your availability, find top-rated salons on Rakuten Beauty, bundle services for the best value, optimize your schedule, and book everything.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten Beauty · Salon",
+    toolContextLabel: "Beauty day planning",
+    steps: [
+      { progressLabel: "Detect availability.", narrative: "Checking your Saturday calendar.", thinkingChain: [{ kind: "connector", label: "Google Calendar: Saturday Apr 19 — free 10:00 to 18:00" }, { kind: "log", label: "Full day available for appointments." }], intermediate: "Saturday Apr 19: Free all day (10:00-18:00)." },
+      { progressLabel: "Recommend salons & services.", narrative: "Searching Rakuten Beauty near Omotesando.", thinkingChain: [{ kind: "connector", label: "Rakuten Beauty: 45 salons within 10min of Omotesando station" }, { kind: "tool", label: "Top hair: Salon de Fleur (4.8★). Top nail: Nail Bar Omo (4.7★)." }], intermediate: "Top picks: Salon de Fleur (hair, 4.8★) + Nail Bar Omo (nails, 4.7★)." },
+      { progressLabel: "Bundle services.", narrative: "Finding combination deals.", thinkingChain: [{ kind: "tool", label: "Salon de Fleur: cut + color + treatment package ¥15,000 (save ¥3,000)" }, { kind: "tool", label: "Nail Bar Omo: gel nail art ¥7,500 (Rakuten Beauty coupon -¥500)" }], intermediate: "Bundled total: ¥22,000 (saved ¥3,500 vs individual booking)." },
+      { progressLabel: "Optimize schedule.", narrative: "Arranging appointments to minimize wait time.", thinkingChain: [{ kind: "tool", label: "Optimal flow: Hair 10:30-13:00 → Lunch → Nails 14:00-15:30" }, { kind: "knowledge", label: "3-min walk between venues. Lunch spot: nearby café recommended." }], intermediate: "Schedule: Hair 10:30 → Lunch 13:00 → Nails 14:00. Done by 15:30." },
+      { progressLabel: "Book appointments.", narrative: "Confirming all reservations.", thinkingChain: [{ kind: "connector", label: "Rakuten Beauty: Salon de Fleur 10:30 ✓, Nail Bar Omo 14:00 ✓" }, { kind: "log", label: "Both bookings confirmed. Calendar events added." }], intermediate: "Both appointments confirmed and added to your calendar." },
+      { progressLabel: "Confirm full itinerary.", narrative: "Generating your spa day plan.", thinkingChain: [{ kind: "tool", label: "Itinerary card created with addresses, booking refs, and directions" }], intermediate: null },
+    ],
+    finalMessage: "Spa Day Booked — Saturday, April 19!\n\n10:30 — Hair: Salon de Fleur (Omotesando)\n  Cut + Color + Treatment Package: ¥15,000\n  ⭐ 4.8 rating · 2-min walk from station\n\n13:00 — Lunch break (café recommendations included)\n\n14:00 — Nails: Nail Bar Omo\n  Gel Nail Art: ¥7,000 (after coupon)\n  ⭐ 4.7 rating · 3-min walk\n\nTotal: ¥22,000 (saved ¥3,500)\nCalendar events created with directions.\n\nEnjoy your treat day! Want to add a facial or massage?",
+  },
+
+  "insurance-compare": {
+    supportedTaskTypes: ["Long", "On-demand"],
+    primaryTaskType: "Long",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput: "Compare travel insurance plans for a 2-week trip to Europe. I want good medical coverage.",
+    agentOpening: "I'll gather your trip details, fetch policy options from Rakuten Insurance, compare them side-by-side, explain the differences, and help you purchase the best plan.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "Rakuten Insurance",
+    toolContextLabel: "Insurance comparison",
+    steps: [
+      { progressLabel: "Input requirements.", narrative: "Gathering your trip and coverage preferences.", thinkingChain: [{ kind: "tool", label: "Trip: Europe, 14 days, 1 adult, departure May 1" }, { kind: "knowledge", label: "Europe requires: medical ≥¥10M, emergency transport, baggage" }], intermediate: "Trip: Europe 14 days, 1 adult. Priority: medical coverage." },
+      { progressLabel: "Fetch policy options.", narrative: "Querying Rakuten Insurance for matching plans.", thinkingChain: [{ kind: "connector", label: "Rakuten Insurance API: 6 plans matching criteria" }, { kind: "tool", label: "Price range: ¥2,800–¥8,500 for 14-day Europe coverage" }], intermediate: "6 plans found. Range: ¥2,800–¥8,500." },
+      { progressLabel: "Compare coverage side-by-side.", narrative: "Building a comparison matrix.", thinkingChain: [{ kind: "tool", label: "Comparison: medical limit, emergency transport, baggage, trip cancel, dental" }, { kind: "tool", label: "Top 3 shortlisted based on your medical priority" }], intermediate: "Top 3 plans shortlisted with full coverage comparison." },
+      { progressLabel: "Explain key differences.", narrative: "Highlighting what matters for your trip.", thinkingChain: [{ kind: "knowledge", label: "Plan A: cheapest but medical cap ¥10M. Plan B: ¥30M medical + dental. Plan C: unlimited medical." }, { kind: "tool", label: "Europe medical costs can be very high — recommend ≥¥30M coverage" }], intermediate: "Key diff: Plan A caps at ¥10M (risky for Europe). Plan B/C safer." },
+      { progressLabel: "Recommend best plan.", narrative: "Making a data-driven recommendation.", thinkingChain: [{ kind: "tool", label: "Recommended: Plan B — ¥30M medical, ¥5M baggage, trip cancel, ¥4,200" }, { kind: "knowledge", label: "Best value: 3x the medical coverage of Plan A for only ¥1,400 more" }], intermediate: "Recommended: Plan B at ¥4,200 — best balance of coverage and cost." },
+      { progressLabel: "Complete purchase.", narrative: "Finalizing your insurance purchase.", thinkingChain: [{ kind: "connector", label: "Rakuten Insurance: purchase Plan B, policy #RI-2026-55201" }, { kind: "log", label: "Policy active from May 1. Certificate emailed." }], intermediate: null },
+    ],
+    finalMessage: "Travel Insurance Purchased!\n\nPlan: Rakuten Travel Insurance — Premium\nPolicy #: RI-2026-55201\nCoverage Period: May 1–14, 2026\nPremium: ¥4,200\n\nCoverage Highlights:\n• Medical: ¥30,000,000\n• Emergency Transport: ¥10,000,000\n• Baggage Loss/Damage: ¥5,000,000\n• Trip Cancellation: ¥500,000\n• 24/7 English support line included\n\nPolicy certificate sent to your email. Have a safe trip!",
   },
 };

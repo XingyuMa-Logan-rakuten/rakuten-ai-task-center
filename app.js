@@ -1,4 +1,20 @@
 (function () {
+  const DEFAULT_COVER = "https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&h=360&fit=crop";
+
+  function safeCover(url) {
+    return url && url.startsWith("https://") ? url : DEFAULT_COVER;
+  }
+
+  (function preloadCovers() {
+    if (!window.TASK_CATALOG) return;
+    window.TASK_CATALOG.forEach(function (t) {
+      if (!t.cover) { t.cover = DEFAULT_COVER; return; }
+      var img = new Image();
+      img.onerror = function () { t.cover = DEFAULT_COVER; };
+      img.src = t.cover;
+    });
+  })();
+
   const TYPE_LABELS = {
     simple: "Simple Task",
     "multi-step": "Multi-step Task",
@@ -65,7 +81,7 @@
     el.tabIndex = 0;
     el.dataset.taskId = task.id;
     el.innerHTML = `
-      <div class="task-card-cover" style="background-image:url('${task.cover}')"></div>
+      <div class="task-card-cover" style="background-image:url('${safeCover(task.cover)}')"></div>
       <div class="task-card-body">
         <div class="task-card-title"></div>
         <span class="type-pill ${typeClass(task)}"></span>
@@ -90,7 +106,7 @@
     el.tabIndex = 0;
     el.dataset.taskId = task.id;
     el.innerHTML = `
-      <div class="gallery-card-cover" style="background-image:url('${task.cover}')"></div>
+      <div class="gallery-card-cover" style="background-image:url('${safeCover(task.cover)}')"></div>
       <div class="gallery-card-body">
         <div class="gallery-card-title"></div>
         <span class="type-pill ${typeClass(task)}"></span>
@@ -179,7 +195,7 @@
       }
 
       row.innerHTML = `
-        <div class="my-task-thumb" style="background-image:url('${task.cover}')">
+        <div class="my-task-thumb" style="background-image:url('${safeCover(task.cover)}')">
           <span class="my-task-status-badge ${sm.cls}">${sm.icon} ${sm.label}</span>
         </div>
         <div class="my-task-meta">
@@ -268,7 +284,7 @@
       });
     }
 
-    document.getElementById("modalCover").style.backgroundImage = `url('${task.cover}')`;
+    document.getElementById("modalCover").style.backgroundImage = `url('${safeCover(task.cover)}')`;
     document.getElementById("modalFlow").href = task.userFlowUrl || "#";
     document.getElementById("taskModal").classList.add("open");
     document.getElementById("modalClose").focus();
@@ -397,7 +413,14 @@
       var grid = document.createElement("div");
       grid.className = "my-cal-cells";
       grid.style.display = "grid";
-      grid.style.gridTemplateColumns = "repeat(7,1fr)";
+      grid.style.gridTemplateColumns = "repeat(7,minmax(0,1fr))";
+
+      ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(function(d){
+        var dow = document.createElement("div");
+        dow.className = "my-cal-dow";
+        dow.textContent = d;
+        grid.appendChild(dow);
+      });
 
       var firstDay = new Date(calYear, calMonth, 1).getDay();
       var daysInMonth = new Date(calYear, calMonth+1, 0).getDate();

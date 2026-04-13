@@ -2,12 +2,13 @@
 
 window.TASK_CATEGORIES = [
   { id: "all", label: "All Ideas" },
-  { id: "office", label: "Office Productivity" },
+  { id: "office", label: "Work Productivity" },
   { id: "research", label: "Research & Learning" },
   { id: "entertainment", label: "Entertainment" },
   { id: "lifestyle", label: "Self-Discipline & Life" },
   { id: "social-media", label: "Social Media & Marketing" },
-  { id: "finance", label: "Finance" },
+  { id: "finance", label: "Personal Finance" },
+  { id: "rakuten", label: "Rakuten Ecosystem" },
 ];
 
 window.TASK_CATALOG = [
@@ -76,7 +77,7 @@ window.TASK_CATALOG = [
       "Create an automated news digest that runs every weekday morning.",
     ],
     connectors: ["Gmail", "Line"],
-    cover: "https://images.unsplash.com/photo-1504711434969-e33886168d6c?w=640&h=360&fit=crop",
+    cover: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=daily-news-digest",
     featured: true,
   },
@@ -386,7 +387,7 @@ window.TASK_CATALOG = [
       "Help me wind down with a calming conversation.",
     ],
     connectors: ["Line"],
-    cover: "https://images.unsplash.com/photo-1475274047050-1d0c55b25b00?w=640&h=360&fit=crop",
+    cover: "https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=night-companion",
   },
   {
@@ -419,7 +420,7 @@ window.TASK_CATALOG = [
       "What should I focus on today based on my star sign?",
     ],
     connectors: ["Line"],
-    cover: "https://images.unsplash.com/photo-1532968961962-8a0cb3a2d4f0?w=640&h=360&fit=crop",
+    cover: "https://images.unsplash.com/photo-1505506874110-6a7a69069a08?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=daily-horoscope",
   },
   {
@@ -435,7 +436,7 @@ window.TASK_CATALOG = [
       "I can't decide between two options — pull a card for me.",
     ],
     connectors: [],
-    cover: "https://images.unsplash.com/photo-1600429991827-5c42d3b1ab14?w=640&h=360&fit=crop",
+    cover: "https://images.unsplash.com/photo-1545987796-200677ee1011?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=tarot-reading",
   },
   {
@@ -633,7 +634,7 @@ window.TASK_CATALOG = [
       "Repurpose my YouTube video transcript into 5 short-form clips.",
     ],
     connectors: ["Instagram", "X", "Facebook"],
-    cover: "https://images.unsplash.com/photo-1432888622747-4eb9a8f2c1b9?w=640&h=360&fit=crop",
+    cover: "https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=content-repurpose",
   },
 
@@ -655,21 +656,281 @@ window.TASK_CATALOG = [
     userFlowUrl: "task-execution.html?task=economic-data",
   },
   {
-    id: "quant-backtest",
-    title: "Quant Strategy Backtester",
+    id: "personal-finance",
+    title: "Personal Finance Advisor",
     category: "finance",
     description:
-      "Describe a trading strategy in plain language. The agent converts it to rules, runs a historical backtest over your chosen period, and returns performance metrics — Sharpe ratio, max drawdown, win rate, and equity curve.",
+      "Connects to your bank feeds and spending data, categorizes transactions, analyzes spending patterns, and delivers personalized savings tips, budget forecasts, and investment suggestions to help you grow your money.",
     type: "multi-step",
-    typeTags: ["Quant", "Backtesting"],
+    typeTags: ["Budgeting", "Savings"],
     sampleQueries: [
-      "Backtest a simple moving average crossover strategy on Nikkei 225 for the last 5 years.",
-      "Test a momentum strategy buying top-10 S&P 500 stocks monthly.",
+      "Analyze my spending this month and suggest where I can save.",
+      "Create a savings plan to reach ¥500,000 by year end.",
     ],
     connectors: [],
     cover: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=640&h=360&fit=crop",
-    userFlowUrl: "task-execution.html?task=quant-backtest",
+    userFlowUrl: "task-execution.html?task=personal-finance",
     featured: true,
+  },
+
+  /* ═══════════════════════ Rakuten Ecosystem ═══════════════════════ */
+  {
+    id: "smart-spending",
+    title: "Smart Spending Optimizer",
+    category: "rakuten",
+    description:
+      "Connects to Rakuten Pay / Card, categorizes transactions, analyzes spending patterns, recommends cheaper alternatives, applies coupons & campaigns, and generates a weekly spending summary.",
+    type: "multi-step",
+    typeTags: ["Spending", "Rakuten Pay"],
+    sampleQueries: [
+      "Analyze my Rakuten Card spending this month and find savings.",
+      "Show me active coupons I can apply to my regular purchases.",
+    ],
+    connectors: ["Rakuten Pay", "Rakuten Card"],
+    cover: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=smart-spending",
+    featured: true,
+  },
+  {
+    id: "point-maximizing",
+    title: "Rakuten Point Maximizer",
+    category: "rakuten",
+    description:
+      "Tracks your Rakuten points balance & expiry, detects active SPU campaigns and promos, suggests optimal purchase timing, bundles purchases for multipliers, and recommends the best redemption options.",
+    type: "multi-step",
+    typeTags: ["Points", "SPU"],
+    sampleQueries: [
+      "How can I maximize my Rakuten points before they expire?",
+      "What SPU campaigns are active right now?",
+    ],
+    connectors: ["Rakuten Points"],
+    cover: "https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=point-maximizing",
+    featured: true,
+  },
+  {
+    id: "weekly-grocery",
+    title: "Weekly Grocery Auto-Refill",
+    category: "rakuten",
+    description:
+      "Tracks your consumption history, predicts refill needs, generates a cart, compares merchant prices, applies coupons, schedules delivery, and supports one-click reorder for recurring essentials.",
+    type: "schedule",
+    typeTags: ["Grocery", "Scheduled"],
+    sampleQueries: [
+      "Generate my weekly grocery list based on past orders.",
+      "Find the cheapest option for my regular grocery items on Rakuten.",
+    ],
+    connectors: ["Rakuten Ichiba"],
+    cover: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=weekly-grocery",
+  },
+  {
+    id: "price-watch",
+    title: "Rakuten Product Price Watch",
+    category: "rakuten",
+    description:
+      "Save products you're eyeing, track price changes over time, monitor campaign discounts, detect the best purchase window, get notified, and one-click purchase at the optimal price.",
+    type: "schedule",
+    typeTags: ["Price Tracking", "Alerts"],
+    sampleQueries: [
+      "Track the price of this laptop on Rakuten and alert me when it drops.",
+      "What's the price history for my saved items this month?",
+    ],
+    connectors: ["Rakuten Ichiba"],
+    cover: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=price-watch",
+  },
+  {
+    id: "merchant-onboarding",
+    title: "Rakuten Merchant Onboarding",
+    category: "rakuten",
+    description:
+      "Guides merchants through the onboarding process — submit forms, verify documents, assign categories, suggest pricing strategy, generate a storefront, and launch the store on Rakuten Ichiba.",
+    type: "multi-step",
+    typeTags: ["Merchant", "Onboarding"],
+    sampleQueries: [
+      "Help me set up my new shop on Rakuten Ichiba.",
+      "What documents do I need to complete merchant onboarding?",
+    ],
+    connectors: ["Rakuten Ichiba"],
+    cover: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=merchant-onboarding",
+  },
+  {
+    id: "product-image-editor",
+    title: "Merchant Product Image Editor",
+    category: "rakuten",
+    description:
+      "Upload product images, enhance quality with AI, generate variations and lifestyle scenes, A/B test thumbnails, and publish the best-performing images directly to your Rakuten listing.",
+    type: "multi-step",
+    typeTags: ["Images", "AI Enhancement"],
+    sampleQueries: [
+      "Enhance my product photos and create lifestyle versions.",
+      "Generate A/B test thumbnails for my top-selling item.",
+    ],
+    connectors: ["Rakuten Ichiba"],
+    cover: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=product-image-editor",
+  },
+  {
+    id: "affiliate-signup",
+    title: "Rakuten Affiliate Sign-Up",
+    category: "rakuten",
+    description:
+      "Walks you through affiliate application, analyzes your profile for best-fit categories, generates starter content templates, activates your affiliate account, and sets up performance tracking dashboards.",
+    type: "multi-step",
+    typeTags: ["Affiliate", "Marketing"],
+    sampleQueries: [
+      "Help me sign up as a Rakuten affiliate marketer.",
+      "Which product categories should I promote based on my blog niche?",
+    ],
+    connectors: ["Rakuten Affiliate"],
+    cover: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=affiliate-signup",
+  },
+  {
+    id: "refund-tracking",
+    title: "Customer Support Refund Tracker",
+    category: "rakuten",
+    description:
+      "Submit a refund request, validate eligibility, coordinate with the merchant, track real-time status updates, notify you at key milestones, and confirm completion when the refund is processed.",
+    type: "multi-step",
+    typeTags: ["Support", "Refund"],
+    sampleQueries: [
+      "Track the status of my pending refund for order #12345.",
+      "I want to request a refund for a defective item.",
+    ],
+    connectors: ["Rakuten Ichiba"],
+    cover: "https://images.unsplash.com/photo-1556741533-6e6a62bd8b49?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=refund-tracking",
+  },
+  {
+    id: "golf-booking",
+    title: "Golf Learning & Booking",
+    category: "rakuten",
+    description:
+      "Assesses your skill level, recommends lessons and drills, tracks practice progress, suggests courses matching your ability, books tee times via Rakuten GORA, and logs round results.",
+    type: "multi-step",
+    typeTags: ["Golf", "Rakuten GORA"],
+    sampleQueries: [
+      "Find a beginner-friendly golf course near Tokyo for this weekend.",
+      "Track my golf handicap progress and suggest practice drills.",
+    ],
+    connectors: ["Rakuten GORA", "Google Calendar"],
+    cover: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=golf-booking",
+  },
+  {
+    id: "wine-restaurant",
+    title: "Wine Tasting & Restaurant Booking",
+    category: "rakuten",
+    description:
+      "Captures your taste preferences, recommends wine events and dining venues, helps select experiences, books reservations, collects your reviews, and suggests the next experience based on your history.",
+    type: "multi-step",
+    typeTags: ["Dining", "Wine"],
+    sampleQueries: [
+      "Find a wine tasting event in Tokyo this weekend.",
+      "Book a French restaurant with a good wine list for Saturday.",
+    ],
+    connectors: ["Rakuten Travel", "Google Calendar"],
+    cover: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=wine-restaurant",
+  },
+  {
+    id: "horse-betting",
+    title: "Horse Racing Insights & Betting",
+    category: "rakuten",
+    description:
+      "Shows upcoming Rakuten Keiba races, provides data-driven insights on horses and jockeys, helps select bets, places wagers, tracks live results, and updates your balance automatically.",
+    type: "multi-step",
+    typeTags: ["Racing", "Rakuten Keiba"],
+    sampleQueries: [
+      "What are the top picks for this Sunday's races at Tokyo Racecourse?",
+      "Show me the odds and form guide for the upcoming G1 race.",
+    ],
+    connectors: ["Rakuten Keiba"],
+    cover: "https://images.unsplash.com/photo-1529590003495-b2646e2718bf?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=horse-betting",
+  },
+  {
+    id: "sport-fan-news",
+    title: "Sport Fan News Feed",
+    category: "rakuten",
+    description:
+      "Select your favorite teams and players, aggregate news from sports sources, push real-time updates for scores and transfers, recommend related content, and link to Rakuten merch and ticket purchases.",
+    type: "schedule",
+    typeTags: ["Sports", "News"],
+    sampleQueries: [
+      "Send me daily updates about FC Barcelona and the NBA.",
+      "Alert me when Vissel Kobe match tickets go on sale.",
+    ],
+    connectors: ["Rakuten Sports", "Line"],
+    cover: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=sport-fan-news",
+  },
+  {
+    id: "oshikatsu-news",
+    title: "Oshikatsu Idol & Creator News",
+    category: "rakuten",
+    description:
+      "Select your favorite idols and creators, aggregate updates across social media and official channels, notify you of events and releases, recommend related merch, and enable quick purchases.",
+    type: "schedule",
+    typeTags: ["Oshikatsu", "Fandom"],
+    sampleQueries: [
+      "Track all updates about my favorite idol group and notify me.",
+      "Alert me when new merch drops for my favorite VTuber.",
+    ],
+    connectors: ["Rakuten Ichiba", "Line"],
+    cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=oshikatsu-news",
+  },
+  {
+    id: "fashion-trend",
+    title: "Fashion Styling Trend Report",
+    category: "rakuten",
+    description:
+      "Analyzes your style preferences, generates seasonal trend reports, recommends outfits with shoppable links, enables virtual try-on previews, and saves your favorite looks to a digital closet.",
+    type: "multi-step",
+    typeTags: ["Fashion", "Trends"],
+    sampleQueries: [
+      "What are the trending styles for spring 2026 that match my taste?",
+      "Recommend a complete outfit for a business casual event.",
+    ],
+    connectors: ["Rakuten Fashion"],
+    cover: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=fashion-trend",
+  },
+  {
+    id: "salon-planning",
+    title: "Salon Treat Day Planning",
+    category: "rakuten",
+    description:
+      "Detects your availability, recommends salons and services on Rakuten Beauty, bundles treatments for the best value, optimizes your schedule, books appointments, and confirms the full itinerary.",
+    type: "multi-step",
+    typeTags: ["Beauty", "Rakuten Beauty"],
+    sampleQueries: [
+      "Plan a spa day for next Saturday with hair and nail appointments.",
+      "Find the best-rated salon near me for a haircut and color.",
+    ],
+    connectors: ["Rakuten Beauty", "Google Calendar"],
+    cover: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=salon-planning",
+  },
+  {
+    id: "insurance-compare",
+    title: "Insurance Plan Comparison",
+    category: "rakuten",
+    description:
+      "Input your requirements, fetch policy options from Rakuten Insurance, compare coverage side-by-side, explain key differences in plain language, recommend the best-fit plan, and complete the purchase flow.",
+    type: "multi-step",
+    typeTags: ["Insurance", "Comparison"],
+    sampleQueries: [
+      "Compare travel insurance plans for a 2-week trip to Europe.",
+      "What's the best car insurance deal on Rakuten for my profile?",
+    ],
+    connectors: ["Rakuten Insurance"],
+    cover: "https://images.unsplash.com/photo-1554224154-22dec7ec8818?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=insurance-compare",
   },
 ];
 

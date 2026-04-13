@@ -102,6 +102,44 @@
 
   const closeSmall = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
 
+  /* ── Mock auth page for connectors ── */
+  function openConnectorAuthPage(serviceName) {
+    return new Promise(function (resolve) {
+      var overlay = document.createElement("div");
+      overlay.className = "exec-auth-overlay";
+      overlay.innerHTML =
+        '<div class="exec-auth-page">' +
+          '<div class="exec-auth-logo">' +
+            '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0066ff" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/></svg>' +
+          '</div>' +
+          '<h2 class="exec-auth-title">Sign in to ' + serviceName + '</h2>' +
+          '<p class="exec-auth-desc">Authorize Rakuten AI to access your ' + serviceName + ' account. You can revoke access at any time.</p>' +
+          '<div class="exec-auth-form">' +
+            '<input type="text" class="exec-auth-input" placeholder="Email or username" value="user@example.com" />' +
+            '<input type="password" class="exec-auth-input" placeholder="Password" value="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" />' +
+            '<button type="button" class="exec-auth-submit">Authorize & Continue</button>' +
+          '</div>' +
+          '<p class="exec-auth-footer">By continuing, you agree to share account data with Rakuten AI.</p>' +
+        '</div>';
+      document.body.appendChild(overlay);
+
+      requestAnimationFrame(function () { overlay.classList.add("open"); });
+
+      overlay.querySelector(".exec-auth-submit").addEventListener("click", function () {
+        var btn = overlay.querySelector(".exec-auth-submit");
+        btn.textContent = "Authorizing...";
+        btn.disabled = true;
+        setTimeout(function () {
+          overlay.classList.remove("open");
+          setTimeout(function () {
+            overlay.remove();
+            resolve();
+          }, 300);
+        }, 1200);
+      });
+    });
+  }
+
   /* ── Inject the modal HTML once ── */
   function ensureModal() {
     if (document.getElementById("connectorModal")) return;
@@ -163,9 +201,12 @@
       list.appendChild(row);
 
       row.querySelector(".conn-btn-auth").addEventListener("click", () => {
-        authorizedSet.add(c.id);
-        renderList();
-        refreshAllChips();
+        if (authorizedSet.has(c.id)) return;
+        openConnectorAuthPage(c.name).then(() => {
+          authorizedSet.add(c.id);
+          renderList();
+          refreshAllChips();
+        });
       });
 
       row.querySelector(".conn-btn-add").addEventListener("click", () => {
