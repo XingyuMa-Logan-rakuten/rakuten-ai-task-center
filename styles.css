@@ -257,6 +257,10 @@ a:hover {
   background: var(--surface-hover);
   color: var(--text-primary);
 }
+.sidebar-item-link {
+  text-decoration: none;
+  cursor: pointer;
+}
 
 .sidebar-item.active {
   background: var(--surface-muted);
