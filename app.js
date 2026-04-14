@@ -80,14 +80,22 @@
     el.setAttribute("role", "button");
     el.tabIndex = 0;
     el.dataset.taskId = task.id;
+    let badgeHtml = "";
+    if (task.featuredBadge) {
+      const isJapan = task.featuredBadge === "Japan Selection";
+      badgeHtml = '<span class="featured-badge' + (isJapan ? ' featured-badge--japan' : '') + '"></span>';
+    }
     const hotHtml = task.hot ? '<span class="hot-badge hot-badge--card">HOT</span>' : '';
     el.innerHTML = `
-      <div class="task-card-cover" style="background-image:url('${safeCover(task.cover)}')">${hotHtml}</div>
+      <div class="task-card-cover" style="background-image:url('${safeCover(task.cover)}')">${badgeHtml}${hotHtml}</div>
       <div class="task-card-body">
         <div class="task-card-title"></div>
         <span class="type-pill ${typeClass(task)}"></span>
       </div>
     `;
+    if (task.featuredBadge) {
+      el.querySelector(".featured-badge").textContent = task.featuredBadge;
+    }
     el.querySelector(".task-card-title").textContent = task.title;
     el.querySelector(".type-pill").textContent = TYPE_LABELS[task.type] || task.type;
     el.addEventListener("click", () => openModal(task.id));

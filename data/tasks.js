@@ -30,7 +30,7 @@ window.TASK_CATALOG = [
     connectors: ["Outlook", "MS Calendar"],
     cover: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=case-email-todo",
-    featured: true,
+    featured: true, featuredBadge: "Productivity",
   },
   {
     id: "case-receipt-bill",
@@ -48,7 +48,6 @@ window.TASK_CATALOG = [
     connectors: ["Outlook"],
     cover: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=case-receipt-bill",
-    featured: true,
   },
   {
     id: "case-weekly-report",
@@ -66,7 +65,6 @@ window.TASK_CATALOG = [
     connectors: ["Outlook", "Line", "MS Teams"],
     cover: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=case-weekly-report",
-    featured: true,
   },
   {
     id: "daily-news-digest",
@@ -83,7 +81,6 @@ window.TASK_CATALOG = [
     connectors: ["Gmail", "Line"],
     cover: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=daily-news-digest",
-    featured: true,
   },
   {
     id: "invoice-filing",
@@ -358,7 +355,6 @@ window.TASK_CATALOG = [
     connectors: [],
     cover: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=ai-paper-reader",
-    featured: true,
   },
   {
     id: "reference-formatter",
@@ -409,7 +405,6 @@ window.TASK_CATALOG = [
     connectors: ["Google Calendar"],
     cover: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=lazy-trip-planner",
-    featured: true,
   },
   {
     id: "daily-horoscope",
@@ -508,7 +503,6 @@ window.TASK_CATALOG = [
     connectors: ["Line", "Google Calendar"],
     cover: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=daily-workout",
-    featured: true,
   },
   {
     id: "meal-recommender",
@@ -607,7 +601,6 @@ window.TASK_CATALOG = [
     connectors: ["Instagram", "X"],
     cover: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=auto-social-content",
-    featured: true,
   },
   {
     id: "video-script",
@@ -674,7 +667,6 @@ window.TASK_CATALOG = [
     connectors: [],
     cover: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=personal-finance",
-    featured: true,
   },
 
   /* ═══════════════════════ Rakuten Ecosystem ═══════════════════════ */
@@ -693,7 +685,6 @@ window.TASK_CATALOG = [
     connectors: ["Rakuten Pay", "Rakuten Card"],
     cover: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=smart-spending",
-    featured: true,
   },
   {
     id: "point-maximizing",
@@ -710,7 +701,6 @@ window.TASK_CATALOG = [
     connectors: ["Rakuten Points"],
     cover: "https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=point-maximizing",
-    featured: true,
   },
   {
     id: "weekly-grocery",
@@ -954,6 +944,7 @@ window.TASK_CATALOG = [
     connectors: [],
     cover: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=jp-rirekisho",
+    featured: true, featuredBadge: "Japan Selection",
   },
   {
     id: "jp-keigo-check",
@@ -1102,6 +1093,7 @@ window.TASK_CATALOG = [
     connectors: [],
     cover: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=jp-konbini-meals",
+    featured: true, featuredBadge: "Japan Selection",
   },
   {
     id: "jp-gift-etiquette",
