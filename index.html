@@ -12,7 +12,7 @@
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body data-i18n-title="page.title.home">
     <div class="app-shell">
       <aside class="sidebar">
         <div class="sidebar-top-row">
@@ -23,47 +23,54 @@
         </div>
         <button type="button" class="btn-new-chat" id="btnNewChatMock">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          New Chat
+          <span data-i18n="sidebar.newChat">New Chat</span>
         </button>
         <nav class="sidebar-nav">
           <div class="sidebar-section">
             <div class="sidebar-section-title">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              Rakuten Agents
+              <span data-i18n="sidebar.section.agents">Rakuten Agents</span>
             </div>
-            <div class="sidebar-item"><span class="sidebar-item-icon">🛒</span> Shopping</div>
-            <div class="sidebar-item"><span class="sidebar-item-icon">📦</span> Rakuma</div>
-            <div class="sidebar-item"><span class="sidebar-item-icon">👗</span> Fashion</div>
-            <div class="sidebar-item"><span class="sidebar-item-icon">🎵</span> Music</div>
-            <div class="sidebar-item"><span class="sidebar-item-icon">📱</span> Mobile</div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">🛒</span><span data-i18n="nav.shopping">Shopping</span></div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">📦</span><span data-i18n="nav.rakuma">Rakuma</span></div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">👗</span><span data-i18n="nav.fashion">Fashion</span></div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">🎵</span><span data-i18n="nav.music">Music</span></div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">📱</span><span data-i18n="nav.mobile">Mobile</span></div>
           </div>
           <div class="sidebar-section">
             <div class="sidebar-section-title">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              Daily Essentials
+              <span data-i18n="sidebar.section.essentials">Daily Essentials</span>
             </div>
-            <div class="sidebar-item active"><span class="sidebar-item-icon">🔍</span> AI Search</div>
-            <div class="sidebar-item"><span class="sidebar-item-icon">🖼</span> Image Creator</div>
-            <div class="sidebar-item"><span class="sidebar-item-icon">🎬</span> Video Creator</div>
-            <a href="voice-journal.html" class="sidebar-item sidebar-item-link"><span class="sidebar-item-icon">🎙</span> Voice Journal</a>
-            <div class="sidebar-item"><span class="sidebar-item-icon">🌐</span> AI Translator</div>
-            <div class="sidebar-item"><span class="sidebar-item-icon">🧩</span> Problem Solver</div>
+            <div class="sidebar-item active"><span class="sidebar-item-icon">🔍</span><span data-i18n="nav.aiSearch">AI Search</span></div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">🖼</span><span data-i18n="nav.imageCreator">Image Creator</span></div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">🎬</span><span data-i18n="nav.videoCreator">Video Creator</span></div>
+            <a href="voice-journal.html" class="sidebar-item sidebar-item-link"><span class="sidebar-item-icon">🎙</span><span data-i18n="nav.voiceJournal">Voice Journal</span></a>
+            <div class="sidebar-item"><span class="sidebar-item-icon">🌐</span><span data-i18n="nav.aiTranslator">AI Translator</span></div>
+            <div class="sidebar-item"><span class="sidebar-item-icon">🧩</span><span data-i18n="nav.problemSolver">Problem Solver</span></div>
           </div>
         </nav>
         <div class="sidebar-bottom">
           <div class="sidebar-link-row">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            <span>AI Community</span>
-            <span class="sidebar-link-action">Enter ›</span>
+            <span data-i18n="sidebar.community">AI Community</span>
+            <span class="sidebar-link-action" data-i18n="sidebar.enter">Enter ›</span>
           </div>
           <div class="sidebar-link-row">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span>Recent chat</span>
-            <span class="sidebar-link-action">See all ›</span>
+            <span data-i18n="sidebar.recentChat">Recent chat</span>
+            <span class="sidebar-link-action" data-i18n="sidebar.seeAll">See all ›</span>
           </div>
-          <div class="sidebar-lang">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-            English
+          <div class="lang-switcher">
+            <button type="button" class="lang-toggle sidebar-footer-row">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+              <span class="lang-current">日本語</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="lang-dropdown hidden">
+              <button type="button" class="lang-option" data-lang="ja">日本語</button>
+              <button type="button" class="lang-option" data-lang="en">English</button>
+            </div>
           </div>
         </div>
       </aside>
@@ -73,7 +80,7 @@
           <div class="top-bar-right">
             <button type="button" class="btn-my-task" id="headerMyTask">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-              My Task
+              <span data-i18n="header.myTask">My Task</span>
             </button>
             <button type="button" class="top-icon-btn" aria-label="Voice call">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
@@ -81,26 +88,26 @@
             <button type="button" class="top-icon-btn" aria-label="Notifications">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
             </button>
-            <button type="button" class="btn-primary">Sign in</button>
+            <button type="button" class="btn-primary" data-i18n="header.signIn">Sign in</button>
           </div>
         </header>
 
         <div id="viewHome" class="content center-stack">
-          <h1 class="greeting">Hi, how can I help you?</h1>
+          <h1 class="greeting" data-i18n="home.greeting">Hi, how can I help you?</h1>
 
           <div class="input-wrap-outer">
             <div class="input-wrap-inner">
-              <div class="input-placeholder">Input message here</div>
+              <div class="input-placeholder" data-i18n="composer.placeholder">Input message here</div>
               <div class="conn-chip-bar" id="homeConnChips"></div>
               <div class="input-toolbar">
                 <div class="input-toolbar-left">
                   <span class="select-mock">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    Think deeper
+                    <span data-i18n="composer.thinkDeeper">Think deeper</span>
                   </span>
                   <button type="button" class="conn-trigger-btn" id="homeConnBtn" aria-label="Manage connectors" title="Connectors">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M8 2v6M16 2v6"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M12 16v4"/><path d="M8 20h8"/></svg>
-                    Connectors
+                    <span data-i18n="composer.connectors">Connectors</span>
                   </button>
                 </div>
                 <div class="input-icons" aria-hidden="true">
@@ -117,47 +124,47 @@
           </div>
 
           <div class="quick-action-pills">
-            <button type="button" class="quick-pill"><span>🔍</span> AI Search</button>
-            <button type="button" class="quick-pill"><span>🖼</span> Image Creator</button>
-            <button type="button" class="quick-pill"><span>🎬</span> Video Creator</button>
-            <button type="button" class="quick-pill quick-pill--active" onclick="location.href='voice-journal.html'"><span>🎙</span> Voice Journal</button>
-            <button type="button" class="quick-pill"><span>🌐</span> AI Translator</button>
-            <button type="button" class="quick-pill"><span>🧩</span> Problem Solver</button>
-            <button type="button" class="quick-pill"><span>📝</span> AI Summarizer</button>
-            <button type="button" class="quick-pill"><span>✍️</span> Writing Assistant</button>
-            <button type="button" class="quick-pill"><span>💻</span> Coding Assistant</button>
+            <button type="button" class="quick-pill"><span>🔍</span><span data-i18n="pill.aiSearch">AI Search</span></button>
+            <button type="button" class="quick-pill"><span>🖼</span><span data-i18n="pill.imageCreator">Image Creator</span></button>
+            <button type="button" class="quick-pill"><span>🎬</span><span data-i18n="pill.videoCreator">Video Creator</span></button>
+            <button type="button" class="quick-pill quick-pill--active" onclick="location.href='voice-journal.html'"><span>🎙</span><span data-i18n="pill.voiceJournal">Voice Journal</span></button>
+            <button type="button" class="quick-pill"><span>🌐</span><span data-i18n="pill.aiTranslator">AI Translator</span></button>
+            <button type="button" class="quick-pill"><span>🧩</span><span data-i18n="pill.problemSolver">Problem Solver</span></button>
+            <button type="button" class="quick-pill"><span>📝</span><span data-i18n="pill.aiSummarizer">AI Summarizer</span></button>
+            <button type="button" class="quick-pill"><span>✍️</span><span data-i18n="pill.writingAssistant">Writing Assistant</span></button>
+            <button type="button" class="quick-pill"><span>💻</span><span data-i18n="pill.codingAssistant">Coding Assistant</span></button>
           </div>
 
           <section class="task-center-section" aria-labelledby="taskCenterHeading">
             <div class="task-center-head">
-              <h2 id="taskCenterHeading" class="task-center-title">Task Center</h2>
+              <h2 id="taskCenterHeading" class="task-center-title" data-i18n="taskCenter.heading">Task Center</h2>
             </div>
             <div class="task-card-grid" id="homeFeaturedGrid"></div>
           </section>
 
           <p class="footer-note">
-            <span class="beta-badge">BETA</span>
-            Please adhere to <a href="#">the precautions</a> when using this feature. This feature can only be used if you agree to the precautions. <a href="#">Hide</a>
+            <span class="beta-badge" data-i18n="footer.beta">BETA</span>
+            <span data-i18n="footer.disclaimer">Please adhere to</span> <a href="#" data-i18n="footer.precautions">the precautions</a><span data-i18n="footer.disclaimerSuffix"> when using this feature. This feature can only be used if you agree to the precautions. </span><a href="#" data-i18n="footer.hide">Hide</a>
           </p>
         </div>
 
         <div id="viewGallery" class="page-view">
           <div class="back-row">
-            <button type="button" class="btn-back" data-nav="home">← Back to chat</button>
+            <button type="button" class="btn-back" data-nav="home" data-i18n="nav.backToChat">← Back to chat</button>
           </div>
-          <h1 class="page-title">Task Center</h1>
+          <h1 class="page-title" data-i18n="taskCenter.heading">Task Center</h1>
           <div id="galleryByType"></div>
         </div>
 
         <div id="viewMyTasks" class="page-view">
           <div class="back-row">
-            <button type="button" class="btn-back" data-nav="home">← Back to chat</button>
+            <button type="button" class="btn-back" data-nav="home" data-i18n="nav.backToChat">← Back to chat</button>
           </div>
 
           <!-- Tabs -->
           <div class="my-page-tabs">
-            <button type="button" class="my-page-tab active" data-mytab="tasks">My Task</button>
-            <button type="button" class="my-page-tab" data-mytab="calendar">My Calendar</button>
+            <button type="button" class="my-page-tab active" data-mytab="tasks" data-i18n="myTask.tab.tasks">My Task</button>
+            <button type="button" class="my-page-tab" data-mytab="calendar" data-i18n="myTask.tab.calendar">My Calendar</button>
           </div>
 
           <!-- Tab: My Task -->
@@ -180,7 +187,7 @@
               <div class="my-cal-sync-wrap">
                 <button type="button" class="my-cal-sync-btn" id="calSyncBtn">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
-                  Sync
+                  <span data-i18n="calendar.sync">Sync</span>
                 </button>
                 <div class="my-cal-sync-dropdown hidden" id="calSyncDropdown">
                   <button type="button" class="my-cal-sync-option" data-sync="google">
@@ -202,13 +209,13 @@
               <p class="my-cal-card-summary" id="calCardSummary"></p>
               <p class="my-cal-card-time" id="calCardTime"></p>
               <div class="my-cal-card-actions">
-                <button type="button" class="my-cal-card-btn my-cal-card-btn--task" id="calCardViewTask">View Task →</button>
-                <button type="button" class="my-cal-card-btn my-cal-card-btn--reschedule" id="calCardReschedule">Reschedule</button>
-                <button type="button" class="my-cal-card-btn my-cal-card-btn--cancel" id="calCardCancel">Cancel</button>
+                <button type="button" class="my-cal-card-btn my-cal-card-btn--task" id="calCardViewTask"><span data-i18n="calendar.viewTask">View Task →</span></button>
+                <button type="button" class="my-cal-card-btn my-cal-card-btn--reschedule" id="calCardReschedule"><span data-i18n="calendar.reschedule">Reschedule</span></button>
+                <button type="button" class="my-cal-card-btn my-cal-card-btn--cancel" id="calCardCancel"><span data-i18n="calendar.cancel">Cancel</span></button>
               </div>
               <div class="my-cal-card-reschedule hidden" id="calCardRescheduleForm">
                 <input type="datetime-local" class="my-cal-card-input" id="calCardNewTime" />
-                <button type="button" class="my-cal-card-btn my-cal-card-btn--confirm" id="calCardConfirm">Confirm</button>
+                <button type="button" class="my-cal-card-btn my-cal-card-btn--confirm" id="calCardConfirm"><span data-i18n="calendar.confirm">Confirm</span></button>
               </div>
             </div>
             </div>
@@ -231,22 +238,28 @@
             <span class="type-pill" id="modalType"></span>
             <span class="modal-extra-tags" id="modalExtraTags"></span>
           </div>
-          <h3 class="modal-section-title">Description</h3>
+          <h3 class="modal-section-title" data-i18n="modal.description">Description</h3>
           <p class="modal-desc" id="modalDesc"></p>
-          <h3 class="modal-section-title" id="headingConnectors">Connectors</h3>
+          <h3 class="modal-section-title" id="headingConnectors" data-i18n="modal.connectors">Connectors</h3>
           <div class="modal-connector-chips" id="modalConnectors"></div>
           <div class="modal-cta-row">
             <a class="btn-have-a-try" id="modalFlow" href="#">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              Have a Try
+              <span data-i18n="modal.haveATry">Have a Try</span>
             </a>
           </div>
         </div>
       </div>
     </div>
 
+    <script src="i18n.js"></script>
     <script src="data/tasks.js"></script>
     <script src="connectors.js"></script>
     <script src="app.js"></script>
+    <script>
+      document.documentElement.lang = I18n.getLang();
+      I18n.apply();
+      I18n.initDropdown();
+    </script>
   </body>
 </html>

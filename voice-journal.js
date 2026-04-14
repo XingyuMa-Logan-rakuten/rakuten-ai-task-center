@@ -828,7 +828,8 @@ $("#vjVersionBack").addEventListener("click", backToLatest);
   const catalog = window.TASK_CATALOG;
   const DEFAULT_COVER = "https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&h=360&fit=crop";
   function safeCover(u){ return u && u.startsWith("https://") ? u : DEFAULT_COVER; }
-  const TYPE_LABELS = {"simple":"Simple","multi-step":"Multi-step","scheduled":"Scheduled"};
+  var vt = window.I18n ? window.I18n.t : function(k){return k;};
+  function typeLabel(type){ return vt("type."+type) || type; }
   const featured = catalog.filter(t => t.featured).slice(0,3);
   const tasks = featured.length ? featured : catalog.slice(0,3);
 
@@ -839,7 +840,7 @@ $("#vjVersionBack").addEventListener("click", backToLatest);
     el.tabIndex = 0;
     el.innerHTML = `<div class="task-card-cover" style="background-image:url('${safeCover(task.cover)}')"></div><div class="task-card-body"><div class="task-card-title"></div><span class="type-pill ${task.type==='multi-step'?'multi-step':task.type}"></span></div>`;
     el.querySelector(".task-card-title").textContent = task.title;
-    el.querySelector(".type-pill").textContent = TYPE_LABELS[task.type] || task.type;
+    el.querySelector(".type-pill").textContent = typeLabel(task.type);
     el.addEventListener("click", ()=>{ window.location.href = "task-execution.html?task=" + task.id; });
     grid.appendChild(el);
   });
@@ -848,7 +849,7 @@ $("#vjVersionBack").addEventListener("click", backToLatest);
   viewMore.className = "task-card task-card--view-more";
   viewMore.setAttribute("role","button");
   viewMore.tabIndex = 0;
-  viewMore.innerHTML = '<div class="view-more-inner"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg><span>View More</span></div>';
+  viewMore.innerHTML = '<div class="view-more-inner"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg><span>' + vt("taskCenter.viewMore") + '</span></div>';
   viewMore.addEventListener("click", ()=>{ window.location.href = "index.html#gallery"; });
   grid.appendChild(viewMore);
 })();

@@ -15,27 +15,25 @@
     });
   })();
 
-  const TYPE_LABELS = {
-    simple: "Simple Task",
-    "multi-step": "Multi-step Task",
-    schedule: "Schedule Task",
-  };
+  var t = window.I18n ? window.I18n.t : function (k) { return k; };
+
+  function typeLabel(type) {
+    return t("type." + type) || type;
+  }
 
   const TYPE_ORDER = ["simple", "multi-step", "schedule"];
 
-  const SECTION_TITLES = {
-    simple: "Simple Task",
-    "multi-step": "Multi-step Task",
-    schedule: "Schedule Task",
-  };
-
-  const STATUS_META = {
-    running:   { label: "Running",   icon: "⏳", cls: "status--running"   },
-    completed: { label: "Completed", icon: "✅", cls: "status--completed" },
-    paused:    { label: "Paused",    icon: "⏸️",  cls: "status--paused"   },
-    failed:    { label: "Failed",    icon: "❌", cls: "status--failed"    },
-    scheduled: { label: "Scheduled", icon: "🕐", cls: "status--scheduled" },
-  };
+  function statusMeta(key) {
+    var map = {
+      running:   { icon: "⏳", cls: "status--running",   i18n: "myTask.status.running" },
+      completed: { icon: "✅", cls: "status--completed", i18n: "myTask.status.completed" },
+      paused:    { icon: "⏸️",  cls: "status--paused",   i18n: "myTask.status.paused" },
+      failed:    { icon: "❌", cls: "status--failed",    i18n: "myTask.status.failed" },
+      scheduled: { icon: "🕐", cls: "status--scheduled", i18n: "myTask.status.running" },
+    };
+    var m = map[key] || map.running;
+    return { label: t(m.i18n), icon: m.icon, cls: m.cls };
+  }
 
   function getActiveTaskMeta(taskId) {
     return (window.MY_ACTIVE_TASKS || []).find(function (t) { return t.id === taskId; });
@@ -68,7 +66,7 @@
     viewMore.className = "task-card task-card--view-more";
     viewMore.setAttribute("role", "button");
     viewMore.tabIndex = 0;
-    viewMore.innerHTML = '<div class="view-more-inner"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg><span>View More</span></div>';
+    viewMore.innerHTML = '<div class="view-more-inner"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg><span>' + t("taskCenter.viewMore") + '</span></div>';
     viewMore.addEventListener("click", function () { showView("gallery"); window.scrollTo(0, 0); });
     viewMore.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); showView("gallery"); window.scrollTo(0, 0); } });
     grid.appendChild(viewMore);
@@ -97,7 +95,7 @@
       el.querySelector(".featured-badge").textContent = task.featuredBadge;
     }
     el.querySelector(".task-card-title").textContent = task.title;
-    el.querySelector(".type-pill").textContent = TYPE_LABELS[task.type] || task.type;
+    el.querySelector(".type-pill").textContent = typeLabel(task.type);
     el.addEventListener("click", () => openModal(task.id));
     el.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -123,7 +121,7 @@
       </div>
     `;
     el.querySelector(".gallery-card-title").textContent = task.title;
-    el.querySelector(".type-pill").textContent = TYPE_LABELS[task.type] || task.type;
+    el.querySelector(".type-pill").textContent = typeLabel(task.type);
     el.addEventListener("click", () => openModal(task.id));
     el.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -155,8 +153,8 @@
     banner.innerHTML =
       '<span class="japan-banner-flag">🇯🇵</span>' +
       '<div class="japan-banner-text">' +
-        '<h2 class="japan-banner-title">Japan Selection</h2>' +
-        '<p class="japan-banner-desc">Curated AI tasks for life in Japan — from job hunting to daily essentials.</p>' +
+        '<h2 class="japan-banner-title">' + t("japan.banner.title") + '</h2>' +
+        '<p class="japan-banner-desc">' + t("japan.banner.desc") + '</p>' +
       '</div>';
     wrapper.appendChild(banner);
 
@@ -210,10 +208,11 @@
       if (cat.special) cls += " gallery-tab--special";
       btn.className = cls;
       const icon = cat.icon || "";
+      const catLabel = t("cat." + cat.id) || cat.label;
       if (cat.id === "japan") {
-        btn.innerHTML = '<span class="gallery-tab-icon">' + icon + '</span>' + cat.label + '<span class="hot-badge">HOT</span>';
+        btn.innerHTML = '<span class="gallery-tab-icon">' + icon + '</span>' + catLabel + '<span class="hot-badge">HOT</span>';
       } else {
-        btn.innerHTML = '<span class="gallery-tab-icon">' + icon + '</span>' + cat.label + ' <span class="gallery-tab-count">(' + count + ')</span>';
+        btn.innerHTML = '<span class="gallery-tab-icon">' + icon + '</span>' + catLabel + ' <span class="gallery-tab-count">(' + count + ')</span>';
       }
       btn.addEventListener("click", () => {
         galleryActiveCategory = cat.id;
@@ -245,7 +244,7 @@
 
     if (!activeTasks.length) {
       host.innerHTML =
-        '<div class="empty-state">No active tasks yet. Open a task from Task Center to see it here.</div>';
+        '<div class="empty-state">' + t("myTask.empty") + '</div>';
       return;
     }
 
@@ -254,7 +253,7 @@
     activeTasks.forEach((meta) => {
       const task = taskById(meta.id);
       if (!task) return;
-      const sm = STATUS_META[meta.status] || STATUS_META.running;
+      const sm = statusMeta(meta.status);
 
       const row = document.createElement("div");
       row.className = "my-task-row";
@@ -288,7 +287,7 @@
       `;
       row.querySelector("h3").textContent = task.title;
       row.querySelector(".my-task-desc").textContent = task.description;
-      row.querySelector(".type-pill").textContent = TYPE_LABELS[task.type] || task.type;
+      row.querySelector(".type-pill").textContent = typeLabel(task.type);
       row.addEventListener("click", () => openModal(task.id));
       row.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -332,7 +331,7 @@
     document.getElementById("modalTitle").textContent = task.title;
 
     const typeEl = document.getElementById("modalType");
-    typeEl.textContent = TYPE_LABELS[task.type] || task.type;
+    typeEl.textContent = typeLabel(task.type);
     typeEl.className = "type-pill " + typeClass(task);
 
     const extra = document.getElementById("modalExtraTags");
@@ -354,9 +353,9 @@
     headingConn.style.display = hasConn ? "" : "none";
     connEl.style.display = hasConn ? "" : "none";
     if (isRakuten) {
-      headingConn.textContent = "RAKUTEN SERVICES";
+      headingConn.textContent = t("modal.rakutenServices").toUpperCase();
     } else {
-      headingConn.textContent = "CONNECTORS";
+      headingConn.textContent = t("modal.connectors").toUpperCase();
     }
     if (hasConn) {
       if (isRakuten) {
@@ -498,6 +497,8 @@
       return results;
     }
 
+    var dowKeys = ["calendar.dow.sun","calendar.dow.mon","calendar.dow.tue","calendar.dow.wed","calendar.dow.thu","calendar.dow.fri","calendar.dow.sat"];
+
     window.renderCalendar = function renderCalendar(){
       var monthLabel = document.getElementById("calMonth");
       monthLabel.textContent = MONTHS[calMonth] + " " + calYear;
@@ -512,7 +513,8 @@
       grid.style.display = "grid";
       grid.style.gridTemplateColumns = "repeat(7,minmax(0,1fr))";
 
-      ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(function(d){
+      dowKeys.forEach(function(k){
+        var d = t(k);
         var dow = document.createElement("div");
         dow.className = "my-cal-dow";
         dow.textContent = d;
@@ -575,7 +577,7 @@
       document.getElementById("calCardTitle").textContent = ev.title;
       document.getElementById("calCardSummary").textContent = ev.summary;
       var timeText = "";
-      if(ev.recurrence === "weekly") timeText = "Every " + ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][ev.dayOfWeek] + " at " + ev.time;
+      if(ev.recurrence === "weekly") timeText = (I18n.getLang() === "ja" ? "毎週" : "Every ") + t(dowKeys[ev.dayOfWeek]) + " " + ev.time;
       else if(ev.date) timeText = ev.date + " at " + ev.time;
       document.getElementById("calCardTime").textContent = timeText;
       document.getElementById("calCardRescheduleForm").classList.add("hidden");
@@ -661,5 +663,13 @@
 
     renderCalendar();
   })();
+
+  window.addEventListener("langchange", function () {
+    t = window.I18n ? window.I18n.t : function (k) { return k; };
+    renderHomeCards();
+    renderGallery();
+    renderMyTasks();
+    if (window.renderCalendar) renderCalendar();
+  });
 
 })();

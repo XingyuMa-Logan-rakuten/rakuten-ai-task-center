@@ -2,6 +2,7 @@
   const PARAM = "task";
   const DEFAULT_COVER = "https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&h=360&fit=crop";
   function safeCover(url) { return url && url.startsWith("https://") ? url : DEFAULT_COVER; }
+  var t = window.I18n ? window.I18n.t : function (k) { return k; };
 
   let timeoutIds = [];
   let interactiveMode = false;
@@ -168,11 +169,9 @@
     var logoHtml = isRakuten
       ? '<div class="exec-auth-logo" style="color:#bf0000;font-weight:700;font-size:28px;letter-spacing:-0.5px;">Rakuten</div>'
       : '<div class="exec-auth-logo"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0066ff" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/></svg></div>';
-    var titleText = isRakuten ? "Sign in to your Rakuten Account" : "Sign in to " + serviceName;
-    var descText = isRakuten
-      ? "Log in with your Rakuten ID to allow Rakuten AI to access the required Rakuten services for this task."
-      : "Authorize Rakuten AI to access your " + serviceName + " account to complete this task.";
-    var btnText = isRakuten ? "Sign In & Continue" : "Authorize & Continue";
+    var titleText = isRakuten ? t("exec.authPageTitleRakuten") : t("exec.authPageTitle", [serviceName]);
+    var descText = isRakuten ? t("exec.authPageDescRakuten") : t("exec.authPageDescGeneric", [serviceName]);
+    var btnText = isRakuten ? t("exec.authPageSubmitRakuten") : t("exec.authPageSubmitGeneric");
     var submitColor = isRakuten ? "background:#bf0000;" : "";
     return new Promise(function (resolve) {
       var overlay = document.createElement("div");
@@ -187,7 +186,7 @@
             '<input type="password" class="exec-auth-input" placeholder="Password" value="••••••••" />' +
             '<button type="button" class="exec-auth-submit" style="' + submitColor + '">' + btnText + '</button>' +
           '</div>' +
-          '<p class="exec-auth-footer">By continuing, you agree to share account data with Rakuten AI.</p>' +
+          '<p class="exec-auth-footer">' + t("exec.authPageFooter") + '</p>' +
         '</div>';
       document.body.appendChild(overlay);
 
@@ -195,7 +194,7 @@
 
       overlay.querySelector(".exec-auth-submit").addEventListener("click", function () {
         var btn = overlay.querySelector(".exec-auth-submit");
-        btn.textContent = "Authorizing...";
+        btn.textContent = t("exec.authPageAuthorizing");
         btn.disabled = true;
         setTimeout(function () {
           overlay.classList.remove("open");
@@ -299,7 +298,7 @@
         '<span class="exec-step-indicator">' +
           '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>' +
         '</span>' +
-        '<span class="exec-step-label">Verify account authorization</span>' +
+        '<span class="exec-step-label">' + t("exec.authVerify") + '</span>' +
         '<span class="exec-step-status-badge"></span>' +
         '<span class="exec-step-toggle" aria-hidden="true">' +
           '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
@@ -307,7 +306,7 @@
       '</div>' +
       '<div class="exec-step-detail hidden">' +
         '<div class="exec-step-detail-inner">' +
-          '<p class="exec-step-narrative">Checking authorization status...</p>' +
+          '<p class="exec-step-narrative">' + t("exec.authChecking") + '</p>' +
           '<div class="exec-auth-check-list"></div>' +
         '</div>' +
       '</div>';
@@ -322,7 +321,7 @@
         '<span class="exec-auth-check-icon">\uD83D\uDD12</span>' +
         '<span class="exec-auth-check-name"></span>' +
         '<span class="exec-auth-check-status">Checking...</span>' +
-        '<button type="button" class="exec-auth-btn hidden">' + (isRakutenAcct ? 'Sign In' : 'Authorize') + '</button>';
+        '<button type="button" class="exec-auth-btn hidden">' + (isRakutenAcct ? t("exec.authSignIn") : t("exec.authAuthorize")) + '</button>';
       item.querySelector(".exec-auth-check-name").textContent = svc;
       checkList.appendChild(item);
     });
@@ -364,7 +363,7 @@
     await wait(300);
     if (!alive()) return;
     var ui = buildExecutionCard(task, script);
-    ui.status.textContent = "Running multi-step workflow\u2026";
+    ui.status.textContent = t("exec.status.running");
 
     var hasAuth = needsAuthCheck(task, script);
     var authServices = hasAuth ? getAuthServices(task) : [];
@@ -380,7 +379,7 @@
 
       authRow.classList.add("active", "expanded");
       authRow.querySelector(".exec-step-detail").classList.remove("hidden");
-      authRow.querySelector(".exec-step-status-badge").textContent = "Checking...";
+      authRow.querySelector(".exec-step-status-badge").textContent = t("exec.authCheckingBadge");
       authRow.querySelector(".exec-step-status-badge").className = "exec-step-status-badge badge-running";
       scrollFeed();
 
@@ -397,11 +396,11 @@
 
         var isAuthorized = Math.random() > 0.6;
         if (isAuthorized) {
-          statusEl.textContent = "Authorized \u2713";
+          statusEl.textContent = t("exec.authAuthorized");
           statusEl.className = "exec-auth-check-status authed";
           item.querySelector(".exec-auth-check-icon").textContent = "\uD83D\uDD13";
         } else {
-          statusEl.textContent = "Not authorized";
+          statusEl.textContent = t("exec.authNotAuthorized");
           statusEl.className = "exec-auth-check-status not-authed";
           authBtn.classList.remove("hidden");
           needsAuth.push({ item: item, service: svcName });
@@ -414,8 +413,8 @@
         prompt.className = "exec-auth-prompt";
         var isRakutenTask = task.category === "rakuten";
         prompt.textContent = isRakutenTask
-          ? "Please sign in to your Rakuten Account to continue."
-          : "Some services require authorization before the agent can proceed. Please authorize each service to continue.";
+          ? t("exec.authPromptRakuten")
+          : t("exec.authPromptGeneric");
         authRow.querySelector(".exec-step-detail-inner").appendChild(prompt);
         scrollFeed();
 
@@ -427,7 +426,7 @@
               var svc = entry.service;
               var itm = entry.item;
               openAuthPage(svc).then(function () {
-                itm.querySelector(".exec-auth-check-status").textContent = "Authorized \u2713";
+                itm.querySelector(".exec-auth-check-status").textContent = t("exec.authAuthorized");
                 itm.querySelector(".exec-auth-check-status").className = "exec-auth-check-status authed";
                 itm.querySelector(".exec-auth-check-icon").textContent = "\uD83D\uDD13";
                 itm.querySelector(".exec-auth-btn").classList.add("hidden");
@@ -441,7 +440,7 @@
 
       authRow.classList.remove("active");
       authRow.classList.add("done");
-      authRow.querySelector(".exec-step-status-badge").textContent = "All authorized \u2713";
+      authRow.querySelector(".exec-step-status-badge").textContent = t("exec.authAllDone");
       authRow.querySelector(".exec-step-status-badge").className = "exec-step-status-badge badge-done";
       await wait(400);
       if (!alive()) return;
@@ -464,7 +463,7 @@
 
       stepRow.classList.add("active", "expanded");
       stepRow.querySelector(".exec-step-detail").classList.remove("hidden");
-      stepRow.querySelector(".exec-step-status-badge").textContent = "Running...";
+      stepRow.querySelector(".exec-step-status-badge").textContent = t("exec.stepRunning");
       stepRow.querySelector(".exec-step-status-badge").className = "exec-step-status-badge badge-running";
       stepRow.querySelector(".exec-step-narrative").textContent = step.narrative || step.progressLabel || step.label || "";
       scrollFeed();
@@ -497,11 +496,11 @@
 
       stepRow.classList.remove("active");
       stepRow.classList.add("done");
-      stepRow.querySelector(".exec-step-status-badge").textContent = "Done \u2713";
+      stepRow.querySelector(".exec-step-status-badge").textContent = t("exec.stepDone");
       stepRow.querySelector(".exec-step-status-badge").className = "exec-step-status-badge badge-done";
       stepRow.querySelector(".exec-step-indicator").innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
 
-      ui.status.textContent = "Step " + (i + 1) + " of " + total + " complete";
+      ui.status.textContent = t("exec.status.stepComplete", [i + 1, total]);
 
       await wait(300);
       if (!alive()) return;
