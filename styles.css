@@ -332,68 +332,81 @@ a:hover {
   flex-shrink: 0;
 }
 
-/* Language switcher (index.html) */
+/* Language switcher */
 .lang-switcher {
   position: relative;
-  margin-top: 0.35rem;
+  margin-top: 0.25rem;
+  padding: 0 0.4rem;
 }
-
 .lang-switcher .lang-toggle {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   width: 100%;
-  padding: 0.45rem 0.5rem;
-  font-size: 0.78rem;
+  padding: 0.5rem 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 500;
   color: var(--text-secondary);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xs);
-  background: var(--bg-card);
+  border: none;
+  border-radius: var(--radius-sm, 8px);
+  background: transparent;
   cursor: pointer;
   font-family: inherit;
+  transition: background 0.15s;
 }
-
-.lang-switcher .lang-toggle svg {
+.lang-switcher .lang-toggle:hover {
+  background: var(--surface-hover);
+}
+.lang-switcher .lang-toggle svg:first-child {
   color: var(--text-tertiary);
   flex-shrink: 0;
 }
-
+.lang-switcher .lang-toggle svg:last-child {
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  margin-left: auto;
+}
 .lang-switcher .lang-current {
   flex: 1;
   text-align: left;
 }
-
 .lang-switcher .lang-dropdown {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 0.4rem;
+  right: 0.4rem;
   bottom: 100%;
-  margin-bottom: 0.25rem;
+  margin-bottom: 4px;
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
-  padding: 0.35rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xs);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  z-index: 20;
+  padding: 4px;
+  background: var(--bg-card, #fff);
+  border: 1px solid var(--border, #e4e4e7);
+  border-radius: var(--radius-sm, 8px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  z-index: 50;
 }
-
 .lang-switcher .lang-option {
-  padding: 0.4rem 0.5rem;
-  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 500;
   text-align: left;
   border: none;
-  border-radius: var(--radius-xs);
+  border-radius: 6px;
   background: transparent;
   color: var(--text-secondary);
   cursor: pointer;
   font-family: inherit;
+  transition: background 0.12s;
 }
-
 .lang-switcher .lang-option:hover {
   background: var(--surface-hover);
+  color: var(--text-primary);
+}
+.lang-switcher .lang-option.active {
+  background: var(--interactive-primary);
+  color: #fff;
 }
 
 .main {

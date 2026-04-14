@@ -251,6 +251,10 @@
     for (var i = 0; i < btns.length; i++) {
       btns[i].textContent = currentLang === "ja" ? "日本語" : "English";
     }
+    var options = document.querySelectorAll(".lang-option");
+    for (var j = 0; j < options.length; j++) {
+      options[j].classList.toggle("active", options[j].dataset.lang === currentLang);
+    }
   }
 
   function initLangDropdown() {
