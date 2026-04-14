@@ -23,6 +23,12 @@
     return (localized && localized !== key) ? localized : task.title;
   }
 
+  function taskDesc(task) {
+    var key = "desc." + task.id;
+    var localized = t(key);
+    return (localized && localized !== key) ? localized : task.description;
+  }
+
   function typeLabel(type) {
     return t("type." + type) || type;
   }
@@ -295,7 +301,7 @@
         </div>
       `;
       row.querySelector("h3").textContent = taskTitle(task);
-      row.querySelector(".my-task-desc").textContent = task.description;
+      row.querySelector(".my-task-desc").textContent = taskDesc(task);
       row.querySelector(".type-pill").textContent = typeLabel(task.type);
       row.addEventListener("click", () => openModal(task.id));
       row.addEventListener("keydown", (e) => {
@@ -352,7 +358,7 @@
       extra.appendChild(span);
     });
 
-    document.getElementById("modalDesc").textContent = task.description || "";
+    document.getElementById("modalDesc").textContent = taskDesc(task) || "";
 
     const connEl = document.getElementById("modalConnectors");
     connEl.innerHTML = "";

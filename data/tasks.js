@@ -1092,7 +1092,6 @@ window.TASK_CATALOG = [
     connectors: [],
     cover: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=jp-konbini-meals",
-    featured: true, hot: true,
   },
   {
     id: "jp-gift-etiquette",
@@ -1109,6 +1108,24 @@ window.TASK_CATALOG = [
     connectors: [],
     cover: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=jp-gift-etiquette",
+  },
+  {
+    id: "jp-trip-planner",
+    title: "Business Trip Companion",
+    category: "japan",
+    japanSub: "daily-life",
+    description: "The complete 出張 companion — 8 integrated features covering every stage of a Japanese domestic business trip. From packing checklists and Shinkansen booking to expense report filing, all in one automated flow.",
+    type: "multi-step",
+    typeTags: ["出張", "ビジネス"],
+    hot: true,
+    sampleQueries: [
+      "Plan my 2-day business trip to Osaka next week.",
+      "Book Shinkansen tickets and hotel, then generate an expense report after.",
+    ],
+    connectors: ["Rakuten Travel", "Google Calendar"],
+    cover: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=jp-trip-planner",
+    featured: true,
   },
   {
     id: "jp-seasonal-tasks",
