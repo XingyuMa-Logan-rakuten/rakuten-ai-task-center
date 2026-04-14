@@ -126,6 +126,58 @@
 
   let galleryActiveCategory = "all";
 
+  const JAPAN_SUBS = [
+    { id: "job-hunting", icon: "💼", titleJa: "就活", titleEn: "Job Hunting" },
+    { id: "bureaucracy", icon: "🏛️", titleJa: "行政手続き", titleEn: "Navigating Bureaucracy" },
+    { id: "daily-life", icon: "🗾", titleJa: "日常生活", titleEn: "Daily Japanese Life" },
+    { id: "communication", icon: "✉️", titleJa: "コミュニケーション", titleEn: "Japanese Communication" },
+  ];
+
+  function renderJapanSelection(host) {
+    const catalog = getCatalog();
+    const japanTasks = catalog.filter((t) => t.category === "japan");
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "japan-selection";
+
+    const banner = document.createElement("div");
+    banner.className = "japan-banner";
+    banner.innerHTML =
+      '<span class="japan-banner-flag">🇯🇵</span>' +
+      '<div class="japan-banner-text">' +
+        '<h2 class="japan-banner-title">Japan Selection</h2>' +
+        '<p class="japan-banner-desc">Curated AI tasks for life in Japan — from job hunting to daily essentials.</p>' +
+      '</div>';
+    wrapper.appendChild(banner);
+
+    JAPAN_SUBS.forEach((sub) => {
+      const tasks = japanTasks.filter((t) => t.japanSub === sub.id);
+      if (!tasks.length) return;
+
+      const section = document.createElement("div");
+      section.className = "japan-sub-section";
+
+      const header = document.createElement("div");
+      header.className = "japan-sub-header";
+      header.innerHTML =
+        '<span class="japan-sub-icon">' + sub.icon + '</span>' +
+        '<div class="japan-sub-titles">' +
+          '<h3 class="japan-sub-title-ja">' + sub.titleJa + '</h3>' +
+          '<span class="japan-sub-title-en">' + sub.titleEn + '</span>' +
+        '</div>';
+      section.appendChild(header);
+
+      const grid = document.createElement("div");
+      grid.className = "japan-sub-grid";
+      tasks.forEach((t) => grid.appendChild(buildGalleryCard(t)));
+      section.appendChild(grid);
+
+      wrapper.appendChild(section);
+    });
+
+    host.appendChild(wrapper);
+  }
+
   function renderGallery() {
     const host = document.getElementById("galleryByType");
     host.innerHTML = "";
@@ -135,12 +187,18 @@
     const tabBar = document.createElement("div");
     tabBar.className = "gallery-tab-bar";
     categories.forEach((cat) => {
-      const count = cat.id === "all" ? catalog.length : catalog.filter((t) => t.category === cat.id).length;
+      const count = cat.id === "all"
+        ? catalog.filter((t) => t.category !== "japan").length
+        : catalog.filter((t) => t.category === cat.id).length;
       if (cat.id !== "all" && count === 0) return;
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "gallery-tab" + (galleryActiveCategory === cat.id ? " active" : "");
-      btn.textContent = cat.label + " (" + count + ")";
+      if (cat.id === "japan") {
+        btn.innerHTML = '<span class="japan-tab-flag">🇯🇵</span> ' + cat.label;
+      } else {
+        btn.textContent = cat.label + " (" + count + ")";
+      }
       btn.addEventListener("click", () => {
         galleryActiveCategory = cat.id;
         renderGallery();
@@ -149,8 +207,13 @@
     });
     host.appendChild(tabBar);
 
+    if (galleryActiveCategory === "japan") {
+      renderJapanSelection(host);
+      return;
+    }
+
     const filtered = galleryActiveCategory === "all"
-      ? catalog
+      ? catalog.filter((t) => t.category !== "japan")
       : catalog.filter((t) => t.category === galleryActiveCategory);
 
     const grid = document.createElement("div");

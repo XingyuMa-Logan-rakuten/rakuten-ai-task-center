@@ -954,4 +954,193 @@ window.EXECUTION_SCRIPTS = {
     ],
     finalMessage: "Travel Insurance Purchased!\n\nPlan: Rakuten Travel Insurance — Premium\nPolicy #: RI-2026-55201\nCoverage Period: May 1–14, 2026\nPremium: ¥4,200\n\nCoverage Highlights:\n• Medical: ¥30,000,000\n• Emergency Transport: ¥10,000,000\n• Baggage Loss/Damage: ¥5,000,000\n• Trip Cancellation: ¥500,000\n• 24/7 English support line included\n\nPolicy certificate sent to your email. Have a safe trip!",
   },
+
+  /* ═══════════════════════ Japan Selection ═══════════════════════ */
+
+  "jp-rirekisho": {
+    demoUserInput: "Create a rirekisho from my profile — I'm a software engineer with 3 years experience.",
+    agentOpening: "I'll create a properly formatted 履歴書 (rirekisho) for you. Let me gather your details and generate a Japan-standard CV.",
+    steps: [
+      { label: "Collect profile data", thinkingChain: ["Parsing provided experience details", "Mapping to rirekisho fields", "Identifying required sections"], intermediate: "Profile data mapped to 15 standard rirekisho fields." },
+      { label: "Format CV layout", thinkingChain: ["Applying JIS B5 standard layout", "Setting proper font and spacing", "Adding photo placeholder"], intermediate: "Layout formatted to JIS standard with correct margins." },
+      { label: "Fill 学歴・職歴 section", thinkingChain: ["Ordering education chronologically", "Formatting work history in Japanese style", "Adding 以上 closing marker"], intermediate: "Education and work history filled with 5 entries." },
+      { label: "Generate 志望動機 & 自己PR", thinkingChain: ["Analyzing target role requirements", "Crafting motivation statement", "Writing self-PR paragraph"], intermediate: "志望動機 and 自己PR drafted (200 characters each)." },
+      { label: "Export PDF", thinkingChain: ["Rendering final layout", "Generating print-ready PDF", "Adding download link"], intermediate: "PDF exported at 300dpi, print-ready." },
+    ],
+    finalMessage: "Your 履歴書 is ready!\n\n📄 Format: JIS B5 standard\n👤 Name: [Your Name]\n🎓 Education: 2 entries\n💼 Work History: 2 entries (3 years total)\n📝 志望動機: 200 characters — focused on technical growth\n📝 自己PR: 200 characters — highlights problem-solving skills\n📷 Photo placeholder: included\n\nThe rirekisho PDF is ready for download. You can print it directly or submit digitally.",
+  },
+
+  "jp-keigo-check": {
+    demoUserInput: "Check if this cover letter uses proper keigo: 「先日はお忙しい中、面接の機会をいただきありがとうございます。御社で働きたいと思っています。」",
+    agentOpening: "I'll review your text for keigo accuracy and formality level. Let me analyze each sentence.",
+    steps: [
+      { label: "Parse input text", thinkingChain: ["Tokenizing Japanese text", "Identifying verb forms", "Detecting politeness markers"], intermediate: "2 sentences parsed, 3 keigo markers detected." },
+      { label: "Check 尊敬語 usage", thinkingChain: ["Verifying honorific forms", "Checking subject-verb agreement for keigo", "Flagging missing 尊敬語"], intermediate: "1 instance of 尊敬語 found, 1 opportunity missed." },
+      { label: "Check 謙譲語 usage", thinkingChain: ["Scanning for humble forms", "Verifying self-reference patterns", "Checking consistency"], intermediate: "謙譲語 correctly used with いただき. Suggestion: add 存じます." },
+      { label: "Generate improved version", thinkingChain: ["Rewriting casual parts", "Elevating formality level", "Preserving original meaning"], intermediate: "Polished version generated with 3 improvements." },
+    ],
+    finalMessage: "Keigo Check Complete!\n\n📊 Formality Score: 7/10 → 9.5/10 after edits\n\n🔍 Issues Found:\n1. 「働きたいと思っています」→ 「ぜひ貴社にて貢献させていただきたく存じます」\n   Reason: More humble and formal expression\n2. Consider adding 「拝啓」opening and 「敬具」closing for a full cover letter\n\n✅ Good Usage:\n• 「お忙しい中」— correct honorific prefix\n• 「いただき」— proper 謙譲語\n\n📝 Polished Version:\n「拝啓　先日はお忙しい中、面接の機会を賜り誠にありがとうございました。ぜひ貴社にて貢献させていただきたく存じます。敬具」",
+  },
+
+  "jp-mock-interview": {
+    demoUserInput: "Practice a mock interview for a marketing position at a Japanese company.",
+    agentOpening: "Let's prepare for your interview! I'll simulate a real Japanese job interview with common questions and give you detailed feedback.",
+    steps: [
+      { label: "Prepare interview scenario", thinkingChain: ["Setting up marketing role context", "Selecting company profile (大手メーカー)", "Preparing 5 standard questions"], intermediate: "Interview scenario: Marketing position at a major Japanese manufacturer." },
+      { label: "Conduct 自己紹介 round", thinkingChain: ["Prompting self-introduction", "Evaluating structure and timing", "Checking keigo accuracy"], intermediate: "自己紹介 evaluated: good structure, 90 seconds, minor keigo fix needed." },
+      { label: "Practice 志望動機", thinkingChain: ["Asking motivation question", "Analyzing answer specificity", "Checking company research depth"], intermediate: "志望動機 feedback: add more company-specific details." },
+      { label: "Practice 自己PR", thinkingChain: ["Prompting self-PR question", "Evaluating STAR method usage", "Checking impact statements"], intermediate: "自己PR: strong examples, suggest adding quantified results." },
+      { label: "Generate feedback report", thinkingChain: ["Scoring each section", "Identifying improvement areas", "Creating practice plan"], intermediate: "Comprehensive feedback report generated." },
+    ],
+    finalMessage: "Mock Interview Complete! 🎯\n\n📊 Overall Score: 78/100\n\n| Section | Score | Feedback |\n|---------|-------|----------|\n| 自己紹介 | 82 | Good pace, fix 「させてもらう」→「させていただく」 |\n| 志望動機 | 72 | Add specific product/campaign references |\n| 自己PR | 80 | Strong STAR examples, quantify results |\n| 敬語 accuracy | 75 | 3 casual expressions detected |\n| Body language tips | — | Remember お辞儀 at start and end |\n\n🎯 Top 3 Improvements:\n1. Research the company's latest marketing campaigns\n2. Add numbers: 「売上20%向上」instead of「売上が上がった」\n3. Practice 45-second version of 自己PR for time pressure\n\nWould you like to practice again with harder questions?",
+  },
+
+  "jp-es-generator": {
+    demoUserInput: "Draft an entry sheet for a consulting firm — help me with ガクチカ and 自己PR.",
+    agentOpening: "I'll help you draft compelling エントリーシート answers. Let me work on the key sections for a consulting firm application.",
+    steps: [
+      { label: "Analyze target firm", thinkingChain: ["Identifying consulting firm values", "Reviewing past ES examples", "Mapping key competencies"], intermediate: "Target competencies: logical thinking, leadership, teamwork, resilience." },
+      { label: "Draft ガクチカ (400字)", thinkingChain: ["Structuring with STAR method", "Focusing on challenge and growth", "Keeping within 400-character limit"], intermediate: "ガクチカ draft: 398 characters, university research project theme." },
+      { label: "Draft 自己PR (400字)", thinkingChain: ["Highlighting unique strengths", "Adding concrete examples", "Connecting to consulting skills"], intermediate: "自己PR draft: 395 characters, analytical problem-solving theme." },
+      { label: "Draft 志望動機 (300字)", thinkingChain: ["Connecting personal goals to firm", "Showing industry knowledge", "Expressing long-term vision"], intermediate: "志望動機 draft: 292 characters, strategic impact theme." },
+      { label: "Review & polish", thinkingChain: ["Checking character counts", "Ensuring consistent tone", "Verifying no 話し言葉 leaks"], intermediate: "All sections polished, formal written Japanese confirmed." },
+    ],
+    finalMessage: "Entry Sheet Ready! 📝\n\n✅ ガクチカ (398/400字):\nTopic: Led a 5-person team in university market research\nHighlight: Overcame data collection challenges, presented to 200+ audience\n\n✅ 自己PR (395/400字):\nStrength: Analytical problem-solving\nExample: Reduced analysis time by 40% with a new framework\n\n✅ 志望動機 (292/300字):\nFocus: Desire to solve complex business problems at scale\n\n💡 Tips:\n• Each answer uses the PREP structure\n• All in proper 書き言葉 (written Japanese)\n• Zero casual expressions detected\n\nShall I adapt these for a different company?",
+  },
+
+  "jp-juminhyo": {
+    demoUserInput: "How do I get a 住民票 at my local ward office? I'm a foreign resident in Tokyo.",
+    agentOpening: "I'll guide you through getting your 住民票 (residence certificate) step by step. This is one of the most common ward office tasks for foreign residents.",
+    steps: [
+      { label: "Identify required documents", thinkingChain: ["Checking foreign resident requirements", "Listing ID documents needed", "Noting 在留カード requirement"], intermediate: "Required: 在留カード (residence card) + application form." },
+      { label: "Locate nearest ward office", thinkingChain: ["Checking Tokyo ward offices", "Finding opening hours", "Noting counter numbers"], intermediate: "Ward office located. Hours: Mon–Fri 8:30–17:00, some Sat mornings." },
+      { label: "Prepare application form", thinkingChain: ["Explaining 住民票の写し交付請求書", "Marking required fields", "Translating form sections"], intermediate: "Application form guide prepared with field-by-field instructions." },
+      { label: "Generate step-by-step guide", thinkingChain: ["Ordering steps chronologically", "Adding useful Japanese phrases", "Including fee information"], intermediate: "Complete guide with 8 steps and useful phrases." },
+    ],
+    finalMessage: "住民票 Guide Ready! 🏛️\n\nStep-by-step:\n1. Go to your registered ward office (区役所/市役所)\n2. Take a number at the 住民票 counter (窓口)\n3. Fill out 住民票の写し交付請求書\n4. Submit with your 在留カード\n5. Wait ~10 minutes\n6. Pay the fee (¥300 per copy)\n7. Receive your 住民票\n\n📋 What to bring:\n• 在留カード (Residence Card) — required\n• ¥300 per copy (cash)\n• No hanko needed for basic requests\n\n🗣️ Useful phrases:\n• 「住民票をお願いします」(I'd like a residence certificate)\n• 「世帯全員分」(for all household members) or 「本人分のみ」(just mine)\n• 「マイナンバー記載なし」(without My Number) — recommended\n\n⏰ Best time: Tuesday–Thursday morning to avoid crowds.",
+  },
+
+  "jp-kakutei-shinkoku": {
+    demoUserInput: "Walk me through filing 確定申告 as a freelancer in Japan.",
+    agentOpening: "I'll guide you through the entire 確定申告 (tax filing) process for freelancers. Let me prepare a personalized walkthrough.",
+    steps: [
+      { label: "Determine filing requirements", thinkingChain: ["Checking freelancer tax obligations", "Identifying 青色申告 vs 白色申告", "Calculating filing deadline"], intermediate: "Recommended: 青色申告 (blue return) for ¥650,000 deduction benefit." },
+      { label: "Gather required documents", thinkingChain: ["Listing income statements (支払調書)", "Identifying deductible expenses", "Checking receipt requirements"], intermediate: "12 document types identified, expense categorization guide prepared." },
+      { label: "Walk through e-Tax setup", thinkingChain: ["Checking マイナンバーカード readiness", "Setting up e-Tax account", "Installing required software"], intermediate: "e-Tax setup guide: 5 steps with マイナンバーカード." },
+      { label: "Calculate tax estimate", thinkingChain: ["Summing income sources", "Applying 青色申告 special deduction", "Calculating estimated tax"], intermediate: "Estimated tax calculation complete with deductions applied." },
+      { label: "Generate filing checklist", thinkingChain: ["Creating pre-submission checklist", "Adding common mistake warnings", "Setting deadline reminder"], intermediate: "Filing checklist: 15 items, deadline March 15." },
+    ],
+    finalMessage: "確定申告 Guide Complete! 📊\n\n📅 Filing Period: Feb 16 – Mar 15, 2027\n📝 Recommended: 青色申告 (Blue Return) — saves up to ¥650,000 in deductions\n\n💰 Key Deductions for Freelancers:\n• Home office: up to 30% of rent/utilities\n• Equipment: full deduction under ¥100,000\n• Communication: phone/internet (business portion)\n• Transportation: client visit travel costs\n• 小規模企業共済: retirement savings deduction\n\n🖥️ e-Tax Filing Steps:\n1. Prepare マイナンバーカード + card reader\n2. Log in to e-Tax (www.e-tax.nta.go.jp)\n3. Select 確定申告書B\n4. Enter income (事業所得)\n5. Enter expenses by category\n6. Apply 青色申告特別控除\n7. Submit electronically\n\n⚠️ Common Mistakes:\n• Forgetting to claim 経費 (business expenses)\n• Not separating personal vs. business use\n• Missing the March 15 deadline (延滞税 penalty!)",
+  },
+
+  "jp-shiyakusho": {
+    demoUserInput: "Help me understand this 転入届 form from the ward office.",
+    agentOpening: "I'll translate and explain the 転入届 (move-in notification) form field by field so you can fill it out correctly.",
+    steps: [
+      { label: "Identify form type", thinkingChain: ["Recognizing 転入届 (move-in notification)", "Determining applicable fields for foreign residents", "Checking submission deadline"], intermediate: "Form: 転入届 — must be submitted within 14 days of moving in." },
+      { label: "Translate each field", thinkingChain: ["Translating header fields", "Explaining address format (〒/都道府県/市区町村)", "Clarifying relationship fields"], intermediate: "All 12 fields translated with English explanations." },
+      { label: "Provide filling instructions", thinkingChain: ["Explaining date format (令和)", "Noting pen color requirements (black)", "Highlighting common errors"], intermediate: "Filling guide ready with examples for each field." },
+    ],
+    finalMessage: "転入届 Form Guide Ready! 📋\n\nField-by-field translation:\n\n| Japanese | English | How to fill |\n|----------|---------|-------------|\n| 届出日 | Submission date | Today's date in 令和 format |\n| 届出人 | Applicant | Your full name |\n| 新住所 | New address | New address (〒 → prefecture → city → street) |\n| 旧住所 | Previous address | Where you moved from |\n| 世帯主 | Head of household | Your name (if living alone) |\n| 続柄 | Relationship | 本人 (self) |\n| 転入日 | Move-in date | Date you actually moved |\n\n⚠️ Important Notes:\n• Submit within 14 days of moving\n• Use black pen only\n• Bring 在留カード + old/new address proof\n• Free of charge\n\n🗣️ Say at the counter:\n「転入届を出したいです」(I'd like to submit a move-in notification)",
+  },
+
+  "jp-visa-residency": {
+    demoUserInput: "How do I renew my work visa in Japan? It expires in 2 months.",
+    agentOpening: "I'll guide you through the work visa renewal process. With 2 months left, you're right on time — let's prepare everything.",
+    steps: [
+      { label: "Check eligibility & timing", thinkingChain: ["Verifying renewal window (3 months before expiry)", "Checking visa category requirements", "Confirming Immigration Bureau jurisdiction"], intermediate: "Eligible to apply now. Recommended: apply 2–3 months before expiry." },
+      { label: "Prepare document checklist", thinkingChain: ["Listing required documents by visa type", "Identifying employer-provided docs", "Adding tax certificate requirements"], intermediate: "12 documents required, 5 from employer, 3 self-prepared." },
+      { label: "Fill application form guide", thinkingChain: ["Explaining 在留期間更新許可申請書", "Translating each section", "Noting photo requirements"], intermediate: "Application form guide complete (Form 更新 — 16 sections)." },
+      { label: "Immigration Bureau guide", thinkingChain: ["Finding nearest Immigration Bureau", "Checking reservation system", "Estimating processing time"], intermediate: "Tokyo Regional Immigration Bureau, processing: 2–4 weeks." },
+    ],
+    finalMessage: "Visa Renewal Guide Ready! 🛂\n\n📅 Timeline: Apply NOW (2 months before expiry is ideal)\n📍 Where: Tokyo Regional Immigration Bureau (品川)\n\n📋 Required Documents:\n1. 在留期間更新許可申請書 (application form)\n2. パスポート + 在留カード\n3. 証明写真 (4×3cm, white background)\n4. 住民税の課税証明書 (tax certificate)\n5. 住民税の納税証明書 (tax payment certificate)\n6. From employer: 在職証明書, 会社登記簿謄本, 決算報告書\n\n⏳ Processing: 2–4 weeks\n💰 Fee: ¥4,000 (revenue stamp upon approval)\n\n💡 Tips:\n• Book online at Immigration Bureau website\n• Go early (before 9:00) to avoid long waits\n• Bring all originals + copies\n• If approved, you'll get a postcard — return to pick up new card",
+  },
+
+  "jp-train-delays": {
+    demoUserInput: "My Chuo Line is delayed — find me an alternate route to Shinjuku from Kichijoji.",
+    agentOpening: "I'll find you the fastest alternate route right away and prepare a delay certificate.",
+    steps: [
+      { label: "Check delay status", thinkingChain: ["Querying Chuo Line status", "Identifying delay cause and duration", "Checking adjacent lines"], intermediate: "Chuo Line: 15-min delay due to signal trouble at Mitaka." },
+      { label: "Find alternate routes", thinkingChain: ["Calculating Keio Inokashira Line route", "Checking bus alternatives", "Comparing arrival times"], intermediate: "3 alternate routes found, fastest: Inokashira → Shimokitazawa → Shinjuku." },
+      { label: "Generate delay certificate", thinkingChain: ["Formatting 遅延証明書", "Adding date, line, and delay duration", "Creating printable version"], intermediate: "Delay certificate generated for Chuo Line, April 2026." },
+    ],
+    finalMessage: "Route Found! 🚃\n\n⚠️ Chuo Line Status: 15-min delay (signal trouble at Mitaka)\n\n🔄 Best Alternate Route:\nKichijoji → (Keio Inokashira Line) → Shimokitazawa → (Odakyu Line) → Shinjuku\n⏱️ ~22 min | ¥220 | No delays on this route\n\n🔄 Other Options:\n• Kichijoji → (Bus 吉64) → Shinjuku: ~35 min, ¥220\n• Wait for Chuo Line: estimated +15 min from normal\n\n📄 遅延証明書 (Delay Certificate):\nLine: JR中央線\nDate: April 14, 2026\nDelay: Approx. 15 minutes\nCause: Signal equipment inspection\n\nCertificate ready for download — show to your employer!",
+  },
+
+  "jp-konbini-meals": {
+    demoUserInput: "Plan a week of healthy konbini lunches under ¥500 each.",
+    agentOpening: "I'll create a balanced weekly meal plan using items from 7-Eleven, Lawson, and FamilyMart — all under ¥500 per meal.",
+    steps: [
+      { label: "Set nutrition targets", thinkingChain: ["Calculating daily calorie needs", "Setting protein/carb/fat ratios", "Accounting for budget constraint"], intermediate: "Target: 500–700 kcal lunch, 20g+ protein, under ¥500." },
+      { label: "Curate menu items", thinkingChain: ["Scanning konbini product databases", "Filtering by nutrition and price", "Selecting variety across the week"], intermediate: "35 items shortlisted across 3 konbini chains." },
+      { label: "Build daily combos", thinkingChain: ["Pairing main + side + drink", "Balancing flavors (和/洋/中)", "Ensuring no repeats"], intermediate: "7 unique daily combos created." },
+      { label: "Generate meal plan", thinkingChain: ["Formatting weekly calendar", "Adding nutrition breakdown", "Including konbini-specific tips"], intermediate: "Weekly plan with nutrition totals ready." },
+    ],
+    finalMessage: "Weekly Konbini Meal Plan! 🍱\n\n| Day | Combo | Store | Price | Kcal |\n|-----|-------|-------|-------|------|\n| Mon | サラダチキン + おにぎり(鮭) + 味噌汁 | 7-Eleven | ¥486 | 520 |\n| Tue | 幕の内弁当(小) + サラダ | Lawson | ¥498 | 580 |\n| Wed | 蕎麦 + ゆで卵 + 野菜ジュース | FamilyMart | ¥470 | 490 |\n| Thu | タンパク質サラダ + おにぎり(ツナマヨ) | 7-Eleven | ¥456 | 510 |\n| Fri | パスタサラダ + サラダチキンバー | Lawson | ¥478 | 540 |\n| Sat | 親子丼 + 味噌汁 | FamilyMart | ¥490 | 600 |\n| Sun | 冷やし中華 + ゆで卵 | 7-Eleven | ¥480 | 520 |\n\n📊 Weekly Avg: ¥480/meal | 537 kcal | 24g protein\n\n💡 Tips:\n• サラダチキン is your best protein-per-yen option\n• Check Lawson's 「からあげクン」for protein snack\n• Use konbini apps for ¥50–100 coupons",
+  },
+
+  "jp-gift-etiquette": {
+    demoUserInput: "What's an appropriate お歳暮 gift for my boss?",
+    agentOpening: "I'll help you choose the perfect お歳暮 gift for your boss, following Japanese gift-giving etiquette.",
+    steps: [
+      { label: "Assess relationship context", thinkingChain: ["Determining boss relationship level", "Checking 上司 gift customs", "Setting appropriate price range"], intermediate: "上司 (boss): ¥3,000–5,000 range, formal wrapping required." },
+      { label: "Recommend gift options", thinkingChain: ["Selecting safe, popular choices", "Avoiding taboo items (刃物, 櫛)", "Checking seasonal appropriateness"], intermediate: "5 gift options selected, all department store quality." },
+      { label: "Prepare wrapping & etiquette notes", thinkingChain: ["Specifying 熨斗 (noshi) type", "Writing greeting card template", "Noting delivery timing"], intermediate: "Etiquette guide prepared: のし紙, 表書き, and delivery window." },
+    ],
+    finalMessage: "お歳暮 Gift Guide Ready! 🎁\n\n💰 Budget: ¥3,000–5,000 (appropriate for 上司)\n📅 Send by: Dec 10–20\n\n🎯 Top Recommendations:\n1. 高級ハム詰め合わせ (Premium ham set) — ¥3,240 — Takashimaya\n2. 銘茶セット (Fine tea set) — ¥3,780 — Ippodo Tea\n3. フルーツゼリー (Fruit jelly assortment) — ¥4,320 — Sembikiya\n4. お菓子詰め合わせ (Confection set) — ¥3,500 — Yoku Moku\n5. 調味料セット (Premium condiment set) — ¥4,860 — Kubara\n\n📋 Etiquette Checklist:\n✅ のし紙: 紅白蝶結び (red-white butterfly bow)\n✅ 表書き: 「お歳暮」+ your full name\n✅ Delivery: department store direct shipping is perfectly fine\n✅ Greeting card: 「今年も大変お世話になりました」\n\n⚠️ Avoid: knives (切る=cutting ties), combs (苦+死), cash, clocks (終わり)",
+  },
+
+  "jp-seasonal-tasks": {
+    demoUserInput: "Where are the best hanami spots near Osaka this spring?",
+    agentOpening: "Spring in Osaka is beautiful for hanami! Let me compile the best cherry blossom viewing spots and timing for you.",
+    steps: [
+      { label: "Check bloom forecast", thinkingChain: ["Checking 2026 桜前線 (cherry blossom front)", "Estimating Osaka peak dates", "Comparing early vs. late bloomers"], intermediate: "Osaka peak bloom: ~March 28–April 5, 2026." },
+      { label: "Curate top spots", thinkingChain: ["Ranking by beauty and accessibility", "Including both famous and hidden spots", "Adding nighttime illumination info"], intermediate: "8 spots selected across Osaka area." },
+      { label: "Build hanami guide", thinkingChain: ["Adding access info and best times", "Including food and drink tips", "Noting reservation requirements"], intermediate: "Complete hanami guide with maps and tips." },
+    ],
+    finalMessage: "Osaka Hanami Guide 2026! 🌸\n\n📅 Expected Peak: March 28 – April 5\n\n🏆 Top Spots:\n\n1. 大阪城公園 (Osaka Castle Park)\n   🌸 3,000+ trees | 🌙 Night illumination until 21:00\n   🚃 Osakajokoen Station | Free entry\n\n2. 造幣局 桜の通り抜け (Mint Bureau)\n   🌸 340+ trees, 130 varieties | Open ~1 week only\n   🚃 Temmabashi Station | Free (check dates!)\n\n3. 万博記念公園 (Expo Park)\n   🌸 5,500 trees | Wide open spaces for picnics\n   🚃 Bampaku-kinen-koen Station | ¥260 entry\n\n4. 毛馬桜之宮公園 (Kema Sakuranomiya)\n   🌸 4,500 trees along the river | Perfect for walks\n   🚃 Sakuranomiya Station | Free\n\n🍱 Hanami Tips:\n• Bring a blue tarp (ブルーシート) from Daiso (¥110)\n• Convenience store おにぎり + から揚げ = classic hanami food\n• Arrive before 11:00 on weekends to secure a spot\n• 花見酒: Asahi Super Dry is the unofficial hanami beer 🍺",
+  },
+
+  "jp-business-keigo": {
+    demoUserInput: "Rewrite this Slack message for my client in proper business keigo: 「明日の打ち合わせ、14時でいいですか？資料送っときます。」",
+    agentOpening: "I'll elevate this message to proper business keigo suitable for a client. Let me analyze and rewrite it.",
+    steps: [
+      { label: "Analyze current formality", thinkingChain: ["Detecting casual expressions", "Identifying missing honorifics", "Rating current politeness level"], intermediate: "Current level: 丁寧語 (polite) — needs upgrade to 尊敬語/謙譲語 for clients." },
+      { label: "Rewrite in business keigo", thinkingChain: ["Converting 「いいですか」to proper inquiry form", "Adding appropriate 尊敬語 for client actions", "Using 謙譲語 for own actions"], intermediate: "Rewritten with proper 尊敬語/謙譲語 balance." },
+      { label: "Add business email framing", thinkingChain: ["Adding proper opening greeting", "Including closing pleasantries", "Formatting for professional context"], intermediate: "Full business message formatted with opening and closing." },
+    ],
+    finalMessage: "Keigo Rewrite Complete! ✍️\n\n❌ Original (casual):\n「明日の打ち合わせ、14時でいいですか？資料送っときます。」\n\n✅ Business Keigo Version:\n「お疲れ様でございます。\n明日のお打ち合わせにつきまして、14時のご都合はいかがでしょうか。\n資料は事前にお送りいたします。\nご確認のほど、よろしくお願いいたします。」\n\n📝 Changes Made:\n| Original | Rewritten | Why |\n|----------|-----------|-----|\n| 打ち合わせ | お打ち合わせ | Added 御 prefix for client's meeting |\n| いいですか | ご都合はいかがでしょうか | Proper inquiry using 尊敬語 |\n| 送っときます | お送りいたします | 謙譲語 for your own action |\n| (no closing) | ご確認のほど… | Standard business closing |\n\n💡 Tip: For Slack, you can omit 「お疲れ様でございます」if it's a quick reply in an ongoing thread.",
+  },
+
+  "jp-line-tone": {
+    demoUserInput: "Does this LINE message to my manager sound too casual? 「了解です！明日持っていきますね〜」",
+    agentOpening: "I'll check the tone of your LINE message and suggest adjustments appropriate for messaging your manager.",
+    steps: [
+      { label: "Analyze tone markers", thinkingChain: ["Detecting casual markers (〜, ！)", "Checking 了解 appropriateness for 上司", "Evaluating overall impression"], intermediate: "Tone: slightly too casual for a manager. 2 issues found." },
+      { label: "Suggest adjustments", thinkingChain: ["Replacing 了解 with proper acknowledgment", "Adjusting sentence-ending particles", "Balancing warmth and respect"], intermediate: "Adjusted version ready — maintains friendliness with proper respect." },
+    ],
+    finalMessage: "LINE Tone Check ✅\n\n📊 Tone Rating: Slightly too casual for 上司\n\n❌ Original:\n「了解です！明日持っていきますね〜」\n\n⚠️ Issues:\n1. 「了解」→ Use 「承知しました」for managers (了解 is peer-level)\n2. 「〜」→ Remove wave dash for 上司 messages\n\n✅ Suggested:\n「承知いたしました！明日お持ちいたしますね。」\n\n🎯 Tone Scale for LINE:\n• 友達: 「了解〜持ってくね！」\n• 先輩: 「了解です！持っていきますね」\n• 上司: 「承知しました！明日お持ちいたします」✅\n• 取引先: 「承知いたしました。明日お届けいたします。」\n\n💡 LINE Tip: Emojis (😊) are OK with most Japanese managers — they soften the message. But avoid stickers in first messages!",
+  },
+
+  "jp-apology-letter": {
+    demoUserInput: "Write a formal apology letter for a project delay to our client.",
+    agentOpening: "I'll draft a formal お詫び状 following Japanese business apology conventions. This is critical for maintaining the business relationship.",
+    steps: [
+      { label: "Structure the apology", thinkingChain: ["Following お詫び状 standard structure", "Setting appropriate formality level", "Including all required elements"], intermediate: "Structure: 拝啓 → acknowledgment → apology → explanation → countermeasures → closing." },
+      { label: "Draft the letter", thinkingChain: ["Writing opening acknowledgment", "Expressing sincere apology (deep bow in writing)", "Explaining cause without making excuses", "Stating concrete corrective actions"], intermediate: "Full draft completed, 400 characters, proper business format." },
+      { label: "Review formality", thinkingChain: ["Checking all keigo usage", "Verifying お詫び expressions", "Ensuring no blame-shifting language"], intermediate: "Formality verified: appropriate for client-facing correspondence." },
+    ],
+    finalMessage: "お詫び状 Ready! 📄\n\n---\n拝啓　時下ますますご清祥のこととお慶び申し上げます。\n平素は格別のお引き立てを賜り、厚く御礼申し上げます。\n\nこのたびは、弊社担当プロジェクトの納期遅延により、\n貴社に多大なるご迷惑をおかけいたしましたこと、\n心より深くお詫び申し上げます。\n\n遅延の原因は、開発工程における技術的課題の発生によるものでございます。\n現在、以下の対策を講じております。\n\n1. 開発チームの増員による工程短縮\n2. 週次の進捗報告の実施\n3. 品質管理体制の強化\n\n改めて新たな納期を○月○日とさせていただきたく存じます。\n今後このようなことがないよう、再発防止に努めてまいります。\n\n重ねてお詫び申し上げますとともに、\n変わらぬお引き立てを賜りますようお願い申し上げます。\n\n敬具\n---\n\n💡 Notes:\n• Print on company letterhead\n• Include 部長 or above as signatory for serious delays\n• Hand-deliver if possible (shows sincerity)",
+  },
+
+  "jp-nengajo": {
+    demoUserInput: "Write nengajo messages for my 5 closest business contacts with different formality levels.",
+    agentOpening: "I'll create personalized 年賀状 messages for each contact, matching the appropriate formality level for your relationship.",
+    steps: [
+      { label: "Categorize contacts", thinkingChain: ["Grouping by relationship type", "Setting formality levels", "Choosing seasonal greetings per group"], intermediate: "5 contacts categorized: 取引先(2), 上司(1), 同僚(1), 元上司(1)." },
+      { label: "Draft messages", thinkingChain: ["Writing formal versions for clients", "Creating warm-yet-respectful for boss", "Adding personal touches for colleague"], intermediate: "5 unique messages drafted with appropriate formality." },
+      { label: "Add design suggestions", thinkingChain: ["Selecting 干支 (zodiac) motif for 2027", "Recommending card styles per formality", "Adding printing tips"], intermediate: "Design suggestions matched to each contact's formality level." },
+    ],
+    finalMessage: "年賀状 Messages Ready! 🎍\n\n1️⃣ Client (Most Formal):\n「謹賀新年\n旧年中は格別のお引き立てを賜り厚く御礼申し上げます\n本年も変わらぬご愛顧のほどよろしくお願い申し上げます\n令和九年 元旦」\n\n2️⃣ Client (Formal):\n「謹んで新年のお慶びを申し上げます\n旧年中は大変お世話になりました\n本年もどうぞよろしくお願いいたします」\n\n3️⃣ Boss:\n「あけましておめでとうございます\n昨年は温かいご指導をいただき誠にありがとうございました\n本年もご指導ご鞭撻のほどよろしくお願いいたします」\n\n4️⃣ Colleague:\n「あけましておめでとうございます！\n昨年は大変お世話になりました\n今年も一緒に頑張りましょう！よろしくお願いします」\n\n5️⃣ Former Boss:\n「謹んで年頭のご挨拶を申し上げます\nご無沙汰しておりますがお変わりございませんか\n本年もご健勝をお祈りいたします」\n\n📮 Posting Deadline: Dec 25 for Jan 1 delivery\n🐍 2027 Zodiac: 巳年 (Year of the Snake)",
+  },
 };

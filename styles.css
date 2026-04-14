@@ -1849,3 +1849,60 @@ a:hover {
   font-size: 0.7rem; color: var(--text-tertiary, #a1a1aa);
   margin: 0.8rem 0 0; line-height: 1.4;
 }
+
+/* ═══════════════════════ Japan Selection ═══════════════════════ */
+.japan-tab-flag { font-size: 1rem; vertical-align: middle; }
+
+.japan-selection { padding: 0 0 2rem; }
+
+.japan-banner {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.5rem 2rem; margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 30%, #ffffff 100%);
+  border: 1px solid #fecaca; border-radius: 16px;
+}
+.japan-banner-flag { font-size: 2.5rem; flex-shrink: 0; }
+.japan-banner-title {
+  margin: 0; font-size: 1.4rem; font-weight: 700;
+  color: var(--text-primary, #18181b);
+}
+.japan-banner-desc {
+  margin: 0.25rem 0 0; font-size: 0.88rem;
+  color: var(--text-secondary, #71717a); line-height: 1.4;
+}
+
+.japan-sub-section {
+  margin-bottom: 1.5rem;
+  background: var(--bg-card, #fff);
+  border: 1px solid var(--border, #e4e4e7);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.japan-sub-header {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+  border-bottom: 1px solid var(--border, #e4e4e7);
+}
+.japan-sub-icon { font-size: 1.5rem; flex-shrink: 0; }
+.japan-sub-titles { display: flex; flex-direction: column; }
+.japan-sub-title-ja {
+  margin: 0; font-size: 1.1rem; font-weight: 700;
+  color: var(--text-primary, #18181b); letter-spacing: 0.02em;
+}
+.japan-sub-title-en {
+  font-size: 0.72rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: #dc2626; margin-top: 2px;
+}
+
+.japan-sub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem; padding: 1rem 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .japan-banner { flex-direction: column; text-align: center; padding: 1.2rem; }
+  .japan-sub-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+}
