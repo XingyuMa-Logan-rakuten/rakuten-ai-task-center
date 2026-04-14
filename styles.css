@@ -276,6 +276,14 @@ a:hover {
   color: var(--text-primary);
   font-weight: 500;
 }
+.sidebar-show-more {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.sidebar-show-more:hover {
+  color: var(--text-secondary);
+}
 
 .sidebar-bottom {
   margin-top: auto;
