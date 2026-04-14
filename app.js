@@ -17,6 +17,12 @@
 
   var t = window.I18n ? window.I18n.t : function (k) { return k; };
 
+  function taskTitle(task) {
+    var key = "task." + task.id;
+    var localized = t(key);
+    return (localized && localized !== key) ? localized : task.title;
+  }
+
   function typeLabel(type) {
     return t("type." + type) || type;
   }
@@ -94,7 +100,7 @@
     if (task.featuredBadge) {
       el.querySelector(".featured-badge").textContent = task.featuredBadge;
     }
-    el.querySelector(".task-card-title").textContent = task.title;
+    el.querySelector(".task-card-title").textContent = taskTitle(task);
     el.querySelector(".type-pill").textContent = typeLabel(task.type);
     el.addEventListener("click", () => openModal(task.id));
     el.addEventListener("keydown", (e) => {
@@ -120,7 +126,7 @@
         <span class="type-pill ${typeClass(task)}"></span>
       </div>
     `;
-    el.querySelector(".gallery-card-title").textContent = task.title;
+    el.querySelector(".gallery-card-title").textContent = taskTitle(task);
     el.querySelector(".type-pill").textContent = typeLabel(task.type);
     el.addEventListener("click", () => openModal(task.id));
     el.addEventListener("keydown", (e) => {
@@ -151,7 +157,7 @@
     const banner = document.createElement("div");
     banner.className = "japan-banner";
     banner.innerHTML =
-      '<span class="japan-banner-flag">🇯🇵</span>' +
+      '<span class="japan-banner-flag">🏠</span>' +
       '<div class="japan-banner-text">' +
         '<h2 class="japan-banner-title">' + t("japan.banner.title") + '</h2>' +
         '<p class="japan-banner-desc">' + t("japan.banner.desc") + '</p>' +
@@ -207,7 +213,10 @@
       if (galleryActiveCategory === cat.id) cls += " active";
       if (cat.special) cls += " gallery-tab--special";
       btn.className = cls;
-      const icon = cat.icon || "";
+      var icon = cat.icon || "";
+      if (icon === "rakuten") {
+        icon = '<span style="display:inline-flex;align-items:center;justify-content:center;width:1.2em;height:1.2em;border-radius:3px;background:#bf0000;color:#fff;font-weight:800;font-size:0.85em;font-family:Arial,sans-serif;vertical-align:middle">R</span>';
+      }
       const catLabel = t("cat." + cat.id) || cat.label;
       if (cat.id === "japan") {
         btn.innerHTML = '<span class="gallery-tab-icon">' + icon + '</span>' + catLabel + '<span class="hot-badge">HOT</span>';
@@ -285,7 +294,7 @@
           <span class="type-pill ${typeClass(task)}"></span>
         </div>
       `;
-      row.querySelector("h3").textContent = task.title;
+      row.querySelector("h3").textContent = taskTitle(task);
       row.querySelector(".my-task-desc").textContent = task.description;
       row.querySelector(".type-pill").textContent = typeLabel(task.type);
       row.addEventListener("click", () => openModal(task.id));
@@ -328,7 +337,7 @@
   function openModal(taskId) {
     const task = taskById(taskId);
     if (!task) return;
-    document.getElementById("modalTitle").textContent = task.title;
+    document.getElementById("modalTitle").textContent = taskTitle(task);
 
     const typeEl = document.getElementById("modalType");
     typeEl.textContent = typeLabel(task.type);

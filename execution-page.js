@@ -4,6 +4,12 @@
   function safeCover(url) { return url && url.startsWith("https://") ? url : DEFAULT_COVER; }
   var t = window.I18n ? window.I18n.t : function (k) { return k; };
 
+  function taskTitle(task) {
+    var key = "task." + task.id;
+    var localized = t(key);
+    return (localized && localized !== key) ? localized : task.title;
+  }
+
   let timeoutIds = [];
   let interactiveMode = false;
   let replayGen = 0;
@@ -546,7 +552,7 @@
       return;
     }
 
-    document.getElementById("execPageTitle").textContent = task.title;
+    document.getElementById("execPageTitle").textContent = taskTitle(task);
 
     document.getElementById("execBackBtn").addEventListener("click", function () {
       if (window.history.length > 1) {
@@ -594,6 +600,10 @@
     }
 
     runReplay(task, script);
+
+    window.addEventListener("langchange", function () {
+      document.getElementById("execPageTitle").textContent = taskTitle(task);
+    });
   }
 
   init();

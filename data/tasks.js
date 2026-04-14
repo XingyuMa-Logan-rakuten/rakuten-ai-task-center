@@ -2,14 +2,14 @@
 
 window.TASK_CATEGORIES = [
   { id: "all",          label: "All Ideas",               icon: "✨" },
-  { id: "japan",        label: "Japan Selection",          icon: "🇯🇵", special: true },
+  { id: "japan",        label: "Life Services",             icon: "🏠", special: true },
   { id: "office",       label: "Work Productivity",        icon: "💼" },
   { id: "research",     label: "Research & Learning",      icon: "📚" },
   { id: "entertainment",label: "Entertainment",            icon: "🎮" },
   { id: "lifestyle",    label: "Self-Discipline & Life",   icon: "🌿" },
   { id: "social-media", label: "Social Media & Marketing", icon: "📱" },
   { id: "finance",      label: "Personal Finance",         icon: "💰" },
-  { id: "rakuten",      label: "Rakuten Ecosystem",        icon: "🛒" },
+  { id: "rakuten",      label: "Rakuten Ecosystem",        icon: "rakuten" },
 ];
 
 window.TASK_CATALOG = [
@@ -29,7 +29,7 @@ window.TASK_CATALOG = [
     connectors: ["Outlook", "MS Calendar"],
     cover: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=case-email-todo",
-    featured: true, featuredBadge: "Productivity",
+    featured: true, hot: true,
   },
   {
     id: "case-receipt-bill",
@@ -943,7 +943,7 @@ window.TASK_CATALOG = [
     connectors: [],
     cover: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=jp-rirekisho",
-    featured: true, featuredBadge: "Japan Selection",
+    featured: true, hot: true,
   },
   {
     id: "jp-keigo-check",
@@ -1092,7 +1092,7 @@ window.TASK_CATALOG = [
     connectors: [],
     cover: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=640&h=360&fit=crop",
     userFlowUrl: "task-execution.html?task=jp-konbini-meals",
-    featured: true, featuredBadge: "Japan Selection",
+    featured: true, hot: true,
   },
   {
     id: "jp-gift-etiquette",

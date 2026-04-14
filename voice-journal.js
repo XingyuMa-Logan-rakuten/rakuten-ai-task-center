@@ -830,6 +830,7 @@ $("#vjVersionBack").addEventListener("click", backToLatest);
   function safeCover(u){ return u && u.startsWith("https://") ? u : DEFAULT_COVER; }
   var vt = window.I18n ? window.I18n.t : function(k){return k;};
   function typeLabel(type){ return vt("type."+type) || type; }
+  function vjTaskTitle(task){ var key="task."+task.id; var loc=vt(key); return (loc && loc!==key)?loc:task.title; }
   const featured = catalog.filter(t => t.featured).slice(0,3);
   const tasks = featured.length ? featured : catalog.slice(0,3);
 
@@ -839,7 +840,7 @@ $("#vjVersionBack").addEventListener("click", backToLatest);
     el.setAttribute("role","button");
     el.tabIndex = 0;
     el.innerHTML = `<div class="task-card-cover" style="background-image:url('${safeCover(task.cover)}')"></div><div class="task-card-body"><div class="task-card-title"></div><span class="type-pill ${task.type==='multi-step'?'multi-step':task.type}"></span></div>`;
-    el.querySelector(".task-card-title").textContent = task.title;
+    el.querySelector(".task-card-title").textContent = vjTaskTitle(task);
     el.querySelector(".type-pill").textContent = typeLabel(task.type);
     el.addEventListener("click", ()=>{ window.location.href = "task-execution.html?task=" + task.id; });
     grid.appendChild(el);
