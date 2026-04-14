@@ -279,7 +279,7 @@
         '</div>' +
       '</div>';
 
-    row.querySelector(".exec-step-label").textContent = step.progressLabel;
+    row.querySelector(".exec-step-label").textContent = step.progressLabel || step.label || "";
 
     var header = row.querySelector(".exec-step-header");
     header.addEventListener("click", function () {
@@ -466,7 +466,7 @@
       stepRow.querySelector(".exec-step-detail").classList.remove("hidden");
       stepRow.querySelector(".exec-step-status-badge").textContent = "Running...";
       stepRow.querySelector(".exec-step-status-badge").className = "exec-step-status-badge badge-running";
-      stepRow.querySelector(".exec-step-narrative").textContent = step.narrative || step.progressLabel;
+      stepRow.querySelector(".exec-step-narrative").textContent = step.narrative || step.progressLabel || step.label || "";
       scrollFeed();
 
       var subList = stepRow.querySelector(".exec-step-sub-list");
@@ -476,7 +476,7 @@
         var subEl = document.createElement("div");
         subEl.className = "exec-step-sub-item";
         subEl.innerHTML = '<span class="exec-step-sub-dot"></span><span class="exec-step-sub-text"></span>';
-        subEl.querySelector(".exec-step-sub-text").textContent = chainItem.label;
+        subEl.querySelector(".exec-step-sub-text").textContent = typeof chainItem === "string" ? chainItem : chainItem.label;
         subList.appendChild(subEl);
         scrollFeed();
         await wait(250);
