@@ -475,20 +475,33 @@
      My Calendar
      ══════════════════════════════════════════════════════ */
   (function initCalendar(){
-    var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     var now = new Date();
     var calYear = now.getFullYear();
     var calMonth = now.getMonth();
 
     var CALENDAR_EVENTS = [
-      {id:"e1",title:"Weekly Report Check",summary:"Automated compliance check of weekly reports via Line and Teams.",time:"08:00",recurrence:"weekly",dayOfWeek:1,type:"scheduled",taskId:"case-weekly-report"},
-      {id:"e2",title:"Daily News Digest",summary:"Auto-curated morning news briefing.",time:"07:30",recurrence:"weekly",dayOfWeek:3,type:"scheduled",taskId:"daily-news-digest"},
-      {id:"e5",title:"Weekly Sprint Review",summary:"Sprint review summary sent to stakeholders.",time:"10:00",recurrence:"weekly",dayOfWeek:5,type:"scheduled",taskId:"kpi-dashboard"},
-      {id:"e6",title:"Dinner reservation",summary:"Table for 4 at Osteria Francescana, 7:30 PM.",date:"2026-04-18",time:"19:30",type:"todo"},
-      {id:"e7",title:"Proposal deadline",summary:"Submit final proposal to VP Engineering.",date:"2026-04-22",time:"17:00",type:"todo"},
-      {id:"e9",title:"Mom's birthday gift",summary:"Pick up gift from store before 6 PM.",date:"2026-04-15",time:"18:00",type:"todo"},
-      {id:"e10",title:"Tax filing deadline",summary:"Complete and submit annual tax return.",date:"2026-04-30",time:"23:59",type:"todo"}
+      {id:"e1",time:"08:00",recurrence:"weekly",dayOfWeek:1,type:"scheduled",taskId:"case-weekly-report"},
+      {id:"e2",time:"07:30",recurrence:"weekly",dayOfWeek:3,type:"scheduled",taskId:"daily-news-digest"},
+      {id:"e5",time:"10:00",recurrence:"weekly",dayOfWeek:5,type:"scheduled",taskId:"kpi-dashboard"},
+      {id:"e6",date:"2026-04-18",time:"19:30",type:"todo"},
+      {id:"e7",date:"2026-04-22",time:"17:00",type:"todo"},
+      {id:"e9",date:"2026-04-15",time:"18:00",type:"todo"},
+      {id:"e10",date:"2026-04-30",time:"23:59",type:"todo"}
     ];
+
+    function calEvTitle(ev) {
+      var key = "calEv." + ev.id + ".title";
+      var loc = t(key);
+      return (loc && loc !== key) ? loc : ev.id;
+    }
+    function calEvSummary(ev) {
+      var key = "calEv." + ev.id + ".summary";
+      var loc = t(key);
+      return (loc && loc !== key) ? loc : "";
+    }
+    function calMonthLabel(m) {
+      return t("calendar.month." + m);
+    }
 
     var cancelledIds = new Set();
     var rescheduledMap = {};
@@ -516,7 +529,7 @@
 
     window.renderCalendar = function renderCalendar(){
       var monthLabel = document.getElementById("calMonth");
-      monthLabel.textContent = MONTHS[calMonth] + " " + calYear;
+      monthLabel.textContent = calMonthLabel(calMonth) + " " + calYear;
 
       closeCard();
       var container = document.getElementById("calCellsContainer");
@@ -562,7 +575,7 @@
           var tag = document.createElement("span");
           var isCancelled = cancelledIds.has(ev.id);
           tag.className = "my-cal-event" + (isCancelled ? " my-cal-event--cancelled" : (ev.type==="scheduled" ? " my-cal-event--scheduled" : " my-cal-event--todo"));
-          tag.textContent = ev.title;
+          tag.textContent = calEvTitle(ev);
           tag.dataset.eventId = ev.id;
           if(!isCancelled){
             tag.addEventListener("click", function(e){
@@ -589,11 +602,11 @@
 
     function openCard(ev, anchorEl){
       currentEvent = ev;
-      document.getElementById("calCardTitle").textContent = ev.title;
-      document.getElementById("calCardSummary").textContent = ev.summary;
+      document.getElementById("calCardTitle").textContent = calEvTitle(ev);
+      document.getElementById("calCardSummary").textContent = calEvSummary(ev);
       var timeText = "";
-      if(ev.recurrence === "weekly") timeText = (I18n.getLang() === "ja" ? "毎週" : "Every ") + t(dowKeys[ev.dayOfWeek]) + " " + ev.time;
-      else if(ev.date) timeText = ev.date + " at " + ev.time;
+      if(ev.recurrence === "weekly") timeText = t("calendar.everyWeek") + t(dowKeys[ev.dayOfWeek]) + " " + ev.time;
+      else if(ev.date) timeText = ev.date + t("calendar.at") + ev.time;
       document.getElementById("calCardTime").textContent = timeText;
       document.getElementById("calCardRescheduleForm").classList.add("hidden");
 

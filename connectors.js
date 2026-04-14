@@ -92,6 +92,8 @@
     },
   ];
 
+  var t = window.I18n ? window.I18n.t : function (k) { return k; };
+
   const authorizedSet = new Set();
   const addedSet = new Set();
 
@@ -112,14 +114,14 @@
           '<div class="exec-auth-logo">' +
             '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0066ff" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/></svg>' +
           '</div>' +
-          '<h2 class="exec-auth-title">Sign in to ' + serviceName + '</h2>' +
-          '<p class="exec-auth-desc">Authorize Rakuten AI to access your ' + serviceName + ' account. You can revoke access at any time.</p>' +
+          '<h2 class="exec-auth-title">' + t("connModal.authSignIn", [serviceName]) + '</h2>' +
+          '<p class="exec-auth-desc">' + t("connModal.authDesc", [serviceName]) + '</p>' +
           '<div class="exec-auth-form">' +
-            '<input type="text" class="exec-auth-input" placeholder="Email or username" value="user@example.com" />' +
-            '<input type="password" class="exec-auth-input" placeholder="Password" value="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" />' +
-            '<button type="button" class="exec-auth-submit">Authorize & Continue</button>' +
+            '<input type="text" class="exec-auth-input" placeholder="' + t("connModal.authEmail") + '" value="user@example.com" />' +
+            '<input type="password" class="exec-auth-input" placeholder="' + t("connModal.authPassword") + '" value="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" />' +
+            '<button type="button" class="exec-auth-submit">' + t("connModal.authSubmit") + '</button>' +
           '</div>' +
-          '<p class="exec-auth-footer">By continuing, you agree to share account data with Rakuten AI.</p>' +
+          '<p class="exec-auth-footer">' + t("connModal.authFooter") + '</p>' +
         '</div>';
       document.body.appendChild(overlay);
 
@@ -127,7 +129,7 @@
 
       overlay.querySelector(".exec-auth-submit").addEventListener("click", function () {
         var btn = overlay.querySelector(".exec-auth-submit");
-        btn.textContent = "Authorizing...";
+        btn.textContent = t("connModal.authorizing");
         btn.disabled = true;
         setTimeout(function () {
           overlay.classList.remove("open");
@@ -151,10 +153,10 @@
     overlay.innerHTML = `
       <div class="conn-modal">
         <div class="conn-modal-header">
-          <h2>Manage Connectors</h2>
+          <h2 id="connModalTitle"></h2>
           <button type="button" class="conn-modal-close" id="connModalClose" aria-label="Close">&times;</button>
         </div>
-        <p class="conn-modal-subtitle">Connect external services to your chat. Authorize first, then add to the current conversation.</p>
+        <p class="conn-modal-subtitle" id="connModalSubtitle"></p>
         <div class="conn-modal-list" id="connModalList"></div>
       </div>`;
     document.body.appendChild(overlay);
@@ -166,7 +168,10 @@
   }
 
   function openModal() {
+    t = window.I18n ? window.I18n.t : function (k) { return k; };
     ensureModal();
+    document.getElementById("connModalTitle").textContent = t("connModal.title");
+    document.getElementById("connModalSubtitle").textContent = t("connModal.desc");
     renderList();
     document.getElementById("connectorModal").classList.add("open");
   }
@@ -182,20 +187,25 @@
     CONNECTORS.forEach((c) => {
       const isAuth = authorizedSet.has(c.id);
       const isAdded = addedSet.has(c.id);
+      var descKey = "conn." + c.id + ".desc";
+      var localDesc = t(descKey);
+      var desc = (localDesc && localDesc !== descKey) ? localDesc : c.desc;
+      var authLabel = isAuth ? t("connModal.authorized") : t("connModal.authorize");
+      var addLabel = isAdded ? t("connModal.added") : t("connModal.addToChat");
       const row = document.createElement("div");
       row.className = "conn-row";
       row.innerHTML = `
         <div class="conn-row-icon">${c.icon}</div>
         <div class="conn-row-info">
           <span class="conn-row-name">${c.name}</span>
-          <span class="conn-row-desc">${c.desc}</span>
+          <span class="conn-row-desc">${desc}</span>
         </div>
         <div class="conn-row-actions">
           <button type="button" class="conn-btn-auth ${isAuth ? "authed" : ""}" data-id="${c.id}">
-            ${isAuth ? "Authorized ✓" : "Authorize"}
+            ${authLabel}
           </button>
           <button type="button" class="conn-btn-add ${isAdded ? "added" : ""}" data-id="${c.id}" ${!isAuth ? "disabled" : ""}>
-            ${isAdded ? "Added ✓" : "Add to chat"}
+            ${addLabel}
           </button>
         </div>`;
       list.appendChild(row);
