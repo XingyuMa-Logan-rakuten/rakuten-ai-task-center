@@ -17,7 +17,6 @@ window.TASK_CATALOG = [
   {
     id: "case-email-todo",
     title: "Email Todo Analysis & Calendar Scheduling",
-    hot: true,
     category: "office",
     description:
       "Scans your Outlook inbox, extracts actionable items, classifies them by urgency, builds a prioritized checklist, then finds a free calendar slot and books focused time to handle them — all in one automated flow.",
