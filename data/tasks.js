@@ -17,6 +17,7 @@ window.TASK_CATALOG = [
   {
     id: "case-email-todo",
     title: "Email Todo Analysis & Calendar Scheduling",
+    hot: true,
     category: "office",
     description:
       "Scans your Outlook inbox, extracts actionable items, classifies them by urgency, builds a prioritized checklist, then finds a free calendar slot and books focused time to handle them — all in one automated flow.",
@@ -34,6 +35,7 @@ window.TASK_CATALOG = [
   {
     id: "case-receipt-bill",
     title: "Receipt & Subscription Audit",
+    hot: true,
     category: "office",
     description:
       "Searches Outlook for receipts, invoices, and subscription emails within a chosen period. Extracts merchant names, amounts, and billing cycles, then identifies still-active services and provides cancellation links or drafts opt-out emails on your behalf.",
@@ -51,6 +53,7 @@ window.TASK_CATALOG = [
   {
     id: "case-weekly-report",
     title: "Weekly Report Check & Reminder",
+    hot: true,
     category: "office",
     description:
       "Runs on a schedule to verify whether each team member has submitted their weekly report in Outlook. Sends a submission summary to the manager via Line, waits for confirmation, then automatically nudges anyone who hasn't submitted through Teams direct messages.",

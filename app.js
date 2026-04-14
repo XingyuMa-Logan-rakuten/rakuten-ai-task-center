@@ -80,8 +80,9 @@
     el.setAttribute("role", "button");
     el.tabIndex = 0;
     el.dataset.taskId = task.id;
+    const hotHtml = task.hot ? '<span class="hot-badge hot-badge--card">HOT</span>' : '';
     el.innerHTML = `
-      <div class="task-card-cover" style="background-image:url('${safeCover(task.cover)}')"></div>
+      <div class="task-card-cover" style="background-image:url('${safeCover(task.cover)}')">${hotHtml}</div>
       <div class="task-card-body">
         <div class="task-card-title"></div>
         <span class="type-pill ${typeClass(task)}"></span>
@@ -105,8 +106,9 @@
     el.setAttribute("role", "button");
     el.tabIndex = 0;
     el.dataset.taskId = task.id;
+    const hotHtml = task.hot ? '<span class="hot-badge hot-badge--card">HOT</span>' : '';
     el.innerHTML = `
-      <div class="gallery-card-cover" style="background-image:url('${safeCover(task.cover)}')"></div>
+      <div class="gallery-card-cover" style="background-image:url('${safeCover(task.cover)}')">${hotHtml}</div>
       <div class="gallery-card-body">
         <div class="gallery-card-title"></div>
         <span class="type-pill ${typeClass(task)}"></span>
@@ -201,7 +203,7 @@
       btn.className = cls;
       const icon = cat.icon || "";
       if (cat.id === "japan") {
-        btn.innerHTML = '<span class="gallery-tab-icon">' + icon + '</span>' + cat.label;
+        btn.innerHTML = '<span class="gallery-tab-icon">' + icon + '</span>' + cat.label + '<span class="hot-badge">HOT</span>';
       } else {
         btn.innerHTML = '<span class="gallery-tab-icon">' + icon + '</span>' + cat.label + ' <span class="gallery-tab-count">(' + count + ')</span>';
       }
