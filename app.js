@@ -189,15 +189,21 @@
     categories.forEach((cat) => {
       const count = cat.id === "all"
         ? catalog.filter((t) => t.category !== "japan").length
-        : catalog.filter((t) => t.category === cat.id).length;
-      if (cat.id !== "all" && count === 0) return;
+        : cat.id === "japan"
+          ? catalog.filter((t) => t.category === "japan").length
+          : catalog.filter((t) => t.category === cat.id).length;
+      if (cat.id !== "all" && cat.id !== "japan" && count === 0) return;
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "gallery-tab" + (galleryActiveCategory === cat.id ? " active" : "");
+      let cls = "gallery-tab";
+      if (galleryActiveCategory === cat.id) cls += " active";
+      if (cat.special) cls += " gallery-tab--special";
+      btn.className = cls;
+      const icon = cat.icon || "";
       if (cat.id === "japan") {
-        btn.innerHTML = '<span class="japan-tab-flag">🇯🇵</span> ' + cat.label;
+        btn.innerHTML = '<span class="gallery-tab-icon">' + icon + '</span>' + cat.label;
       } else {
-        btn.textContent = cat.label + " (" + count + ")";
+        btn.innerHTML = '<span class="gallery-tab-icon">' + icon + '</span>' + cat.label + ' <span class="gallery-tab-count">(' + count + ')</span>';
       }
       btn.addEventListener("click", () => {
         galleryActiveCategory = cat.id;

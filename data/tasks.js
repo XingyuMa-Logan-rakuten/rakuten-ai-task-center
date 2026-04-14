@@ -1,15 +1,15 @@
 /** Task / user-case catalog — organized by category */
 
 window.TASK_CATEGORIES = [
-  { id: "all", label: "All Ideas" },
-  { id: "office", label: "Work Productivity" },
-  { id: "research", label: "Research & Learning" },
-  { id: "entertainment", label: "Entertainment" },
-  { id: "lifestyle", label: "Self-Discipline & Life" },
-  { id: "social-media", label: "Social Media & Marketing" },
-  { id: "finance", label: "Personal Finance" },
-  { id: "rakuten", label: "Rakuten Ecosystem" },
-  { id: "japan", label: "Japan Selection" },
+  { id: "all",          label: "All Ideas",               icon: "✨" },
+  { id: "japan",        label: "Japan Selection",          icon: "🇯🇵", special: true },
+  { id: "office",       label: "Work Productivity",        icon: "💼" },
+  { id: "research",     label: "Research & Learning",      icon: "📚" },
+  { id: "entertainment",label: "Entertainment",            icon: "🎮" },
+  { id: "lifestyle",    label: "Self-Discipline & Life",   icon: "🌿" },
+  { id: "social-media", label: "Social Media & Marketing", icon: "📱" },
+  { id: "finance",      label: "Personal Finance",         icon: "💰" },
+  { id: "rakuten",      label: "Rakuten Ecosystem",        icon: "🛒" },
 ];
 
 window.TASK_CATALOG = [

@@ -796,12 +796,14 @@ a:hover {
 .gallery-tab-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.5rem;
   margin-bottom: 1.25rem;
+  align-items: center;
 }
 
 .gallery-tab {
-  padding: 0.45rem 0.9rem;
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.45rem 0.95rem;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-pill);
   background: var(--bg-card);
@@ -812,8 +814,11 @@ a:hover {
   transition:
     background var(--motion-duration) var(--motion-ease),
     border-color var(--motion-duration) var(--motion-ease),
-    color var(--motion-duration) var(--motion-ease);
+    color var(--motion-duration) var(--motion-ease),
+    box-shadow var(--motion-duration) var(--motion-ease);
 }
+.gallery-tab-icon { font-size: 0.95rem; line-height: 1; flex-shrink: 0; }
+.gallery-tab-count { font-size: 0.72rem; opacity: 0.65; font-weight: 400; }
 
 .gallery-tab:hover {
   background: var(--surface-hover);
@@ -826,9 +831,30 @@ a:hover {
   border-color: var(--interactive-primary);
   color: #fff;
 }
+.gallery-tab.active .gallery-tab-count { opacity: 0.85; }
 
 .gallery-tab.active:hover {
   background: var(--interactive-primary-hover);
+}
+
+/* Japan Selection special tab */
+.gallery-tab--special {
+  border: 1.5px solid #ef4444;
+  background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
+  color: #dc2626;
+  font-weight: 600;
+  position: relative;
+}
+.gallery-tab--special:hover {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border-color: #dc2626;
+  color: #b91c1c;
+}
+.gallery-tab--special.active {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  border-color: #b91c1c;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
 }
 
 .category-block {
@@ -1851,8 +1877,6 @@ a:hover {
 }
 
 /* ═══════════════════════ Japan Selection ═══════════════════════ */
-.japan-tab-flag { font-size: 1rem; vertical-align: middle; }
-
 .japan-selection { padding: 0 0 2rem; }
 
 .japan-banner {
