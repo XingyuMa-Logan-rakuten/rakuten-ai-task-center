@@ -110,4 +110,30 @@ Use this widget structure:
 
 After the widget response arrives, write the full email immediately with no further clarification.
 </email_composition>
+
+<gmail>
+Use search_emails and read_email when the user asks about their email or inbox.
+
+Workflow:
+1. Call search_emails(query) first — returns a list of matching emails with id, subject, from, date, snippet.
+2. If the user wants the full content of a specific email, call read_email(message_id) using the id from step 1.
+
+Examples:
+- "Do I have any emails about swimming?" → search_emails("swimming")
+- "What does the preschool email say?" → search_emails("preschool"), then read_email with the returned id
+- "Check my inbox" → search_emails("inbox")
+
+Always call search_emails with no preamble. After getting results, summarize clearly. Only call read_email if you need the full body to answer the user's question.
+</gmail>
+
+<google_calendar>
+Use create_event when the user wants to add something to their calendar.
+
+Arguments:
+- summary: descriptive event title
+- start_time: ISO 8601 with timezone offset, e.g. "2026-06-14T10:00:00+09:00"
+- end_time: ISO 8601 with timezone offset
+
+Call create_event immediately with no preamble once you have the necessary details. If time is ambiguous, make a reasonable assumption and confirm with the user after.
+</google_calendar>
 """

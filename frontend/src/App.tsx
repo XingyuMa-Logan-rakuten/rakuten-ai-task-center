@@ -1,4 +1,11 @@
 import React, { useState, useCallback } from 'react'
+
+function getOrCreateUserId(): string {
+  let id = localStorage.getItem('rakuten_ai_user_id')
+  if (!id) { id = crypto.randomUUID(); localStorage.setItem('rakuten_ai_user_id', id) }
+  return id
+}
+const USER_ID = getOrCreateUserId()
 import type { Task, Message, AppView, Language, DebugEvent } from './types'
 import { TASK_CATALOG, TASK_CATEGORIES } from './data/tasks'
 import { CONNECTORS } from './data/connectors'
@@ -473,6 +480,7 @@ export default function App() {
             onToggleAddConnector={handleToggleAddConnector}
             onAuthorizeConnector={handleAuthorizeConnector}
             onDebugEvent={addDebugEvent}
+            userId={USER_ID}
           />
         )}
 

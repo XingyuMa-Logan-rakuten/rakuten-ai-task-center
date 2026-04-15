@@ -20,8 +20,10 @@ from langchain_core.messages import AIMessage
 
 load_dotenv()
 
-from agent.graph import build_graph  # noqa: E402
+from agent.graph import build_graph, _load_mcp_tools  # noqa: E402
 from agent.prompt import AGENT_PROMPT  # noqa: E402
+from db import init_db  # noqa: E402
+from oauth import router as oauth_router  # noqa: E402
 
 logging.basicConfig(
     level=logging.INFO,
@@ -32,17 +34,22 @@ logger = logging.getLogger(__name__)
 
 # Global session store
 sessions: dict[str, dict] = {}
+_mcp_tools: list = []
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    global _mcp_tools
+    init_db()
+    _mcp_tools = await _load_mcp_tools()
     print("🚀 Starting Rakuten AI Demo Backend...")
-    print("✅ General-purpose agent ready (web_search, memory_tool, user_input, show_widget)")
+    print(f"✅ General-purpose agent ready (web_search, memory_tool, user_input, show_widget, +{len(_mcp_tools)} MCP tools)")
     yield
     print("👋 Shutting down...")
 
 
 app = FastAPI(title="Rakuten AI Demo", lifespan=lifespan)
+app.include_router(oauth_router)
 
 
 @app.exception_handler(Exception)
@@ -71,6 +78,7 @@ class ChatRequest(BaseModel):
     language: str = "en"
     image: str | None = None
     image_media_type: str | None = None
+    user_id: str | None = None
 
 
 def get_or_create_session(session_id: str | None, language: str = "en") -> tuple[str, dict]:
@@ -80,14 +88,14 @@ def get_or_create_session(session_id: str | None, language: str = "en") -> tuple
         if session.get("language") != language:
             session["language"] = language
             session["config"]["configurable"]["language"] = language
-            session["agent_executor"] = build_graph(language=language)
+            session["agent_executor"] = build_graph(language=language, mcp_tools=_mcp_tools)
         return session_id, session
 
     new_id = session_id or str(uuid.uuid4())
     logger.info(f"Creating session {new_id} (language={language})")
 
     sessions[new_id] = {
-        "agent_executor": build_graph(language=language),
+        "agent_executor": build_graph(language=language, mcp_tools=_mcp_tools),
         "language": language,
         "tool_store": {},
         "config": {
@@ -148,7 +156,8 @@ def parse_tool_result(tool_name: str, content) -> dict | None:
 
 
 async def stream_chat_response(session_id: str, session: dict, message: str,
-                               image: str | None = None, image_media_type: str | None = None):
+                               image: str | None = None, image_media_type: str | None = None,
+                               user_id: str | None = None):
     """Stream agent response as SSE events."""
     agent_executor = session["agent_executor"]
     config = session["config"]
@@ -286,7 +295,8 @@ async def chat(request: ChatRequest):
     session_id, session = get_or_create_session(request.session_id, request.language)
     return StreamingResponse(
         stream_chat_response(session_id, session, request.message,
-                             image=request.image, image_media_type=request.image_media_type),
+                             image=request.image, image_media_type=request.image_media_type,
+                             user_id=request.user_id),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",

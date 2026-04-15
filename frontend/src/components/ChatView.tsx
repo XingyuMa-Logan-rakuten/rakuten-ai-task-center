@@ -25,18 +25,28 @@ interface Props {
   onToggleAddConnector: (id: string) => void
   onAuthorizeConnector: (id: string) => void
   onDebugEvent?: (type: DebugEvent['type'], data: unknown) => void
+  userId?: string
+}
+
+const TOOL_ICONS: Record<string, string> = {
+  search_emails: '/connectors/gmail.png',
+  read_email: '/connectors/gmail.png',
+  create_event: '/connectors/gcalendar.png',
 }
 
 function ToolCallBadge({ toolName, status, displayName }: { toolName: string; status: string; displayName: string }) {
-  const icon = status === 'completed'
+  const statusIcon = status === 'completed'
     ? <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
     : status === 'error'
     ? <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     : <span className="tool-dot" />
 
+  const toolIcon = TOOL_ICONS[toolName]
+
   return (
     <div className={`tool-call-indicator ${status}`}>
-      {icon}
+      {statusIcon}
+      {toolIcon && <img src={toolIcon} alt="" width="14" height="14" style={{ borderRadius: '3px', flexShrink: 0 }} />}
       <span>{displayName}</span>
     </div>
   )
@@ -45,7 +55,9 @@ function ToolCallBadge({ toolName, status, displayName }: { toolName: string; st
 function AssistantMessage({ msg, onPrompt }: { msg: Message; onPrompt: (text: string) => void }) {
   return (
     <div className="message-assistant">
-      <div className="assistant-avatar">AI</div>
+      <div className="assistant-avatar">
+        <img src="/ai-avatar.svg" alt="AI" width="20" height="20" />
+      </div>
       <div className="assistant-content">
         {/* Tool calls */}
         {msg.toolCalls && msg.toolCalls.length > 0 && (
@@ -118,6 +130,7 @@ export function ChatView({
   sessionId, setSessionId, language, messages, setMessages,
   isLoading, setIsLoading, agentType, initialMessage,
   addedConnectors, authorizedConnectors, onToggleAddConnector, onAuthorizeConnector, onDebugEvent,
+  userId,
 }: Props) {
   const [input, setInput] = useState('')
   const [pendingImage, setPendingImage] = useState<string | null>(null)
@@ -128,7 +141,7 @@ export function ChatView({
 
   const { sendMessage, cancelStreaming } = useStreaming({
     sessionId, setSessionId, language, agentType,
-    isLoading, setIsLoading, setMessages, onDebugEvent,
+    isLoading, setIsLoading, setMessages, onDebugEvent, userId,
   })
 
   // Auto-scroll to bottom
