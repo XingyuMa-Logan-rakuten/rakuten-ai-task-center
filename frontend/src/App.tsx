@@ -1,13 +1,6 @@
 import React, { useState, useCallback } from 'react'
-
-function getOrCreateUserId(): string {
-  let id = localStorage.getItem('rakuten_ai_user_id')
-  if (!id) { id = crypto.randomUUID(); localStorage.setItem('rakuten_ai_user_id', id) }
-  return id
-}
-const USER_ID = getOrCreateUserId()
-import type { Task, Message, AppView, Language, DebugEvent } from './types'
-import { TASK_CATALOG, TASK_CATEGORIES } from './data/tasks'
+import type { Task, Message, AppView, Language, DebugEvent, SubscriptionTier, ActiveTask } from './types'
+import { TASK_CATALOG, TASK_CATEGORIES, MY_ACTIVE_TASKS } from './data/tasks'
 import { CONNECTORS } from './data/connectors'
 import { TaskModal } from './components/TaskModal'
 import { ConnectorModal } from './components/ConnectorModal'
@@ -15,8 +8,12 @@ import { ChatView } from './components/ChatView'
 import { GalleryView } from './components/GalleryView'
 import { MyTasksView } from './components/MyTasksView'
 import { FloatingDevWindow } from './components/FloatingDevWindow'
-import { AttachmentIcon, CameraIcon, ImageIcon, MicIcon, SendIcon } from './components/Icons'
+import { UserProfileMenu } from './components/UserProfileMenu'
+import { UsageLimitModal } from './components/UsageLimitModal'
+import { SubscriptionPage } from './components/SubscriptionPage'
+import { Toast } from './components/Toast'
 import { TaskCover } from './components/TaskCover'
+import { AttachmentIcon, CameraIcon, ImageIcon, MicIcon, SendIcon, UpgradeSparkleIcon } from './components/Icons'
 
 // ── Sidebar ────────────────────────────────────────────────────────────────
 function Sidebar({
@@ -153,15 +150,92 @@ function Sidebar({
 }
 
 // ── Top Bar ────────────────────────────────────────────────────────────────
-function TopBar({ onMyTask }: { onMyTask: () => void }) {
+function TopBar({
+  onMyTask,
+  onUpgrade,
+  userName,
+  subscriptionTier,
+  onSettings,
+  onLogout,
+  chatLeft,
+}: {
+  onMyTask: () => void
+  onUpgrade: () => void
+  userName: string
+  subscriptionTier: SubscriptionTier
+  onSettings: () => void
+  onLogout: () => void
+  chatLeft?: {
+    title: string
+    onBack: () => void
+    taskId: string | null
+    onAddToMyTask?: () => void
+    taskAlreadyInMyTasks?: boolean
+  } | null
+}) {
   return (
     <header className="top-bar">
+      <div className="top-bar-left">
+        {chatLeft && (
+          <div className="top-bar-chat-head">
+            <button type="button" className="top-bar-back" onClick={chatLeft.onBack} aria-label="Back">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <span className="top-bar-chat-title" title={chatLeft.title}>
+              {chatLeft.title}
+            </span>
+            {chatLeft.taskId && chatLeft.onAddToMyTask && (
+              <span
+                className={`top-bar-add-task-wrap ${chatLeft.taskAlreadyInMyTasks ? 'top-bar-add-task-wrap--saved' : ''}`}
+                data-tooltip={
+                  chatLeft.taskAlreadyInMyTasks
+                    ? undefined
+                    : 'Add to My Task — save this task to your list'
+                }
+              >
+                <button
+                  type="button"
+                  className={`top-bar-add-task-btn ${chatLeft.taskAlreadyInMyTasks ? 'top-bar-add-task-btn--saved' : ''}`}
+                  onClick={e => {
+                    e.stopPropagation()
+                    chatLeft.onAddToMyTask?.()
+                  }}
+                  aria-label="Add to my task"
+                  aria-pressed={chatLeft.taskAlreadyInMyTasks}
+                >
+                  {chatLeft.taskAlreadyInMyTasks ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="top-bar-add-task-icon" aria-hidden>
+                      <path
+                        d="M20 6L9 17l-5-5"
+                        stroke="currentColor"
+                        strokeWidth="2.25"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="top-bar-add-task-icon" aria-hidden>
+                      <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" />
+                    </svg>
+                  )}
+                </button>
+              </span>
+            )}
+          </div>
+        )}
+      </div>
       <div className="top-bar-right">
         <button type="button" className="btn-my-task" onClick={onMyTask}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
           </svg>
           My Task
+        </button>
+        <button type="button" className="btn-upgrade-top" onClick={onUpgrade}>
+          <UpgradeSparkleIcon size={14} />
+          Upgrade
         </button>
         <button type="button" className="top-icon-btn" aria-label="Voice call">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -174,7 +248,12 @@ function TopBar({ onMyTask }: { onMyTask: () => void }) {
             <path d="M13.73 21a2 2 0 01-3.46 0"/>
           </svg>
         </button>
-        <button type="button" className="btn-primary">Sign in</button>
+        <UserProfileMenu
+          userName={userName}
+          subscriptionTier={subscriptionTier}
+          onSettings={onSettings}
+          onLogout={onLogout}
+        />
       </div>
     </header>
   )
@@ -368,7 +447,7 @@ function HomeView({
 // ── App ────────────────────────────────────────────────────────────────────
 export default function App() {
   const [view, setView] = useState<AppView>('home')
-  const [language, setLanguage] = useState<Language>('ja')
+  const [language, setLanguage] = useState<Language>('en')
   const [agentType] = useState('mcpui')
 
   // Chat state
@@ -376,6 +455,13 @@ export default function App() {
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [initialChatMessage, setInitialChatMessage] = useState<string | undefined>()
+  /** Shown in top bar on chat view (task title or generic chat label). */
+  const [chatContextTitle, setChatContextTitle] = useState('Rakuten AI')
+  /** Set when entering chat from Task Center "Have a try"; null for generic home → chat. */
+  const [activeChatTaskId, setActiveChatTaskId] = useState<string | null>(null)
+  /** User-added rows merged into My Task list (in-memory). */
+  const [userAddedMyTasks, setUserAddedMyTasks] = useState<ActiveTask[]>([])
+  const [toastMessage, setToastMessage] = useState<string | null>(null)
 
   // Modals
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
@@ -387,6 +473,13 @@ export default function App() {
 
   const [debugEvents, setDebugEvents] = useState<DebugEvent[]>([])
   const [showDevWindow, setShowDevWindow] = useState(false)
+
+  /** In-memory subscription + usage; cleared on full page refresh (req.5). */
+  const [subscriptionTier, setSubscriptionTier] = useState<SubscriptionTier>('free')
+  const [taskCenterQueryCount, setTaskCenterQueryCount] = useState(0)
+  const [usageLimitModalOpen, setUsageLimitModalOpen] = useState(false)
+  const [returnView, setReturnView] = useState<AppView>('home')
+  const userDisplayName = 'Kerry1234'
 
   const addDebugEvent = useCallback((type: DebugEvent['type'], data: unknown) => {
     setDebugEvents(prev => [...prev, {
@@ -414,6 +507,8 @@ export default function App() {
     setMessages([])
     setSessionId(null)
     setInitialChatMessage(undefined)
+    setChatContextTitle('Rakuten AI')
+    setActiveChatTaskId(null)
     setView('home')
   }, [])
 
@@ -421,19 +516,93 @@ export default function App() {
     setMessages([])
     setSessionId(null)
     setInitialChatMessage(text)
+    setChatContextTitle(language === 'ja' ? 'Rakuten AI チャット' : 'Chat with Rakuten AI')
+    setActiveChatTaskId(null)
     setView('chat')
-  }, [])
+  }, [language])
 
   const handleHaveATry = useCallback((task: Task) => {
-    const query = task.sampleQueries?.[0] || `Help me with: ${task.title}`
-    setMessages([])
-    setSessionId(null)
-    setInitialChatMessage(query)
-    setView('chat')
+    setTaskCenterQueryCount(prev => {
+      const next = prev + 1
+      if (next === 3) {
+        setUsageLimitModalOpen(true)
+        return next
+      }
+      const query = task.sampleQueries?.[0] || `Help me with: ${task.title}`
+      setMessages([])
+      setSessionId(null)
+      setInitialChatMessage(query)
+      setChatContextTitle(task.title)
+      setActiveChatTaskId(task.id)
+      setView('chat')
+      return next
+    })
   }, [])
+
+  const handleBackFromChat = useCallback(() => {
+    setView('home')
+  }, [])
+
+  const handleAddToMyTask = useCallback(() => {
+    if (!activeChatTaskId) return
+    let didAdd = false
+    setUserAddedMyTasks(prev => {
+      if (
+        MY_ACTIVE_TASKS.some(t => t.id === activeChatTaskId) ||
+        prev.some(t => t.id === activeChatTaskId)
+      ) {
+        return prev
+      }
+      didAdd = true
+      return [
+        ...prev,
+        {
+          id: activeChatTaskId,
+          status: 'running',
+          lastRun: new Date().toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' }),
+        },
+      ]
+    })
+    setToastMessage(didAdd ? 'Added to My Task.' : 'This task is already in My Task.')
+  }, [activeChatTaskId])
+
+  const taskAlreadyInMyTasks =
+    !!activeChatTaskId &&
+    (MY_ACTIVE_TASKS.some(t => t.id === activeChatTaskId) ||
+      userAddedMyTasks.some(t => t.id === activeChatTaskId))
 
   const handleTaskClick = useCallback((task: Task) => {
     setSelectedTask(task)
+  }, [])
+
+  const openSubscriptionPage = useCallback(() => {
+    setView(v => {
+      if (v !== 'subscription') setReturnView(v)
+      return 'subscription'
+    })
+  }, [])
+
+  const handleSelectPlan = useCallback((tier: SubscriptionTier) => {
+    setSubscriptionTier(tier)
+    setView(returnView)
+  }, [returnView])
+
+  const handleSubscriptionBack = useCallback(() => {
+    setView(returnView)
+  }, [returnView])
+
+  const handleSettings = useCallback(() => {
+    window.alert('Settings (demo)')
+  }, [])
+
+  const handleLogout = useCallback(() => {
+    setSubscriptionTier('free')
+    setTaskCenterQueryCount(0)
+    setUsageLimitModalOpen(false)
+    setChatContextTitle('Rakuten AI')
+    setActiveChatTaskId(null)
+    setUserAddedMyTasks([])
+    window.alert('Signed out (demo). Plan and task usage were reset for this session.')
   }, [])
 
   return (
@@ -449,7 +618,27 @@ export default function App() {
       />
 
       <div className="main">
-        <TopBar onMyTask={() => setView('my-tasks')} />
+        {view !== 'subscription' && (
+          <TopBar
+            onMyTask={() => setView('my-tasks')}
+            onUpgrade={openSubscriptionPage}
+            userName={userDisplayName}
+            subscriptionTier={subscriptionTier}
+            onSettings={handleSettings}
+            onLogout={handleLogout}
+            chatLeft={
+              view === 'chat'
+                ? {
+                    title: chatContextTitle,
+                    onBack: handleBackFromChat,
+                    taskId: activeChatTaskId,
+                    onAddToMyTask: activeChatTaskId ? handleAddToMyTask : undefined,
+                    taskAlreadyInMyTasks,
+                  }
+                : null
+            }
+          />
+        )}
 
         {/* Home View */}
         {view === 'home' && (
@@ -480,7 +669,6 @@ export default function App() {
             onToggleAddConnector={handleToggleAddConnector}
             onAuthorizeConnector={handleAuthorizeConnector}
             onDebugEvent={addDebugEvent}
-            userId={USER_ID}
           />
         )}
 
@@ -499,8 +687,17 @@ export default function App() {
           <div style={{ overflowY: 'auto', flex: 1 }}>
             <MyTasksView
               onBack={() => setView(messages.length > 0 ? 'chat' : 'home')}
+              userAddedTasks={userAddedMyTasks}
             />
           </div>
+        )}
+
+        {view === 'subscription' && (
+          <SubscriptionPage
+            currentTier={subscriptionTier}
+            onBack={handleSubscriptionBack}
+            onSelectPlan={handleSelectPlan}
+          />
         )}
       </div>
 
@@ -531,6 +728,20 @@ export default function App() {
           onClose={() => setShowDevWindow(false)}
         />
       )}
+
+      <UsageLimitModal
+        open={usageLimitModalOpen}
+        onClose={() => setUsageLimitModalOpen(false)}
+        onUpgrade={() => {
+          setUsageLimitModalOpen(false)
+          setView(v => {
+            if (v !== 'subscription') setReturnView(v)
+            return 'subscription'
+          })
+        }}
+      />
+
+      <Toast message={toastMessage} onDismiss={() => setToastMessage(null)} />
     </div>
   )
 }

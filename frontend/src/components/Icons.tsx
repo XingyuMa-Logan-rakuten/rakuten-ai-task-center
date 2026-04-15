@@ -38,6 +38,25 @@ export function MicIcon({ size = 20, color = 'currentColor', className }: IconPr
   )
 }
 
+/** Gradient sparkle for compact Upgrade button (top bar). */
+export function UpgradeSparkleIcon({ size = 14, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden className={className} xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="upgradeSparkleGrad" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#3730a3" />
+          <stop offset="45%" stopColor="#c026d3" />
+          <stop offset="100%" stopColor="#f472b6" />
+        </linearGradient>
+      </defs>
+      <path
+        fill="url(#upgradeSparkleGrad)"
+        d="M12 2l1.35 6.45L20 10l-6.65 1.55L12 18l-1.35-6.45L4 10l6.65-1.55L12 2z"
+      />
+    </svg>
+  )
+}
+
 export function SendIcon({ size = 20, color = 'currentColor', className }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 20 22" fill={color} xmlns="http://www.w3.org/2000/svg" className={className}>

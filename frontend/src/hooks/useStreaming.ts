@@ -12,7 +12,6 @@ interface StreamingParams {
   setIsLoading: (v: boolean) => void
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>
   onDebugEvent?: (type: DebugEvent['type'], data: unknown) => void
-  userId?: string
 }
 
 const TOOL_DISPLAY_NAMES: Record<string, string> = {
@@ -32,9 +31,6 @@ const TOOL_DISPLAY_NAMES: Record<string, string> = {
   user_input: 'Collecting your preferences',
   web_search: 'Searching the web',
   memory_tool: 'Checking your history',
-  search_emails: 'Searching your inbox',
-  read_email: 'Reading email',
-  create_event: 'Adding to Google Calendar',
   delivery_status: 'Checking delivery status',
   get_product_storage_info: 'Retrieving product info',
   generate_marathon_plan: 'Planning shopping marathon',
@@ -62,7 +58,6 @@ export function useStreaming(params: StreamingParams) {
     setIsLoading,
     setMessages,
     onDebugEvent,
-    userId,
   } = params
 
   const abortRef = useRef<AbortController | null>(null)
@@ -118,7 +113,6 @@ export function useStreaming(params: StreamingParams) {
           language,
           image: imageBase64,
           image_media_type: imageMediaType,
-          user_id: userId,
         }),
         signal: abortRef.current.signal,
       })
@@ -346,7 +340,7 @@ export function useStreaming(params: StreamingParams) {
       setIsLoading(false)
       abortRef.current = null
     }
-  }, [sessionId, setSessionId, language, agentType, isLoading, setIsLoading, setMessages, onDebugEvent, userId])
+  }, [sessionId, setSessionId, language, agentType, isLoading, setIsLoading, setMessages, onDebugEvent])
 
   const cancelStreaming = useCallback(() => {
     abortRef.current?.abort()

@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { TaskCover } from './TaskCover'
+import type { ActiveTask } from '../types'
 import { TASK_CATALOG, MY_ACTIVE_TASKS } from '../data/tasks'
 
 interface Props {
   onBack: () => void
+  /** User-added rows from Task Center “Add to My Task” (merged with preset active tasks). */
+  userAddedTasks?: ActiveTask[]
 }
 
 const DOW_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -24,7 +27,23 @@ const SAMPLE_EVENTS = [
   { id: 'e4', taskId: 'habit-tracker', time: '21:00', dayOfWeek: 5, recurrence: 'weekly', type: 'todo' as const },
 ]
 
-export function MyTasksView({ onBack }: Props) {
+export function MyTasksView({ onBack, userAddedTasks = [] }: Props) {
+  const mergedActiveTasks = useMemo(() => {
+    const seen = new Set<string>()
+    const out: ActiveTask[] = []
+    for (const t of MY_ACTIVE_TASKS) {
+      seen.add(t.id)
+      out.push(t)
+    }
+    for (const t of userAddedTasks) {
+      if (!seen.has(t.id)) {
+        seen.add(t.id)
+        out.push(t)
+      }
+    }
+    return out
+  }, [userAddedTasks])
+
   const [activeTab, setActiveTab] = useState<'tasks' | 'calendar'>('tasks')
   const [calDate, setCalDate] = useState(new Date(2026, 3, 1))
   const [syncOpen, setSyncOpen] = useState(false)
@@ -60,11 +79,11 @@ export function MyTasksView({ onBack }: Props) {
       {/* My Tasks Tab */}
       {activeTab === 'tasks' && (
         <div className="my-tab-panel">
-          {MY_ACTIVE_TASKS.length === 0 ? (
+          {mergedActiveTasks.length === 0 ? (
             <div className="empty-state">No active tasks yet. Start one from the Task Center!</div>
           ) : (
             <div className="my-task-list">
-              {MY_ACTIVE_TASKS.map(at => {
+              {mergedActiveTasks.map(at => {
                 const task = TASK_CATALOG.find(t => t.id === at.id)
                 if (!task) return null
                 const statusMeta = STATUS_META[at.status] || STATUS_META.running

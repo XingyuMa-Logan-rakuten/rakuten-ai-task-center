@@ -87,7 +87,10 @@ export interface Product {
   reviewCount?: number
 }
 
-export type AppView = 'home' | 'chat' | 'gallery' | 'my-tasks'
+export type AppView = 'home' | 'chat' | 'gallery' | 'my-tasks' | 'subscription'
+
+/** In-memory only; resets on full page refresh (no persistence). */
+export type SubscriptionTier = 'free' | 'premium' | 'pro'
 export type Language = 'ja' | 'en'
 
 export interface DebugEvent {
