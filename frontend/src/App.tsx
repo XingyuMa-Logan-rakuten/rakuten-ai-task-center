@@ -9,6 +9,7 @@ import { GalleryView } from './components/GalleryView'
 import { MyTasksView } from './components/MyTasksView'
 import { FloatingDevWindow } from './components/FloatingDevWindow'
 import { AttachmentIcon, CameraIcon, ImageIcon, MicIcon, SendIcon } from './components/Icons'
+import { TaskCover } from './components/TaskCover'
 
 // ── Sidebar ────────────────────────────────────────────────────────────────
 function Sidebar({
@@ -320,17 +321,14 @@ function HomeView({
         <div className="task-card-grid">
           {displayTasks.map(task => (
             <div key={task.id} className="task-card" onClick={() => onTaskClick(task)}>
-              <div
-                className="task-card-cover"
-                style={task.cover ? { backgroundImage: `url(${task.cover})` } : undefined}
-              >
+              <TaskCover coverUrl={task.cover} className="task-card-cover">
                 {task.hot && <span className="hot-badge hot-badge--card">HOT</span>}
                 {task.featuredBadge && (
                   <span className={`featured-badge ${task.category === 'japan' ? 'featured-badge--japan' : ''}`}>
                     {task.featuredBadge}
                   </span>
                 )}
-              </div>
+              </TaskCover>
               <div className="task-card-body">
                 <div className="task-card-title">{task.title}</div>
                 <span className={`type-pill ${typeClass(task.type)}`}>{typeLabel(task.type)}</span>

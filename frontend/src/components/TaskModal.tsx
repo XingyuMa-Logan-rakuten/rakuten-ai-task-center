@@ -1,5 +1,6 @@
 import React from 'react'
 import type { Task } from '../types'
+import { TaskCover } from './TaskCover'
 import { CONNECTOR_COLORS } from '../data/connectors'
 
 interface Props {
@@ -22,12 +23,7 @@ export function TaskModal({ task, onClose, onHaveATry }: Props) {
           <button type="button" className="modal-close" onClick={onClose} aria-label="Close">&times;</button>
         </div>
         <div className="modal-body">
-          {task.cover && (
-            <div
-              className="modal-cover"
-              style={{ backgroundImage: `url(${task.cover})` }}
-            />
-          )}
+          <TaskCover coverUrl={task.cover} className="modal-cover" />
           <div className="modal-type-row">
             <span className={`type-pill ${typeClass}`}>{typeLabel}</span>
             <span className="modal-extra-tags">

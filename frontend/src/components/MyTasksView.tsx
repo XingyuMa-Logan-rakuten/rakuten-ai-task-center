@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { TaskCover } from './TaskCover'
 import { TASK_CATALOG, MY_ACTIVE_TASKS } from '../data/tasks'
 
 interface Props {
@@ -69,12 +70,9 @@ export function MyTasksView({ onBack }: Props) {
                 const statusMeta = STATUS_META[at.status] || STATUS_META.running
                 return (
                   <div key={at.id} className="my-task-row">
-                    <div
-                      className="my-task-thumb"
-                      style={task.cover ? { backgroundImage: `url(${task.cover})` } : undefined}
-                    >
+                    <TaskCover coverUrl={task.cover} className="my-task-thumb">
                       <div className={`my-task-status-badge ${statusMeta.cls}`}>{statusMeta.label}</div>
-                    </div>
+                    </TaskCover>
                     <div className="my-task-meta">
                       <h3>{task.title}</h3>
                       <p className="my-task-desc">{task.description}</p>

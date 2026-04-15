@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import type { Task } from '../types'
 import { TASK_CATALOG, TASK_CATEGORIES } from '../data/tasks'
+import { TaskCover } from './TaskCover'
 
 interface Props {
   onBack: () => void
@@ -76,12 +77,9 @@ export function GalleryView({ onBack, onTaskClick }: Props) {
               <div className="category-grid">
                 {tasks.map(task => (
                   <div key={task.id} className="gallery-card" onClick={() => onTaskClick(task)}>
-                    <div
-                      className="gallery-card-cover"
-                      style={task.cover ? { backgroundImage: `url(${task.cover})` } : undefined}
-                    >
+                    <TaskCover coverUrl={task.cover} className="gallery-card-cover">
                       {task.hot && <span className="hot-badge hot-badge--card">HOT</span>}
-                    </div>
+                    </TaskCover>
                     <div className="gallery-card-body">
                       <div className="gallery-card-title">{task.title}</div>
                       <span className={`type-pill ${typeClass(task.type)}`}>{typeLabel(task.type)}</span>
