@@ -35,7 +35,30 @@
   }
 
   function scriptById(id) {
-    return window.EXECUTION_SCRIPTS && window.EXECUTION_SCRIPTS[id];
+    var base = window.EXECUTION_SCRIPTS && window.EXECUTION_SCRIPTS[id];
+    if (!base) return null;
+    var lang = (window.I18n && window.I18n.getLang ? window.I18n.getLang() : null) || document.documentElement.lang || "en";
+    if (lang === "ja" && window.EXECUTION_SCRIPTS_JA && window.EXECUTION_SCRIPTS_JA[id]) {
+      var ja = window.EXECUTION_SCRIPTS_JA[id];
+      var merged = Object.assign({}, base);
+      if (ja.demoUserInput) merged.demoUserInput = ja.demoUserInput;
+      if (ja.agentOpening) merged.agentOpening = ja.agentOpening;
+      if (ja.finalMessage) merged.finalMessage = ja.finalMessage;
+      if (ja.steps && ja.steps.length) {
+        merged.steps = base.steps.map(function (s, i) {
+          if (!ja.steps[i]) return s;
+          var js = ja.steps[i];
+          return Object.assign({}, s, {
+            progressLabel: js.progressLabel || js.label || s.progressLabel,
+            label: js.label || js.progressLabel || s.label,
+            narrative: js.narrative || s.narrative,
+            intermediate: js.intermediate !== undefined ? js.intermediate : s.intermediate,
+          });
+        });
+      }
+      return merged;
+    }
+    return base;
   }
 
   function setInputLocked(locked) {
@@ -603,6 +626,8 @@
 
     window.addEventListener("langchange", function () {
       document.getElementById("execPageTitle").textContent = taskTitle(task);
+      script = scriptById(id);
+      if (script) runReplay(task, script);
     });
   }
 

@@ -237,9 +237,11 @@
     "conn.x-twitter.desc":      { ja: "X（旧Twitter）に投稿・閲覧します。", en: "Post and read on X (formerly Twitter)." },
     "conn.canva.desc":          { ja: "Canvaでデザインを作成し、アセットをエクスポートします。", en: "Create designs and export assets from Canva." },
     "conn.figma.desc":          { ja: "Figmaのデザインにアクセスし、アセットをエクスポートします。", en: "Access Figma designs and export assets." },
+    "conn.send-anywhere.desc":  { ja: "Send Anywhereで安全なプライベートリンクを生成し、ファイルを即時送信します。", en: "Send files instantly via secure private links with Send Anywhere." },
 
     /* ─── Task titles ─── */
     "task.case-email-todo":      { ja: "メールToDo分析＆カレンダー登録", en: "Email Todo Analysis & Calendar Scheduling" },
+    "task.file-send-anywhere":   { ja: "ファイル生成＆Send Anywhere外部共有", en: "File Generation & Send Anywhere Distribution" },
     "task.case-receipt-bill":    { ja: "レシート＆サブスク管理",         en: "Receipt & Subscription Audit" },
     "task.case-weekly-report":   { ja: "週報チェック＆リマインド",       en: "Weekly Report Check & Reminder" },
     "task.daily-news-digest":    { ja: "ホットニュース自動まとめ",       en: "Daily Hot News Auto-Digest" },
@@ -315,6 +317,7 @@
 
     /* ─── Task descriptions ─── */
     "desc.case-email-todo":      { ja: "Outlookの受信トレイをスキャンし、アクション項目を抽出・優先度分類。空き時間を見つけてカレンダーに集中ブロックを自動予約します。", en: "Scans your Outlook inbox, extracts actionable items, classifies them by urgency, builds a prioritized checklist, then finds a free calendar slot and books focused time to handle them." },
+    "desc.file-send-anywhere":   { ja: "大容量ファイルをアップロードしてRakuten AIで処理・生成。完成した成果物をSend Anywhereで外部発送し、有効期限付きのプライベートリンクを返します。", en: "Upload large files to Rakuten AI for processing and generation, then automatically distribute the final deliverable via Send Anywhere with a secure private link and expiry settings." },
     "desc.case-receipt-bill":    { ja: "Outlookからレシート・請求書・サブスクメールを検索。金額や請求サイクルを抽出し、解約リンクや代行メールを提供します。", en: "Searches Outlook for receipts, invoices, and subscription emails. Extracts merchant names, amounts, and billing cycles, then identifies still-active services and provides cancellation links." },
     "desc.case-weekly-report":   { ja: "チームメンバーの週報提出状況を自動確認。Lineで上司に報告後、未提出者にTeamsでリマインドを送信します。", en: "Runs on a schedule to verify whether each team member has submitted their weekly report. Sends a summary to the manager via Line, then nudges anyone who hasn't submitted through Teams." },
     "desc.daily-news-digest":    { ja: "毎朝、主要ニュースやRSSフィードからトレンドトピックを収集・分類。要点をまとめたダイジェストをメールやLineで配信します。", en: "Aggregates trending topics from major news sources every morning, classifies stories by category, generates a concise digest with key takeaways, and delivers it via email or Line." },

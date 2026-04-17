@@ -546,6 +546,84 @@ window.EXECUTION_SCRIPTS = {
       "Backtest Complete: SMA 50/200 Crossover on Nikkei 225\n\nPeriod: Apr 2021 – Apr 2026 (5 years)\nInitial Capital: ¥1,000,000\n\nResults:\n• Total Return: +34.2% (vs +28.7% buy & hold)\n• Sharpe Ratio: 0.72\n• Max Drawdown: -14.3% (vs -22.1% buy & hold)\n• Win Rate: 61.5% (8/13 trades)\n• Avg Win: +8.1% | Avg Loss: -3.2%\n\nKey Insight: The strategy outperformed with lower risk, but lagged during the 2024 sideways market due to SMA whipsaws. Consider adding a volatility filter for better entry timing.\n\nWant me to test with different parameters or add a filter?",
   },
 
+  "file-send-anywhere": {
+    supportedTaskTypes: ["Long", "On-demand"],
+    primaryTaskType: "Long",
+    modelLabel: "Rakuten AI (MultiModel)",
+    demoUserInput:
+      "I have a raw PowerPoint and a folder of design assets. Please turn them into a polished final deck and send it to my client via a private Send Anywhere link — set it to expire in 48 hours.",
+    agentOpening:
+      "I'll receive your uploaded files, parse and process the content, generate the final polished deliverable, then push it to Send Anywhere and return a private link with your chosen expiry.",
+    computerTitle: "Rakuten AI workspace",
+    computerSubtitle: "File Engine · Send Anywhere",
+    toolContextLabel: "Using File Processor + Send Anywhere",
+    steps: [
+      {
+        progressLabel: "Receive and analyse uploaded files.",
+        narrative: "Inspecting all uploaded assets — file types, sizes, structure, and content before processing.",
+        thinkingChain: [
+          { kind: "tool", label: "Detect file types: .pptx (24MB), /assets/ folder (38 images, 12MB)" },
+          { kind: "tool", label: "Parse PPTX: 18 slides, 6 section headers, 142 text blocks extracted" },
+          { kind: "knowledge", label: "Knowledge recalled: brand colour palette and font stack from slide master" },
+          { kind: "log", label: "Total input: 50MB across 39 files. Ready for processing." },
+        ],
+        intermediate: "Input analysed: 1 PPTX (18 slides, 24MB) + 38 image assets (12MB). Content extracted — 142 text blocks, 6 sections, brand tokens identified from slide master.",
+      },
+      {
+        progressLabel: "Process and transform the content.",
+        narrative: "Applying layout enhancements, aligning visuals to the brand guide, and replacing placeholder assets.",
+        thinkingChain: [
+          { kind: "tool", label: "Reflow text: fix overflow on 4 slides, normalise font sizes" },
+          { kind: "tool", label: "Replace 12 low-res images with matched high-res assets from upload folder" },
+          { kind: "knowledge", label: "Apply consistent slide template: title / body / footer zones" },
+          { kind: "tool", label: "Generate executive summary slide from section headers" },
+        ],
+        intermediate: "Processing complete: 4 text overflows fixed, 12 images upgraded, executive summary slide generated, brand colours applied across all 18 slides.",
+      },
+      {
+        progressLabel: "Generate the final deliverable.",
+        narrative: "Rendering the polished PPTX and creating a print-ready PDF version in parallel.",
+        thinkingChain: [
+          { kind: "tool", label: "Render final PPTX: embed all assets, compress images for sharing" },
+          { kind: "tool", label: "Export PDF: high-resolution, print-ready (A4 landscape)" },
+          { kind: "log", label: "Final PPTX: 19 slides, 18.4MB. PDF: 4.2MB." },
+        ],
+        intermediate: "Deliverables ready: final_deck.pptx (18.4MB, 19 slides) + final_deck.pdf (4.2MB). Both files quality-checked.",
+      },
+      {
+        progressLabel: "Upload files to Send Anywhere.",
+        narrative: "Pushing both deliverables to Send Anywhere and configuring sharing settings.",
+        thinkingChain: [
+          { kind: "connector", label: "Send Anywhere: authenticate API session" },
+          { kind: "connector", label: "Send Anywhere: upload final_deck.pptx (18.4MB) — 100% complete" },
+          { kind: "connector", label: "Send Anywhere: upload final_deck.pdf (4.2MB) — 100% complete" },
+          { kind: "tool", label: "Configure: expiry 48h, no password, private link mode" },
+        ],
+        intermediate: "Both files uploaded to Send Anywhere. Total upload: 22.6MB. Sharing options configured: private link, 48-hour expiry, no download limit.",
+      },
+      {
+        progressLabel: "Generate private sharing link.",
+        narrative: "Retrieving the secure link and packaging all sharing metadata.",
+        thinkingChain: [
+          { kind: "connector", label: "Send Anywhere: generate private link — key secured" },
+          { kind: "log", label: "Link active. Expiry: 48h from now (Apr 19, 09:45 JST)." },
+        ],
+        intermediate: "Private link generated. Files: final_deck.pptx + final_deck.pdf. Expires: Apr 19, 09:45 JST. Access: no password required.",
+      },
+      {
+        progressLabel: "Return sharing summary.",
+        narrative: "Compiling the link, file details, and expiry info into a ready-to-forward message.",
+        thinkingChain: [
+          { kind: "tool", label: "Format shareable summary with link, file list, and expiry timestamp" },
+          { kind: "knowledge", label: "Suggest forwarding message template for client email" },
+        ],
+        intermediate: null,
+      },
+    ],
+    finalMessage:
+      "Your files are ready and the private link is live! 🚀\n\n📦 **Deliverables Generated**\n| File | Size | Format |\n|------|------|--------|\n| final_deck.pptx | 18.4 MB | PowerPoint (editable) |\n| final_deck.pdf | 4.2 MB | PDF (print-ready) |\n\n🔗 **Send Anywhere Link**\nhttps://send-anywhere.com/private/xK9mT2pL\n\n📋 **Link Details**\n• Status: Active ✅\n• Expires: Apr 19, 2026 at 09:45 JST (48 hours)\n• Password: None (private link)\n• Downloads: Unlimited within expiry window\n• File size: 22.6 MB total\n\n✏️ **Suggested message to send your client:**\n> Hi [Name], please find the latest deck at the link below. It includes both an editable PPTX and a print-ready PDF. The link expires in 48 hours.\n> 👉 https://send-anywhere.com/private/xK9mT2pL\n\n💡 **What was done to the deck:**\n• 4 text overflow issues fixed across slides 3, 7, 11, 15\n• 12 low-resolution images replaced with your hi-res uploads\n• Executive summary slide added (slide 2)\n• Brand colours and fonts applied consistently throughout\n\nWould you like me to set a shorter expiry, add password protection, or generate a shareable version in a different format?",
+  },
+
   "case-weekly-report": {
     supportedTaskTypes: ["Scheduled", "Long"],
     primaryTaskType: "Scheduled",

@@ -226,6 +226,24 @@ window.TASK_CATALOG = [
     userFlowUrl: "task-execution.html?task=kpi-dashboard",
   },
 
+  {
+    id: "file-send-anywhere",
+    title: "File Generation & Send Anywhere Distribution",
+    category: "office",
+    hot: true,
+    description:
+      "Upload large source files to Rakuten AI — PPT, PDF, images, HTML assets, data reports — have them processed and transformed into polished deliverables, then automatically distribute via Send Anywhere with a secure private link and expiry settings.",
+    type: "multi-step",
+    typeTags: ["File Processing", "Distribution"],
+    sampleQueries: [
+      "Turn my raw slides into a polished deck and send it to my client via a private link.",
+      "Process these HTML source files and send the final build to external reviewers.",
+    ],
+    connectors: ["Send Anywhere"],
+    cover: "https://images.unsplash.com/photo-1618477388954-7852f32655ec?w=640&h=360&fit=crop",
+    userFlowUrl: "task-execution.html?task=file-send-anywhere",
+  },
+
   /* ═══════════════════════ Research & Learning ═══════════════════════ */
   {
     id: "study-planner",

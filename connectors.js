@@ -90,6 +90,13 @@
       color: "#A259FF",
       desc: "Access Figma designs and export assets.",
     },
+    {
+      id: "send-anywhere",
+      name: "Send Anywhere",
+      icon: `<svg viewBox="0 0 24 24" width="28" height="28"><circle cx="12" cy="12" r="10" fill="none" stroke="#4A90D9" stroke-width="1.5"/><path d="M8 12h8M13 8l4 4-4 4" stroke="#4A90D9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`,
+      color: "#4A90D9",
+      desc: "Send files instantly via secure private links with Send Anywhere.",
+    },
   ];
 
   var t = window.I18n ? window.I18n.t : function (k) { return k; };
